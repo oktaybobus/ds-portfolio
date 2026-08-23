@@ -19,7 +19,7 @@ from rich.table import Table
 
 from dsjourney import eda
 from dsjourney.artifacts import bundle_exists, load_bundle
-from dsjourney.benchmark import compare_models
+from dsjourney.benchmark import compare_models, compare_text_models
 from dsjourney.config import load_project_config
 from dsjourney.paths import available_projects, project_dir
 from dsjourney.pipeline import load_pipeline
@@ -138,12 +138,16 @@ def benchmark(
 
     module = load_pipeline(project)
     features = module.build_features(module.load_raw())
-    split = split_and_scale(
-        features, config.target, config.split, scale_columns=config.model.scale_features
-    )
-    result = compare_models(
-        config.task, split.x_train, split.y_train, split.x_test, split.y_test, rank_by=rank_by
-    )
+
+    if config.task == "text-classification":
+        result = _benchmark_text(config, module, features, rank_by)
+    else:
+        split = split_and_scale(
+            features, config.target, config.split, scale_columns=config.model.scale_features
+        )
+        result = compare_models(
+            config.task, split.x_train, split.y_train, split.x_test, split.y_test, rank_by=rank_by
+        )
     console.print(result.table.to_string(index=False))
     console.print(f"\n[green]Winner: {result.best_name}[/green]")
 
@@ -178,6 +182,22 @@ def serve(project: ProjectArg) -> None:
         console.print(f"[red]No Streamlit app at {script}[/red]")
         raise typer.Exit(code=2)
     subprocess.run([sys.executable, "-m", "streamlit", "run", str(script)], check=False)
+
+
+def _benchmark_text(config: Any, module: Any, features: Any, rank_by: str | None) -> Any:
+    """Split a text project's documents and sweep TF-IDF pipelines over them."""
+    from sklearn.model_selection import train_test_split
+
+    documents = features[module.TEXT_COLUMN]
+    labels = features[config.target]
+    x_train, x_test, y_train, y_test = train_test_split(
+        documents,
+        labels,
+        test_size=config.split.test_size,
+        random_state=config.split.random_state,
+        stratify=labels if config.split.stratify else None,
+    )
+    return compare_text_models(x_train, y_train, x_test, y_test, rank_by=rank_by or "f1")
 
 
 def _headline_metric(metrics: dict[str, float]) -> str:

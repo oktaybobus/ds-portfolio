@@ -41,6 +41,24 @@ that the model latched onto sentiment and not an artefact:
 
 `best buffet` is a bigram, which is why `ngram_range=(1, 2)` earns its place.
 
+## Model choice
+
+`dsj benchmark review_sentiment` sweeps every classifier inside its own TF-IDF
+pipeline:
+
+| Model | F1 | Accuracy |
+|---|---|---|
+| SGD | 0.961 | 0.940 |
+| LinearSVC | 0.960 | 0.938 |
+| SVC | 0.960 | 0.936 |
+| MLP | 0.957 | 0.933 |
+| **LogisticRegression** *(kept)* | 0.954 | 0.926 |
+
+Logistic regression is kept despite losing by 0.007 F1. The margin is inside
+split noise, and its coefficients are readable - the term table above comes
+straight from them. A model that can be explained to a restaurant owner is
+worth more here than a model that is 0.7% better.
+
 ## Three steps from the notebook that are not here
 
 | Dropped | Why |

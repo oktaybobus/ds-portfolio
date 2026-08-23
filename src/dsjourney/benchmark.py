@@ -204,8 +204,11 @@ def compare_models(
     """Fit several estimators on the same split and rank them on a shared metric.
 
     Non-tree models are min-max scaled first, matching the convention used
-    throughout the course. A model that fails to fit is recorded with NaN scores
-    instead of aborting the whole comparison.
+    throughout the course. When the caller already standardised some columns the
+    two scalings compose harmlessly - both are monotonic and both are fitted on
+    the training split only - so no leakage is introduced either way. A model
+    that fails to fit is recorded with NaN scores instead of aborting the whole
+    comparison.
 
     Args:
         models: Subset of registry keys to try; defaults to the full registry.
@@ -252,7 +255,16 @@ def compare_models(
 
     table = pd.DataFrame(rows)
     if metric not in table.columns:
-        raise ValueError(f"metric {metric!r} was not produced; got columns {list(table.columns)}")
+        reasons: list[str] = (
+            [str(reason) for reason in table["error"].dropna().unique()[:3]]
+            if "error" in table
+            else []
+        )
+        detail = "; ".join(reasons) or "no errors were recorded"
+        raise RuntimeError(
+            f"every candidate model failed to fit, so no {metric!r} column exists. "
+            f"First failures: {detail}"
+        )
 
     ordered = table.sort_values(metric, ascending=lower_is_better, na_position="last").reset_index(
         drop=True
@@ -264,6 +276,70 @@ def compare_models(
     best_name = str(ordered.iloc[0]["model"])
     if best_name not in fitted:
         raise RuntimeError("every candidate model failed to fit; see the 'error' column")
+    return BenchmarkResult(ordered, best_name, fitted[best_name])
+
+
+def compare_text_models(
+    x_train: pd.Series[str],
+    y_train: pd.Series[int],
+    x_test: pd.Series[str],
+    y_test: pd.Series[int],
+    *,
+    models: Sequence[str] | None = None,
+    rank_by: str = "f1",
+    max_features: int = 5000,
+    min_df: int = 2,
+) -> BenchmarkResult:
+    """Rank classifiers on raw text by wrapping each in a TF-IDF pipeline.
+
+    :func:`compare_models` cannot be used directly here: a text project's
+    features are documents, and handing raw strings to an estimator makes every
+    candidate fail. Each model gets its own vectoriser, fitted on the training
+    documents only, so the comparison stays leak-free.
+    """
+    from dsjourney.evaluate import classification_scores
+    from dsjourney.text import build_text_pipeline
+
+    names = list(models) if models else sorted(CLASSIFIERS)
+    average = _average_for(y_train)
+    lower_is_better = rank_by in {"log_loss"}
+
+    rows: list[dict[str, Any]] = []
+    fitted: dict[str, BaseEstimator] = {}
+
+    for name in names:
+        started = time.perf_counter()
+        try:
+            pipeline = build_text_pipeline(
+                build_model("classification", name), max_features=max_features, min_df=min_df
+            )
+            pipeline.fit(x_train, y_train)
+            scores = classification_scores(y_test, pipeline.predict(x_test), average=average)
+            fitted[name] = pipeline
+        except Exception as error:
+            rows.append({"model": name, "seconds": None, "error": str(error)[:120]})
+            continue
+        rows.append(
+            {
+                "model": name,
+                **scores,
+                "seconds": round(time.perf_counter() - started, 3),
+                "error": None,
+            }
+        )
+
+    table = pd.DataFrame(rows)
+    if rank_by not in table.columns:
+        raise RuntimeError(f"every candidate model failed to fit; no {rank_by!r} column exists")
+
+    ordered = table.sort_values(rank_by, ascending=lower_is_better, na_position="last").reset_index(
+        drop=True
+    )
+    ordered = ordered[
+        ["model", rank_by, *[c for c in ordered.columns if c not in {"model", rank_by}]]
+    ]
+
+    best_name = str(ordered.iloc[0]["model"])
     return BenchmarkResult(ordered, best_name, fitted[best_name])
 
 

@@ -20,6 +20,10 @@ split:
   stratify: true
 
 model:
+  # `dsj benchmark review_sentiment` ranks SGD marginally higher (F1 0.961 vs
+  # 0.954 with registry defaults), but logistic regression is kept: the margin
+  # is inside split noise, and its coefficients are what `top_features` reads to
+  # show which words drive the prediction.
   estimator: logistic
   params:
     class_weight: balanced

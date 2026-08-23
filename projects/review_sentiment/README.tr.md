@@ -42,6 +42,24 @@ gerçekten duyguya tutunduğunu gösteren okunabilir bir kontrol:
 `best buffet` bir bigram; `ngram_range=(1, 2)` ayarının yerini bu tür ifadeler
 hak ettiriyor.
 
+## Model seçimi
+
+`dsj benchmark review_sentiment` her sınıflandırıcıyı kendi TF-IDF hattı içinde
+eğitip karşılaştırıyor:
+
+| Model | F1 | Accuracy |
+|---|---|---|
+| SGD | 0,961 | 0,940 |
+| LinearSVC | 0,960 | 0,938 |
+| SVC | 0,960 | 0,936 |
+| MLP | 0,957 | 0,933 |
+| **LogisticRegression** *(seçilen)* | 0,954 | 0,926 |
+
+0,007 F1 geride kalmasına rağmen logistic regression tercih edildi. Fark
+bölünme gürültüsünün içinde kalıyor ve katsayıları okunabilir — yukarıdaki
+kelime tablosu doğrudan onlardan geliyor. Burada bir restoran sahibine
+açıklanabilen bir model, %0,7 daha iyi olan bir modelden değerli.
+
 ## Notebook'tan alınmayan üç adım
 
 | Çıkarılan | Neden |

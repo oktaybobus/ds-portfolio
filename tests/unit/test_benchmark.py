@@ -111,3 +111,57 @@ def test_compare_models_rejects_clustering(regression_frame: pd.DataFrame) -> No
         benchmark.compare_models(
             "clustering", split.x_train, split.y_train, split.x_test, split.y_test
         )
+
+
+def test_compare_models_explains_a_total_failure(regression_frame: pd.DataFrame) -> None:
+    """Text columns reaching a numeric sweep used to raise a cryptic KeyError."""
+    text_frame = regression_frame.assign(feature_a="not a number")
+    split = split_and_scale(text_frame, "target", SplitConfig(test_size=0.3))
+    with pytest.raises(RuntimeError, match="every candidate model failed"):
+        benchmark.compare_models(
+            "regression",
+            split.x_train,
+            split.y_train,
+            split.x_test,
+            split.y_test,
+            models=["linear", "ridge"],
+        )
+
+
+def test_compare_text_models_ranks_tfidf_pipelines(review_frame: pd.DataFrame) -> None:
+    from dsjourney import text
+
+    documents = text.normalise_series(review_frame["text"])
+    labels = (review_frame["stars"] >= 4).astype(int)
+    polar = labels[review_frame["stars"] != 3]
+    docs = documents[review_frame["stars"] != 3]
+
+    result = benchmark.compare_text_models(
+        docs[:14],
+        polar[:14],
+        docs[14:],
+        polar[14:],
+        models=["logistic", "linear_svc"],
+        min_df=1,
+    )
+    assert list(result.table.columns)[:2] == ["model", "f1"]
+    assert result.table["f1"].is_monotonic_decreasing
+    assert hasattr(result.best_model, "named_steps")
+
+
+def test_compare_text_models_records_a_failure(review_frame: pd.DataFrame) -> None:
+    """GaussianNB cannot take the sparse matrix a vectoriser produces."""
+    from dsjourney import text
+
+    documents = text.normalise_series(review_frame["text"])
+    labels = (review_frame["stars"] >= 4).astype(int)
+    result = benchmark.compare_text_models(
+        documents[:16],
+        labels[:16],
+        documents[16:],
+        labels[16:],
+        models=["logistic", "gaussian_nb"],
+        min_df=1,
+    )
+    assert result.best_name == "logistic"
+    assert result.table["error"].notna().any()
