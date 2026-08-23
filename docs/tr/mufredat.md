@@ -49,6 +49,17 @@ hangi fonksiyona dönüştüğünü gösteriyor.
 
 Örnek proje: [`review_sentiment`](../../projects/review_sentiment/README.tr.md)
 
+## 10. Hafta (devam) — Uzamsal-zamansal talep
+
+| Notebook'ta | Depoda |
+|---|---|
+| `train_test_split` ile karıştırılmış bölme | Yıla göre kronolojik bölme (2016 → 2017) |
+| Ham saat/gün tam sayı olarak | `preprocess.add_cyclical()` — sinüs/kosinüs çifti |
+| `Location` metninden regex ile koordinat | `_parse_coordinates()` — aralığa göre atama |
+| Koordinat farkı | `preprocess.haversine_km()` — büyük daire mesafesi |
+
+Örnek proje: [`bart_ridership`](../../projects/bart_ridership/README.tr.md)
+
 ## 8-12. Hafta — Bilgisayarlı görü
 
 | Notebook'ta | Depoda |
@@ -85,7 +96,22 @@ uv run dsj benchmark laptop_price
 uv run dsj train laptop_price --benchmark
 ```
 
-## 11-15. Hafta — MLOps, transformer, RAG, ajanlar
+## 11. Hafta — MLOps ve model servisi
+
+| Notebook'ta | Depoda |
+|---|---|
+| Tek modeli sabit yazan `app_fastapi.py` | `service/app.py` — proje adıyla genel uçlar |
+| `pickle.load("maas.pkl")` | `dsjourney.serving` — kaydedilmiş her paketi çözer |
+| Alan adları Pydantic modelinde sabit | Her projenin `EXAMPLE_INPUT`'u API dokümantasyonunda |
+| Elle yazılmış Dockerfile | Depo Dockerfile'ı hem CLI'ı hem API'yi sunar |
+
+```bash
+uv run dsj api        # http://127.0.0.1:8000/docs
+```
+
+Ayrıntı: [service/README.tr.md](../../service/README.tr.md)
+
+## 12-15. Hafta — Transformer, RAG, ajanlar
 
 Bu haftaların içeriği (FastAPI servis, Docker, ChromaDB, LangChain, RL, quantum,
 blockchain) bu depoya taşınmadı. Kapsam olarak ayrı projeler; buradaki paket

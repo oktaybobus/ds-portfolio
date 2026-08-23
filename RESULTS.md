@@ -8,6 +8,7 @@ Last generated: 2026-08-23
 
 | Project | Task | Model | Headline | All metrics |
 |---|---|---|---|---|
+| `bart_ridership` | regression | HistGradientBoostingRegressor | **R² 0.818** | r2 0.818, rmse 0.457, mae 0.354, mape 0.282, r2_original 0.818, rmse_original 14.234, mae_original 4.497, mape_original 0.602 |
 | `customer_segments` | clustering | KMeans | **Silhouette 0.337** | silhouette 0.337, calinski_harabasz 1701.229, davies_bouldin 0.888 |
 | `istanbul_housing` | regression | CatBoostRegressor | **R² 0.814** | r2 0.849, rmse 0.240, mae 0.179, mape 0.093, r2_original 0.814, rmse_original 3.219, mae_original 1.889, mape_original 0.218 |
 | `laptop_price` | regression | CatBoostRegressor | **R² 0.805** | r2 0.895, rmse 0.195, mae 0.138, mape 0.013, r2_original 0.805, rmse_original 17443.991, mae_original 8849.380, mape_original 0.140 |

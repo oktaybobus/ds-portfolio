@@ -100,3 +100,41 @@ def test_prepare_is_a_plain_alignment_without_a_scaler() -> None:
     )
     prepared = bundle.prepare(pd.DataFrame([{"b": 2.0}]))
     np.testing.assert_array_equal(prepared.to_numpy(), np.array([[0.0, 2.0]]))
+
+
+def test_prepare_hands_text_models_a_series(review_frame: pd.DataFrame) -> None:
+    """The regression test for a text model returning one answer for everything.
+
+    A TF-IDF pipeline treats its input as a sequence of documents. Iterating a
+    DataFrame yields column *names*, so passing one vectorises the literal
+    string "text" - every review then scores identically, and nothing raises.
+    """
+    from sklearn.linear_model import LogisticRegression
+
+    from dsjourney.text import build_text_pipeline, normalise_series
+
+    documents = normalise_series(review_frame["text"])
+    labels = (review_frame["stars"] >= 4).astype(int)
+    model = build_text_pipeline(LogisticRegression(max_iter=200), min_df=1).fit(documents, labels)
+
+    bundle = ModelBundle(
+        project="unit_text",
+        task="text-classification",
+        model=model,
+        feature_names=["text"],
+    )
+
+    positive = bundle.prepare(pd.DataFrame({"text": ["wonderful delicious great service"]}))
+    negative = bundle.prepare(pd.DataFrame({"text": ["awful terrible rude cold"]}))
+
+    assert isinstance(positive, pd.Series)
+    assert model.predict(positive)[0] == 1
+    assert model.predict(negative)[0] == 0
+
+
+def test_prepare_rejects_a_text_frame_without_its_column() -> None:
+    bundle = ModelBundle(
+        project="unit_text", task="text-classification", model=object(), feature_names=["text"]
+    )
+    with pytest.raises(ValueError, match="no 'text' column"):
+        bundle.prepare(pd.DataFrame({"review": ["hello"]}))

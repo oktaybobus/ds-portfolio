@@ -20,6 +20,7 @@ PROJECTS = available_projects()
 
 def test_the_expected_projects_are_present() -> None:
     assert set(PROJECTS) == {
+        "bart_ridership",
         "customer_segments",
         "image_classifiers",
         "istanbul_housing",

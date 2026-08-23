@@ -17,7 +17,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from dsjourney import eda
+from dsjourney import eda, serving
 from dsjourney.artifacts import bundle_exists, load_bundle
 from dsjourney.benchmark import compare_models, compare_text_models
 from dsjourney.config import load_project_config
@@ -204,6 +204,25 @@ def _benchmark_text(config: Any, module: Any, features: Any, rank_by: str | None
         stratify=labels if config.split.stratify else None,
     )
     return compare_text_models(x_train, y_train, x_test, y_test, rank_by=rank_by or "f1")
+
+
+@app.command()
+def api(
+    host: Annotated[str, typer.Option(help="Interface to bind")] = "127.0.0.1",
+    port: Annotated[int, typer.Option(help="Port to listen on")] = 8000,
+    reload: Annotated[bool, typer.Option(help="Restart on source changes")] = False,
+) -> None:
+    """Serve every trained project over HTTP; docs at /docs."""
+    try:
+        import uvicorn
+    except ImportError:
+        console.print("[red]FastAPI is not installed. Run: uv sync --extra api[/red]")
+        raise typer.Exit(code=2) from None
+
+    ready = [p.name for p in serving.servable_projects() if p.servable]
+    console.print(f"[green]Serving {len(ready)} project(s):[/green] {', '.join(ready) or 'none'}")
+    console.print(f"[dim]Docs: http://{host}:{port}/docs[/dim]")
+    uvicorn.run("service.app:app", host=host, port=port, reload=reload)
 
 
 def _headline_metric(metrics: dict[str, float]) -> str:

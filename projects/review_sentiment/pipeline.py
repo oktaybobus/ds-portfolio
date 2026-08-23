@@ -32,6 +32,9 @@ LABEL_COLUMN = "sentiment"
 NEUTRAL_STARS = 3
 POSITIVE_THRESHOLD = 4
 
+# Documented request body for the API and the CLI.
+EXAMPLE_INPUT = {"text": "The pasta was incredible and the staff could not have been friendlier."}
+
 
 def load_raw() -> pd.DataFrame:
     """Read the review dataset."""

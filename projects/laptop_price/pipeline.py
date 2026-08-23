@@ -38,6 +38,26 @@ RAW_COLUMN_RENAMES = {
 
 CATEGORICAL_COLUMNS = ["company", "type_name", "cpu_brand", "gpu_brand"]
 
+# Documented request body for the API and the CLI. Also the record the service
+# offers as an example, so a caller never has to guess the field names.
+EXAMPLE_INPUT = {
+    "company": "Dell",
+    "type_name": "Gaming",
+    "ram_gb": 16,
+    "weight_kg": 2.5,
+    "inches": 15.6,
+    "screen_width": 1920,
+    "screen_height": 1080,
+    "touchscreen": False,
+    "ips": True,
+    "ssd_gb": 512,
+    "hdd_gb": 1000,
+    "cpu_brand": "Intel Core i7",
+    "cpu_ghz": 2.8,
+    "cpu_generation": 8,
+    "gpu_brand": "Nvidia GTX",
+}
+
 # Operating system is dropped rather than encoded: in this dataset it is almost
 # perfectly collinear with brand (every macOS row is an Apple row), so keeping it
 # adds columns without adding information.

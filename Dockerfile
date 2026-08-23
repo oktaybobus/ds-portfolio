@@ -21,15 +21,16 @@ COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /usr/local/bin/uv
 
 # Dependencies first: this layer is cached until pyproject or the lock changes.
 COPY pyproject.toml uv.lock README.md ./
-RUN uv sync --frozen --no-install-project --extra catboost --extra app
+RUN uv sync --frozen --no-install-project --extra catboost --extra app --extra api
 
 COPY src/ ./src/
 COPY projects/ ./projects/
+COPY service/ ./service/
 COPY assets.yaml Makefile ./
 COPY scripts/ ./scripts/
 COPY data/raw/laptop_price/ ./data/raw/laptop_price/
 
-RUN uv sync --frozen --extra catboost --extra app
+RUN uv sync --frozen --extra catboost --extra app --extra api
 
 ENV PATH="/app/.venv/bin:${PATH}"
 

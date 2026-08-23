@@ -1,4 +1,4 @@
-.PHONY: install lint format typecheck test test-fast cov fetch train-all results check clean docker
+.PHONY: install lint format typecheck test test-fast cov fetch train-all results check clean api docker
 
 install:
 	uv sync --all-extras
@@ -41,6 +41,9 @@ check: lint typecheck test-fast
 clean:
 	rm -rf .pytest_cache .mypy_cache .ruff_cache htmlcov .coverage
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +
+
+api:
+	uv run dsj api --reload
 
 docker:
 	docker build -t ds-portfolio:latest .

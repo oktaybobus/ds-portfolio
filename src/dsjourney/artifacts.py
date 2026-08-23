@@ -22,6 +22,10 @@ import sklearn
 from dsjourney import __version__
 from dsjourney.paths import project_artifacts_dir
 
+# Tasks whose model consumes a sequence of documents rather than a feature
+# matrix. See ModelBundle.prepare for why the distinction is load-bearing.
+TEXT_TASKS = frozenset({"text-classification"})
+
 MODEL_FILE = "model.joblib"
 SCALER_FILE = "scaler.joblib"
 METADATA_FILE = "metadata.json"
@@ -41,7 +45,7 @@ class ModelBundle:
     scaled_columns: list[str] = field(default_factory=list)
     extra: dict[str, Any] = field(default_factory=dict)
 
-    def prepare(self, frame: pd.DataFrame) -> pd.DataFrame:
+    def prepare(self, frame: pd.DataFrame) -> pd.DataFrame | pd.Series:
         """Reshape an inference frame exactly the way training reshaped it.
 
         Aligning the columns is not enough on its own: if the model was trained
@@ -49,8 +53,20 @@ class ModelBundle:
         deviations from anything the model saw, and the prediction is silently
         wrong rather than an error. This applies the saved scaler to the same
         columns it was fitted on.
+
+        Text models are the exception and get a Series back, not a frame. A
+        TF-IDF pipeline treats its input as a sequence of documents, and
+        iterating a DataFrame yields its *column names* - so handing one to a
+        text model vectorises the literal string "text" and returns the same
+        answer for every input, without raising anything.
         """
         from dsjourney.preprocess import align_to_training_columns
+
+        if self.task in TEXT_TASKS:
+            column = self.feature_names[0] if self.feature_names else "text"
+            if column not in frame.columns:
+                raise ValueError(f"inference frame has no {column!r} column to score")
+            return frame[column]
 
         aligned = align_to_training_columns(frame, self.feature_names)
         if self.scaler is None or not self.scaled_columns:

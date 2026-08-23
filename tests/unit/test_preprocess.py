@@ -133,3 +133,57 @@ def test_drop_duplicate_rows_resets_the_index() -> None:
     result = preprocess.drop_duplicate_rows(frame)
     assert len(result) == 2
     assert result.index.tolist() == [0, 1]
+
+
+def test_add_cyclical_makes_the_wrap_adjacent() -> None:
+    """Hour 23 and hour 0 are an hour apart; as raw integers they are 23 apart."""
+    frame = pd.DataFrame({"hour": [0, 12, 23]})
+    encoded = preprocess.add_cyclical(frame, "hour", period=24)
+
+    def distance(a: int, b: int) -> float:
+        return float(
+            np.hypot(
+                encoded["hour_sin"].iloc[a] - encoded["hour_sin"].iloc[b],
+                encoded["hour_cos"].iloc[a] - encoded["hour_cos"].iloc[b],
+            )
+        )
+
+    assert distance(0, 2) < distance(0, 1)  # 0 is nearer 23 than it is to 12
+
+
+def test_add_cyclical_can_drop_the_source() -> None:
+    frame = pd.DataFrame({"month": [1, 6, 12]})
+    assert "month" not in preprocess.add_cyclical(frame, "month", period=12, drop=True).columns
+
+
+def test_add_calendar_features_derives_the_parts() -> None:
+    frame = pd.DataFrame({"when": ["2016-01-02 08:00:00", "2016-01-04 23:30:00"]})
+    result = preprocess.add_calendar_features(frame, "when")
+    assert result["hour"].tolist() == [8, 23]
+    assert result["is_weekend"].tolist() == [1, 0]  # 2 Jan 2016 was a Saturday
+    assert result["month"].tolist() == [1, 1]
+
+
+def test_haversine_is_zero_for_the_same_point() -> None:
+    assert preprocess.haversine_km(37.8, -122.3, 37.8, -122.3) == pytest.approx(0.0, abs=1e-9)
+
+
+def test_haversine_matches_a_known_distance() -> None:
+    """Oakland 12th St to San Francisco Embarcadero is about 13 km apart."""
+    distance = preprocess.haversine_km(37.803768, -122.271450, 37.792874, -122.396742)
+    assert 10 < float(distance) < 16
+
+
+def test_haversine_works_on_series() -> None:
+    frame = pd.DataFrame(
+        {
+            "lat1": [37.8, 37.8],
+            "lon1": [-122.3, -122.3],
+            "lat2": [37.8, 38.0],
+            "lon2": [-122.3, -122.0],
+        }
+    )
+    result = preprocess.haversine_km(frame["lat1"], frame["lon1"], frame["lat2"], frame["lon2"])
+    assert isinstance(result, pd.Series)
+    assert result.iloc[0] == pytest.approx(0.0, abs=1e-9)
+    assert result.iloc[1] > 20

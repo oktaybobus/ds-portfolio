@@ -218,6 +218,64 @@ def safe_ratio(
     return frame.assign(**{new_column: frame[numerator] / denominators})
 
 
+EARTH_RADIUS_KM = 6371.0
+
+
+def add_calendar_features(
+    frame: pd.DataFrame, column: str, *, prefix: str = "", drop: bool = False
+) -> pd.DataFrame:
+    """Derive hour, day of week, month and a weekend flag from a datetime column."""
+    when = pd.to_datetime(frame[column], errors="coerce")
+    derived: dict[str, pd.Series[Any]] = {
+        f"{prefix}hour": when.dt.hour,
+        f"{prefix}day_of_week": when.dt.dayofweek,
+        f"{prefix}month": when.dt.month,
+        f"{prefix}is_weekend": (when.dt.dayofweek >= 5).astype(int),
+    }
+    updated = frame.assign(**derived)
+    return drop_columns(updated, [column]) if drop else updated
+
+
+def add_cyclical(
+    frame: pd.DataFrame, column: str, *, period: int, drop: bool = False
+) -> pd.DataFrame:
+    """Encode a cyclical integer column as a sine/cosine pair.
+
+    Hour 23 and hour 0 are one hour apart, but as raw numbers they are 23 apart
+    and a linear model reads midnight as the opposite extreme of 11pm. Projecting
+    onto a circle makes the distance between them what it actually is. Tree
+    models can learn the wrap from splits alone, but only by spending depth on
+    it, so the encoding helps them too.
+
+    Args:
+        period: The length of the cycle - 24 for hours, 7 for weekdays, 12 for
+            months.
+    """
+    angle = 2 * np.pi * frame[column] / period
+    updated = frame.assign(**{f"{column}_sin": np.sin(angle), f"{column}_cos": np.cos(angle)})
+    return drop_columns(updated, [column]) if drop else updated
+
+
+def haversine_km(
+    lat1: pd.Series | float,
+    lon1: pd.Series | float,
+    lat2: pd.Series | float,
+    lon2: pd.Series | float,
+) -> pd.Series | float:
+    """Great-circle distance in kilometres between two coordinate pairs.
+
+    Straight-line distance in degrees is not a distance: a degree of longitude
+    is 111 km at the equator and 0 at the poles, so a Euclidean gap between
+    lat/lon pairs distorts with latitude.
+    """
+    phi1, phi2 = np.radians(lat1), np.radians(lat2)
+    delta_phi = phi2 - phi1
+    delta_lambda = np.radians(np.asarray(lon2) - np.asarray(lon1))
+
+    a = np.sin(delta_phi / 2) ** 2 + np.cos(phi1) * np.cos(phi2) * np.sin(delta_lambda / 2) ** 2
+    return EARTH_RADIUS_KM * 2 * np.arcsin(np.sqrt(np.clip(a, 0, 1)))
+
+
 def one_hot(
     frame: pd.DataFrame, columns: Iterable[str], *, drop_first: bool = True
 ) -> pd.DataFrame:

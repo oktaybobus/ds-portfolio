@@ -205,3 +205,77 @@ class TestIstanbulHousing:
         assert metrics["r2"] > 0.75
         assert metrics["r2_original"] > 0.70
         assert metrics["r2"] != metrics["r2_original"]
+
+
+@pytest.mark.needs_data
+class TestBartRidership:
+    """Kaggle-sourced, so marked needs_data even though kagglehub caches it."""
+
+    @pytest.fixture(scope="class")
+    def raw(self) -> pd.DataFrame:
+        from projects.bart_ridership import pipeline as bart
+
+        try:
+            return bart.load_raw(sample=20_000)
+        except Exception as error:
+            pytest.skip(f"BART dataset unavailable: {error}")
+
+    def test_station_coordinates_are_parsed_out_of_prose(self) -> None:
+        """Coordinates live inside a free-text Location field, in either order."""
+        from projects.bart_ridership import pipeline as bart
+
+        try:
+            stations = bart.load_stations()
+        except Exception as error:
+            pytest.skip(f"BART dataset unavailable: {error}")
+
+        assert len(stations) > 40
+        assert stations["latitude"].between(37.0, 38.5).all()
+        assert stations["longitude"].between(-123.0, -121.0).all()
+
+    def test_coordinate_parser_is_order_independent(self) -> None:
+        from projects.bart_ridership import pipeline as bart
+
+        assert bart._parse_coordinates("-122.271450,37.803768,0") == (37.803768, -122.27145)
+        assert bart._parse_coordinates("37.803768,-122.271450") == (37.803768, -122.27145)
+        assert bart._parse_coordinates(None) == (None, None)
+
+    def test_features_exclude_the_raw_target(self, raw: pd.DataFrame) -> None:
+        """Leaving Throughput in the frame would hand the model the answer."""
+        from projects.bart_ridership import pipeline as bart
+
+        features = bart.build_features(raw)
+        assert "Throughput" not in features.columns
+        assert "year" not in features.columns
+        assert "throughput_log" in features.columns
+
+    def test_cyclical_encoding_wraps(self, raw: pd.DataFrame) -> None:
+        """Hour 23 and hour 0 must be neighbours, not opposite extremes."""
+        from projects.bart_ridership import pipeline as bart
+
+        features = bart.build_features(raw)
+        for column in ("hour_sin", "hour_cos", "day_of_week_sin", "month_cos"):
+            assert column in features.columns
+            assert features[column].between(-1.0, 1.0).all()
+
+    def test_distance_is_geographic(self, raw: pd.DataFrame) -> None:
+        """BART's longest trip is under 100 km; same-station trips are zero."""
+        from projects.bart_ridership import pipeline as bart
+
+        features = bart.build_features(raw)
+        assert features["distance_km"].max() < 100
+        same = features[features["same_station"] == 1]
+        if len(same):
+            assert same["distance_km"].max() == pytest.approx(0.0, abs=1e-6)
+
+    def test_chronological_frames_split_by_year(self) -> None:
+        from projects.bart_ridership import pipeline as bart
+
+        try:
+            train_frame, test_frame = bart.chronological_frames(sample=5_000)
+        except Exception as error:
+            pytest.skip(f"BART dataset unavailable: {error}")
+
+        assert len(train_frame) > 0
+        assert len(test_frame) > 0
+        assert list(train_frame.columns) == list(test_frame.columns)

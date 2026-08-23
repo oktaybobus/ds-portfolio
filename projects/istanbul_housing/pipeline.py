@@ -43,6 +43,16 @@ DROPPED_COLUMNS = [
 
 CATEGORICAL_COLUMNS = ["ilce", "mahalle"]
 
+# Documented request body for the API and the CLI.
+EXAMPLE_INPUT = {
+    "ilce": "Kadıköy",
+    "mahalle": "Others",
+    "brut_m2": 130.0,
+    "net_m2": 110.0,
+    "toplam_oda": 3.5,
+    "bina_yasi": 8.0,
+}
+
 # Ranges map to their midpoint; the open-ended bands take a representative value
 # rather than being dropped.
 #

@@ -37,6 +37,8 @@ LINE_ID = "Order_Items.id"
 
 RFM_COLUMNS = ["recency_days", "frequency", "monetary"]
 
+EXAMPLE_INPUT = {"recency_days": 90, "frequency": 2, "monetary": 250.0}
+
 SEGMENT_LABELS = {
     0: "At risk",
     1: "Loyal",

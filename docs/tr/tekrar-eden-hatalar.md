@@ -2,9 +2,9 @@
 
 Bu depo kurulurken kaynak notebook'larda bulunan ve burada düzeltilen somut
 hatalar. Hepsi sessizce yanlış sonuç üreten türden — hiçbiri hata mesajı
-vermiyordu. İkisi (10 ve 11 numara) bu depoda yeniden üretildi ve ancak bir
-test tarafından yakalandı; bu yüzden her düzeltmenin adlandırılmış bir
-regresyon testi var.
+vermiyordu. Üçü (10, 11 ve 13 numara) bu depoda yeniden üretildi ve ancak bir
+test ya da bir doğrulama betiği tarafından yakalandı; bu yüzden her düzeltmenin
+adlandırılmış bir regresyon testi var.
 
 ## 1. Scaler'ı bölmeden önce eğitmek (veri sızıntısı)
 
@@ -143,7 +143,36 @@ başka hiçbir şeyle karşılaştırılamaz hâle getiriyor.
 raporluyor; `RESULTS.md` başlıkta orijinal ölçeği gösteriyor. Testi:
 `test_training_reports_both_scales`.
 
-## 12. Keras üretecini `batch_index` ile döngüden çıkmak
+## 12. Metin modeline DataFrame vermek
+
+```python
+row = pd.DataFrame({"text": ["Yemek harikaydı"]})
+model.predict(row)   # "text" kelimesini vektörleştirir, yorumu değil
+```
+
+Bir TF-IDF hattı girdisini belge dizisi olarak ele alır. Bir DataFrame'i gezmek
+sütun *adlarını* verir, dolayısıyla model her seferinde `"text"` metnini
+puanlar. Övgü dolu bir yorum ile yerin dibine sokan bir yorum aynı cevabı
+alıyordu — pozitif, 0,696 — ve hiçbir hata fırlamıyordu.
+
+Bu hata CLI'da (`dsj predict review_sentiment`) sessizce çalışıyordu; Streamlit
+uygulaması doğruydu çünkü Series geçiriyordu. Servis katmanını kurarken ortaya
+çıktı.
+
+**Düzeltme:** `ModelBundle.prepare()` metin görevlerinde Series döndürüyor.
+Testi: `test_prepare_hands_text_models_a_series` — iki zıt yorumun zıt tahmin
+aldığını doğruluyor.
+
+## 13. Hedef sütununu özellik setinde bırakmak
+
+BART projesinde ham `Throughput` sütunu türetilmiş özelliklerle birlikte
+kalıyordu — hedefin ta kendisi. Model cevabı okuyabilir hâldeydi. Bu depoda
+üretildi ve bir doğrulama betiğiyle yakalandı.
+
+**Düzeltme:** `build_features` hedefi ve bölme defter tutma sütunlarını açıkça
+atıyor. Testi: `test_features_exclude_the_raw_target`.
+
+## 14. Keras üretecini `batch_index` ile döngüden çıkmak
 
 ```python
 for images, labels in val_data:

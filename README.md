@@ -30,7 +30,10 @@ uv run dsj train laptop_price
 | [`review_sentiment`](projects/review_sentiment) | Text classification | TF-IDF → logistic | **F1 0.957** | NLP Class & Sentiment Analysis |
 | [`series_forecast`](projects/series_forecast) | Forecasting | Holt-Winters / naive | **+44.7% vs naive** | Prophet & Time-Series Analysis |
 | [`movie_recommender`](projects/movie_recommender) | Recommendation | Truncated SVD | **Precision@10 0.019** | RS KNN / SK22 / MatrixFactorization |
+| [`bart_ridership`](projects/bart_ridership) | Regression (spatio-temporal) | HistGradientBoosting | **R² 0.818** | BART Analysis |
 | [`image_classifiers`](projects/image_classifiers) | Image classification | CNN / MobileNetV2 | 7 datasets | CNN Model Training |
+
+Every trained project is also reachable over HTTP - see [service/](service/).
 
 Regression headlines are on the original price scale, not the log-transformed
 target the models are fitted on - both are reported in [RESULTS.md](RESULTS.md).
@@ -54,11 +57,13 @@ src/dsjourney/          the reusable half - tested toolkit
   vision.py             CNN and transfer-learning builders (TensorFlow, lazy)
   viz.py                figures returned, never shown - headless by default
   artifacts.py          model + scaler + columns + metrics saved as one bundle
+  serving.py            which projects can score records, and how
   training.py           split, fit, score, persist - shared by every project
   cli.py                the `dsj` command
 
+service/                FastAPI app serving every trained bundle
 projects/<name>/        config.yaml, pipeline.py, train.py, app.py, READMEs
-tests/                  255 tests: unit for the toolkit, smoke per project
+tests/                  304 tests: unit for the toolkit, smoke per project
 scripts/                asset fetching and RESULTS.md generation
 ```
 
@@ -78,10 +83,11 @@ feature engineering; everything else it needs is a function call.
 | `dsj benchmark <project>` | Comparison table without saving anything |
 | `dsj predict <project> --json '{...}'` | Score one record against the saved model |
 | `dsj serve <project>` | Launch the project's Streamlit demo |
+| `dsj api` | Serve every trained project over HTTP, docs at `/docs` |
 
 ## What changed on the way out of the notebooks
 
-Eleven defects were found and fixed while porting. None of them raised an error;
+Thirteen defects were found and fixed while porting. None of them raised an error;
 all of them silently changed results. The full list with reproductions is in
 [docs/tr/tekrar-eden-hatalar.md](docs/tr/tekrar-eden-hatalar.md); the ones that
 mattered most:
@@ -115,6 +121,12 @@ without a minimum-support floor, precision@10 measured 0.0005 - below what
 random ranking achieves - because films rated 5 by one person outranked
 everything for everyone.
 
+**A text model that answered the same thing every time.** Building the API
+surfaced a defect that had been shipping quietly in the CLI: a TF-IDF pipeline
+handed a one-column DataFrame iterates its *column names*, so every review was
+scored as the literal string `"text"`. A glowing review and a scathing one both
+came back positive at 0.696, and nothing raised.
+
 Two data-quality findings are worth their own lines. All 16,611 duplicate rows
 in the loan dataset are charged-off loans, so the raw file overstates the
 default rate by 4.7 points. And the Istanbul housing notebook's building-age
@@ -129,6 +141,8 @@ The image ships the CLI, the tabular projects and the Streamlit apps, with
 ```bash
 docker build -t ds-portfolio .
 docker run --rm ds-portfolio list
+docker run --rm -p 8000:8000 -v "$PWD/artifacts:/app/artifacts" \
+  ds-portfolio api --host 0.0.0.0
 docker run --rm -v "$PWD/artifacts:/app/artifacts" ds-portfolio train laptop_price
 docker run --rm -v "$PWD/artifacts:/app/artifacts" ds-portfolio predict laptop_price \
   --json '{"company":"Dell","type_name":"Gaming","ram_gb":16,"ssd_gb":512}'
@@ -181,6 +195,7 @@ Image datasets are pulled straight from Kaggle at training time by `kagglehub`.
 | `dl` | TensorFlow, for `image_classifiers` |
 | `nlp` | NLTK and wordcloud (not required - `dsjourney.text` is self-contained) |
 | `app` | Streamlit |
+| `api` | FastAPI and uvicorn, for `dsj api` |
 | `hub` | `huggingface-hub`, for fetching datasets |
 | `data` | `kagglehub` and `openpyxl` |
 | `dev` | pytest, ruff, mypy |

@@ -48,6 +48,26 @@ COLUMN_RENAMES = {
 
 IDENTIFIER_COLUMNS = ["loan_id", "customer_id"]
 CATEGORICAL_COLUMNS = ["home_ownership", "purpose"]
+
+# Documented request body for the API and the CLI.
+EXAMPLE_INPUT = {
+    "loan_amount": 15000,
+    "long_term": False,
+    "credit_score": 690,
+    "years_in_job": 5,
+    "annual_income": 60000,
+    "monthly_debt": 800,
+    "credit_history_years": 15,
+    "months_since_delinquent": -1,
+    "open_accounts": 10,
+    "credit_problems": 0,
+    "credit_balance": 10000,
+    "max_open_credit": 25000,
+    "bankruptcies": 0,
+    "tax_liens": 0,
+    "home_ownership": "Rent",
+    "purpose": "Debt Consolidation",
+}
 CURRENCY_COLUMNS = ["monthly_debt", "max_open_credit"]
 
 # to_numeric leaves NaN wherever a currency string could not be parsed, so the

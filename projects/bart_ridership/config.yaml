@@ -1,0 +1,31 @@
+name: bart_ridership
+title: BART Ridership Demand
+task: regression
+summary: >-
+  Predict hourly passenger throughput between Bay Area Rapid Transit station
+  pairs. 13.3 million origin-destination-hour records across 2016 and 2017,
+  trained on 2016 and tested on 2017 - a chronological split, because a random
+  one would let the model learn from next December to predict last January.
+source_notebook: "PROJELER/project17-AOB- BART project/HW20_AOB_BART_analysis.ipynb"
+
+target: throughput_log
+
+dataset:
+  id: bart_ridership
+  file: date-hour-soo-dest-2016.csv
+  format: kagglehub
+  kaggle_handle: saulfuh/bart-ridership
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  estimator: hist_gradient_boosting
+  params:
+    max_iter: 400
+    learning_rate: 0.1
+    random_state: 42
+  scale_features: []
+
+metrics: [r2, rmse, mae, mape]

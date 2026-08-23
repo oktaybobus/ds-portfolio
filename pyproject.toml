@@ -33,6 +33,7 @@ boost = ["dsjourney[catboost,lightgbm,xgboost]"]
 dl = ["tensorflow>=2.16; platform_machine != 'arm64'", "tensorflow-macos>=2.16; platform_machine == 'arm64' and platform_system == 'Darwin'"]
 nlp = ["nltk>=3.8", "wordcloud>=1.9"]
 app = ["streamlit>=1.35"]
+api = ["fastapi>=0.111", "uvicorn[standard]>=0.30", "httpx>=0.27"]
 hub = ["huggingface-hub>=0.23"]
 data = ["kagglehub>=0.3", "openpyxl>=3.1"]
 dev = [
@@ -56,7 +57,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/dsjourney", "projects"]
+packages = ["src/dsjourney", "projects", "service"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -85,7 +86,7 @@ select = ["E", "F", "I", "N", "UP", "B", "SIM", "RET", "ARG", "PTH", "RUF"]
 ignore = ["E501"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["dsjourney", "projects"]
+known-first-party = ["dsjourney", "projects", "service"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["ARG"]
