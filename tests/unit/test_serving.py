@@ -9,6 +9,14 @@ code.
 from __future__ import annotations
 
 import pytest
+
+# FastAPI is an optional extra. Importing it at module scope makes *collection*
+# fail on any install that omits `--extra api` - which takes the whole suite
+# down, including tests that have nothing to do with serving. Skipping is the
+# same rule conftest applies to TensorFlow and Spark, applied at the one place
+# a missing extra is reached through an import rather than a marker.
+pytest.importorskip("fastapi", reason="FastAPI not installed (uv sync --extra api)")
+
 from fastapi.testclient import TestClient
 
 from dsjourney import serving
