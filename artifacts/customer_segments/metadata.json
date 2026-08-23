@@ -1,0 +1,35 @@
+{
+  "project": "customer_segments",
+  "task": "clustering",
+  "model_class": "KMeans",
+  "feature_names": [
+    "recency_days",
+    "frequency",
+    "monetary"
+  ],
+  "feature_count": 3,
+  "has_scaler": true,
+  "scaled_columns": [
+    "recency_days",
+    "frequency",
+    "monetary"
+  ],
+  "created_at": "2026-08-23T12:38:49+00:00",
+  "dsjourney_version": "0.1.0",
+  "sklearn_version": "1.9.0",
+  "python_version": "3.11.16",
+  "estimator_key": "kmeans",
+  "n_clusters": 4,
+  "rows": 3054,
+  "k_scan": {
+    "2": 0.5392,
+    "3": 0.3522,
+    "4": 0.3373,
+    "5": 0.3611,
+    "6": 0.3405,
+    "7": 0.3537,
+    "8": 0.3622,
+    "9": 0.3629,
+    "10": 0.3511
+  }
+}

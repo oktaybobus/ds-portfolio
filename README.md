@@ -120,9 +120,16 @@ build. `mypy` is strict over the whole package with no suppressions.
 
 Only `laptop_data.csv` (178 KB) is committed - it lets CI verify the full path
 from CSV to scored model with no network access. Everything else is declared in
-[`assets.yaml`](assets.yaml) and fetched by `scripts/fetch_assets.py`, from the
-Hugging Face Hub or, on the author's machine, from the original course tree.
-Image datasets are pulled from Kaggle at training time by `kagglehub`.
+[`assets.yaml`](assets.yaml) and fetched by `scripts/fetch_assets.py`, which
+resolves each asset in order: already on disk, committed, copied from the
+original course tree, then downloaded from the Hugging Face Hub.
+
+> **Status:** the Hub mirror (`OKTAYBBS/ds-portfolio-data`) is declared but not
+> populated yet, so the download step is the only one that will not currently
+> succeed on a fresh machine. On the author's machine the local-copy step
+> handles all four assets.
+
+Image datasets are pulled straight from Kaggle at training time by `kagglehub`.
 
 ### Optional extras
 

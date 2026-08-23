@@ -32,8 +32,11 @@ data/raw/*
 data/raw/laptop_price/*
 !data/raw/laptop_price/laptop_data.csv
 data/interim/
-artifacts/
-!artifacts/.gitkeep
+# Trained models are regenerable and large (the loan forest alone is 80 MB), but
+# the evidence they produced - metrics, provenance, benchmark tables and
+# diagnostic plots - is small and worth reading straight from the repo.
+artifacts/**/*.joblib
+artifacts/**/*.pkl
 *.keras
 *.h5
 *.pt

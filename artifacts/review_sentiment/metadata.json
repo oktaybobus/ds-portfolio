@@ -1,0 +1,21 @@
+{
+  "project": "review_sentiment",
+  "task": "text-classification",
+  "model_class": "Pipeline",
+  "feature_names": [
+    "text"
+  ],
+  "feature_count": 1,
+  "has_scaler": false,
+  "scaled_columns": [],
+  "created_at": "2026-08-23T12:40:23+00:00",
+  "dsjourney_version": "0.1.0",
+  "sklearn_version": "1.9.0",
+  "python_version": "3.11.16",
+  "estimator_key": "logistic",
+  "selected_by": "config",
+  "target": "sentiment",
+  "train_rows": 7084,
+  "test_rows": 1772,
+  "vocabulary_size": 5000
+}

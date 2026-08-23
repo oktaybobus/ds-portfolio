@@ -44,6 +44,11 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12"]
+    # Both `uv sync` and `uv run` must target the matrix interpreter. Without
+    # this, `uv run` falls back to .python-version, discards the synced
+    # environment and reinstalls without the dev extra.
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -53,7 +58,7 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: uv sync --extra dev --extra boost --extra data --extra app --python ${{ matrix.python-version }}
+        run: uv sync --extra dev --extra boost --extra data --extra app
 
       # laptop_data.csv is committed, so this covers the full path from CSV to
       # scored model. Projects whose data is fetched are excluded by marker.
@@ -81,7 +86,7 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: uv sync --extra boost
+        run: uv sync --extra catboost
 
       # Proves the CLI, the config, the pipeline and the artifact writer still
       # work together - the failure mode unit tests cannot see.

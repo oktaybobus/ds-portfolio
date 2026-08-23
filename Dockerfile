@@ -1,6 +1,10 @@
 # Slim runtime image for the portfolio: CLI, tabular projects and Streamlit apps.
-# The deep-learning extra is left out on purpose - TensorFlow would add ~2 GB for
-# projects whose datasets are downloaded from Kaggle at training time anyway.
+#
+# Two extras are deliberately left out. TensorFlow (`dl`) would add ~2 GB for
+# projects whose datasets are downloaded from Kaggle at training time anyway,
+# and `xgboost` pulls nvidia-nccl-cu12 (~326 MB) of CUDA runtime that a CPU-only
+# image never touches. CatBoost alone covers every model the shipped configs
+# name; the registry degrades gracefully for the rest.
 
 FROM python:3.11-slim AS base
 
@@ -13,11 +17,11 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /usr/local/bin/uv
 
 # Dependencies first: this layer is cached until pyproject or the lock changes.
 COPY pyproject.toml uv.lock README.md ./
-RUN uv sync --frozen --no-install-project --extra boost --extra app
+RUN uv sync --frozen --no-install-project --extra catboost --extra app
 
 COPY src/ ./src/
 COPY projects/ ./projects/
@@ -25,7 +29,7 @@ COPY assets.yaml Makefile ./
 COPY scripts/ ./scripts/
 COPY data/raw/laptop_price/ ./data/raw/laptop_price/
 
-RUN uv sync --frozen --extra boost --extra app
+RUN uv sync --frozen --extra catboost --extra app
 
 ENV PATH="/app/.venv/bin:${PATH}"
 

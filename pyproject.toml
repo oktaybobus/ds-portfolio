@@ -22,7 +22,13 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-boost = ["xgboost>=2.0", "catboost>=1.2", "lightgbm>=4.3"]
+# Split per library so a deployment can take only what it needs: on Linux,
+# xgboost drags in nvidia-nccl-cu12 (~326 MB) that a CPU-only image has no use
+# for. `boost` remains the union for local development.
+catboost = ["catboost>=1.2"]
+xgboost = ["xgboost>=2.0"]
+lightgbm = ["lightgbm>=4.3"]
+boost = ["dsjourney[catboost,lightgbm,xgboost]"]
 dl = ["tensorflow>=2.16; platform_machine != 'arm64'", "tensorflow-macos>=2.16; platform_machine == 'arm64' and platform_system == 'Darwin'"]
 nlp = ["nltk>=3.8", "wordcloud>=1.9"]
 app = ["streamlit>=1.35"]
