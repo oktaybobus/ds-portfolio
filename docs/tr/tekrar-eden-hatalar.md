@@ -147,7 +147,7 @@ raporluyor; `RESULTS.md` başlıkta orijinal ölçeği gösteriyor. Testi:
 
 ```python
 row = pd.DataFrame({"text": ["Yemek harikaydı"]})
-model.predict(row)   # "text" kelimesini vektörleştirir, yorumu değil
+model.predict(row)  # "text" kelimesini vektörleştirir, yorumu değil
 ```
 
 Bir TF-IDF hattı girdisini belge dizisi olarak ele alır. Bir DataFrame'i gezmek
