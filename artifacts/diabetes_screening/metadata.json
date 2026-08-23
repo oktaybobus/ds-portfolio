@@ -1,0 +1,25 @@
+{
+  "model_class": "SparkLogisticRegression",
+  "engine": "pyspark",
+  "rows": 768,
+  "train_rows": 537,
+  "test_rows": 231,
+  "zeros_treated_as_missing": true,
+  "sklearn_cross_check": {
+    "accuracy": 0.7446,
+    "precision": 0.6719,
+    "recall": 0.5309,
+    "f1": 0.5931,
+    "roc_auc": 0.8359
+  },
+  "coefficients": {
+    "Pregnancies": 0.4737,
+    "Glucose": 1.1541,
+    "BloodPressure": -0.0486,
+    "SkinThickness": -0.1029,
+    "Insulin": -0.0436,
+    "BMI": 0.7565,
+    "DiabetesPedigreeFunction": 0.2191,
+    "Age": 0.0985
+  }
+}

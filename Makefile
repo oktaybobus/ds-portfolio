@@ -1,4 +1,4 @@
-.PHONY: install lint format typecheck test test-fast cov fetch train-all results check clean api docker
+.PHONY: install lint format typecheck test test-fast cov fetch train-all results check clean api docker spark
 
 install:
 	uv sync --all-extras
@@ -30,6 +30,12 @@ train-all:
 	uv run dsj train loan_default
 	uv run python projects/customer_segments/train.py
 	uv run python projects/review_sentiment/train.py
+	$(MAKE) results
+
+# Needs a JVM: `brew install openjdk@17`, or apt install openjdk-17-jdk.
+spark:
+	uv run python projects/marvel_network/train.py --benchmark
+	uv run python projects/diabetes_screening/train.py
 	$(MAKE) results
 
 results:

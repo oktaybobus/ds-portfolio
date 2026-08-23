@@ -17,19 +17,35 @@ import pytest
 TENSORFLOW_INSTALLED = importlib.util.find_spec("tensorflow") is not None
 
 
+def _spark_runnable() -> bool:
+    """True when PySpark is installed and a JVM is present to run it."""
+    from dsjourney.spark import spark_available
+
+    return spark_available()
+
+
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
-    """Skip ``needs_dl`` tests when the optional deep-learning extra is missing.
+    """Skip tests whose optional runtime is not installed.
 
     The marker alone only lets a caller deselect them; without this hook a plain
     `pytest` run on a machine with no TensorFlow reports failures for an
-    environment choice rather than a defect.
+    environment choice rather than a defect. ``needs_spark`` works the same way.
     """
-    if TENSORFLOW_INSTALLED:
-        return
-    skip = pytest.mark.skip(reason="TensorFlow not installed (uv sync --extra dl)")
-    for item in items:
-        if "needs_dl" in item.keywords:
-            item.add_marker(skip)
+    if not TENSORFLOW_INSTALLED:
+        skip = pytest.mark.skip(reason="TensorFlow not installed (uv sync --extra dl)")
+        for item in items:
+            if "needs_dl" in item.keywords:
+                item.add_marker(skip)
+
+    # Same reasoning for Spark, which additionally needs a Java runtime the
+    # Python environment cannot install for itself.
+    if not _spark_runnable():
+        skip = pytest.mark.skip(
+            reason="PySpark or a Java runtime is missing (uv sync --extra spark; brew install openjdk@17)"
+        )
+        for item in items:
+            if "needs_spark" in item.keywords:
+                item.add_marker(skip)
 
 
 @pytest.fixture

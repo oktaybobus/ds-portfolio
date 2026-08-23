@@ -26,7 +26,7 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: uv sync --extra dev --extra boost --extra data --extra app --extra api --extra detect
+        run: uv sync --extra dev --extra boost --extra data --extra app --extra api --extra detect --extra spark
 
       - name: Ruff lint
         run: uv run ruff check .
@@ -99,6 +99,44 @@ jobs:
 
       - name: Show the project table
         run: uv run dsj list
+
+  spark:
+    name: Spark jobs (Java 17)
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      # PySpark is a Python package wrapping a JVM application; without a JDK
+      # every Spark test skips itself and the job passes without testing.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --extra dev --extra spark
+
+      # needs_spark tests skip themselves when there is no JVM, so without this
+      # guard a broken Java setup would look like a green job.
+      - name: Confirm Spark can actually start
+        run: uv run python -c "from dsjourney.spark import spark_available; assert spark_available()"
+
+      # Marvel-graph.txt and the Pima records are committed, so this is the real
+      # distributed job on the real data, not a fixture.
+      - name: Run the Spark tests
+        run: uv run pytest -m needs_spark
+
+      - name: Measure the Marvel graph end to end
+        run: uv run python projects/marvel_network/train.py --benchmark
+
+      - name: Train the Pima classifier end to end
+        run: uv run python projects/diabetes_screening/train.py
 
   docker:
     name: Docker image

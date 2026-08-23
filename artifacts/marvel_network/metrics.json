@@ -1,0 +1,11 @@
+{
+  "heroes": 6486.0,
+  "co_appearance_pairs": 336534.0,
+  "max_degree": 1933.0,
+  "mean_degree": 51.88621646623497,
+  "median_degree": 20.0,
+  "isolated_heroes": 19.0,
+  "reachable_fraction": 0.994295405488745,
+  "mean_distance": 1.7058458675763684,
+  "eccentricity": 3.0
+}

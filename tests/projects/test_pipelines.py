@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import pytest
 
-from dsjourney import detection, forecasting, recommend, retrieval
+from dsjourney import detection, forecasting, recommend, retrieval, spark
 from dsjourney.benchmark import available_models
 from dsjourney.config import load_project_config
 from dsjourney.paths import available_projects, project_dir
@@ -23,6 +23,8 @@ def test_the_expected_projects_are_present() -> None:
         "article_search",
         "bart_ridership",
         "customer_segments",
+        "diabetes_screening",
+        "marvel_network",
         "object_detection",
         "image_classifiers",
         "istanbul_housing",
@@ -54,6 +56,11 @@ def test_configured_estimator_exists_in_the_registry(project: str) -> None:
 
     if config.task == "image-classification":
         pytest.skip("image projects build Keras models, not registry estimators")
+    # Spark algorithms live in their own registry: they are not scikit-learn
+    # estimators and cannot be swept by `dsj benchmark`.
+    if config.model.estimator.startswith("spark_"):
+        assert config.model.estimator in spark.available_models()
+        return
     registries = {
         "forecasting": forecasting.available_models,
         "recommendation": recommend.available_models,

@@ -1,0 +1,12 @@
+{
+  "model_class": "SparkBFS",
+  "root_id": 859,
+  "root_name": "CAPTAIN AMERICA",
+  "max_depth": 12,
+  "names": 19428,
+  "engine": "pyspark",
+  "seconds": {
+    "spark": 0.126,
+    "pandas": 0.013
+  }
+}

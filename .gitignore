@@ -43,6 +43,13 @@ data/raw/series_forecast/*
 !data/raw/object_detection/*.jpg
 !data/raw/object_detection/*.jpeg
 !data/raw/object_detection/haarcascade_*.xml
+# The Spark projects: 2 MB of adjacency list, names and 768 clinical rows, so
+# CI can run a real distributed job end to end rather than a mocked one.
+!data/raw/marvel_network/
+!data/raw/marvel_network/Marvel-graph.txt
+!data/raw/marvel_network/Marvel-names.txt
+!data/raw/diabetes_screening/
+!data/raw/diabetes_screening/pima-indians-diabetes.csv
 data/interim/
 # Trained models are regenerable and large (the loan forest alone is 80 MB), but
 # the evidence they produced - metrics, provenance, benchmark tables and

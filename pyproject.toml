@@ -39,6 +39,9 @@ api = ["fastapi>=0.111", "uvicorn[standard]>=0.30", "httpx>=0.27"]
 detect = ["opencv-python-headless>=4.9", "pillow>=10.0"]
 yolo = ["ultralytics>=8.2"]
 hub = ["huggingface-hub>=0.23"]
+# PySpark needs a JVM on PATH (Java 17 or 21). Kept out of the default install
+# so a machine with no Java can still run every other project.
+spark = ["pyspark>=3.5,<4.1"]
 data = ["kagglehub>=0.3", "openpyxl>=3.1"]
 dev = [
     "pytest>=8.0",
@@ -70,6 +73,7 @@ markers = [
     "slow: tests that train real models on real data",
     "needs_data: tests that require fetched datasets",
     "needs_dl: tests that require the optional deep-learning extra",
+    "needs_spark: tests that require PySpark and a Java runtime",
 ]
 filterwarnings = ["ignore::DeprecationWarning"]
 

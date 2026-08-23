@@ -1,0 +1,37 @@
+name: diabetes_screening
+title: Diabetes Screening on Spark MLlib
+task: classification
+summary: >-
+  Logistic regression over the Pima clinical records, trained with Spark MLlib
+  rather than scikit-learn. The source notebook scored it with a
+  BinaryClassificationEvaluator left on its default metric and printed the
+  result as "Accuracy: 0.854" - that number is ROC AUC. It also fed the model
+  374 insulin readings of exactly zero, which is not a measurement but the way
+  this dataset encodes a missing one. Both are fixed here, every metric is
+  reported rather than one, and the same split is scored again in scikit-learn
+  to confirm the distributed model agrees with the single-machine one.
+source_notebook: "DATA SCIENCE COURSE/week10 bigdata/Day10 AOB BigDataSpark.ipynb"
+
+target: Outcome
+
+dataset:
+  id: pima_diabetes
+  file: pima-indians-diabetes.csv
+  format: csv
+
+split:
+  test_size: 0.3
+  random_state: 42
+  stratify: true
+
+model:
+  estimator: spark_logistic
+  params:
+    max_iter: 100
+    reg_param: 0.0
+    elastic_net_param: 0.0
+    cores: "*"
+    shuffle_partitions: 8
+  scale_features: []
+
+metrics: [accuracy, precision, recall, f1, roc_auc, majority_baseline]

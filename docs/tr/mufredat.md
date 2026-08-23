@@ -133,6 +133,26 @@ Ayrıntı: [service/README.tr.md](../../service/README.tr.md)
 
 Örnek proje: [`object_detection`](../../projects/object_detection/README.tr.md)
 
+## 10. Hafta — Büyük veri ve Spark
+
+| Notebook'ta | Depoda |
+|---|---|
+| `SparkContext.getOrCreate(conf=...)` + serpiştirilmiş `sc.stop()` | `spark.session()` — context manager, çıkışta kapanma garantili |
+| `setMaster("local")` — tek iş parçacığı | `local[*]` — makinedeki tüm çekirdekler, `shuffle_partitions` 200'den 8'e |
+| `sc.textFile` her dosyayı UTF-8 sayıyor | `spark.read_text_lines()` — kodlama açık parametre |
+| `countByValue()` tüm sözlüğü driver'a çekiyor | `spark.word_frequencies()` — DataFrame döndürür |
+| `flipped.max()` — beraberlikte sessizce id'ye düşer | `degree_table()` — tüm dağılım, testle sabitlenmiş fark |
+| Tek soru: "en popüler kim" | `bfs_distances()` — seviye başına bir dağıtık join |
+| `BinaryClassificationEvaluator` varsayılanı "Accuracy" diye basılıyor | `binary_classification_scores()` — beş metrik birden |
+| Eksik değeri 0 kodlanmış sütunlar ham veriliyor | `ZERO_IS_MISSING` + boru hattı içinde `Imputer` |
+| "100 kata kadar hızlı" iddiası, hiç ölçüm yok | `--benchmark` — pandas 1,6 MB'lık grafikte 9,6 kat hızlı çıkıyor |
+
+Örnek projeler: [`marvel_network`](../../projects/marvel_network/README.tr.md),
+[`diabetes_screening`](../../projects/diabetes_screening/README.tr.md)
+
+JVM gerekiyor: `brew install openjdk@17`. Yoksa iki proje de kurulum komutunu
+yazdırıp çıkıyor, Spark testleri kendini atlıyor.
+
 ## 12-15. Hafta — Transformer, ajanlar, blockchain
 
 Bu haftaların içeriği (FastAPI servis, Docker, ChromaDB, LangChain, RL, quantum,

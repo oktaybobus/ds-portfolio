@@ -26,12 +26,13 @@ TaskType = Literal[
     "recommendation",
     "retrieval",
     "detection",
+    "graph",
 ]
 
 # Tasks that do not fit a features-plus-target frame: clustering has no target,
-# and a recommender is trained on an interaction log rather than rows of
-# features. Both are exempt from the target requirement.
-UNSUPERVISED_TASKS = frozenset({"clustering", "recommendation", "retrieval", "detection"})
+# a recommender is trained on an interaction log rather than rows of features,
+# and a graph is an edge list. All are exempt from the target requirement.
+UNSUPERVISED_TASKS = frozenset({"clustering", "recommendation", "retrieval", "detection", "graph"})
 
 
 class DatasetConfig(BaseModel):
@@ -41,7 +42,7 @@ class DatasetConfig(BaseModel):
 
     id: str = Field(description="Key into assets.yaml used by scripts/fetch_assets.py")
     file: str = Field(description="File name as stored under data/raw/<project>/")
-    format: Literal["csv", "excel", "sqlite", "kagglehub"] = "csv"
+    format: Literal["csv", "excel", "sqlite", "kagglehub", "text"] = "csv"
     table: str | None = Field(default=None, description="Table name for sqlite sources")
     kaggle_handle: str | None = Field(default=None, description="Handle for kagglehub sources")
     read_options: dict[str, Any] = Field(default_factory=dict)

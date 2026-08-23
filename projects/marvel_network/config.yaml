@@ -1,0 +1,50 @@
+name: marvel_network
+title: Marvel Co-Appearance Network
+task: graph
+summary: >-
+  The co-appearance graph of 6,486 Marvel characters, traversed with Spark. The
+  source notebook asked one question of it - who appears most often - and
+  answered it with `flipped.max()`, which is only correct because no two
+  characters happen to tie. This computes the whole degree distribution,
+  measures degrees of separation with a distributed breadth-first search, and
+  times the same job against pandas to find out whether Spark was worth
+  starting at this size. It was not, and the README says by how much.
+source_notebook: "DATA SCIENCE COURSE/week10 bigdata/Day10 AOB BigDataSpark.ipynb"
+
+target: null
+
+dataset:
+  id: marvel_graph
+  file: Marvel-graph.txt
+  format: text
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  # Not an estimator: a graph traversal. `estimator` names the algorithm so the
+  # config schema stays uniform across every project.
+  estimator: spark_bfs
+  params:
+    # 859 is Captain America, the most connected character in the graph. Roots
+    # matter for BFS: starting from a peripheral character reaches far fewer
+    # nodes in the same number of hops.
+    root_id: 859
+    max_depth: 12
+    cores: "*"
+    shuffle_partitions: 8
+  scale_features: []
+
+metrics:
+  [
+    heroes,
+    co_appearance_pairs,
+    max_degree,
+    mean_degree,
+    median_degree,
+    isolated_heroes,
+    reachable_fraction,
+    mean_distance,
+    eccentricity,
+  ]

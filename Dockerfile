@@ -5,6 +5,10 @@
 # and `xgboost` pulls nvidia-nccl-cu12 (~326 MB) of CUDA runtime that a CPU-only
 # image never touches. CatBoost alone covers every model the shipped configs
 # name; the registry degrades gracefully for the rest.
+#
+# PySpark is left out for a third reason: it needs a JVM, which is a second
+# runtime and ~200 MB, and neither Spark project serves anything over HTTP.
+# They are development and CI targets - see the `spark` job in .github/workflows.
 
 FROM python:3.11-slim AS base
 

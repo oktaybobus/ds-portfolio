@@ -5,7 +5,8 @@ hatalar. Hepsi sessizce yanlış sonuç üreten türden — hiçbiri hata mesaj�
 vermiyordu. Üçü (10, 11 ve 13 numara) bu depoda yeniden üretildi ve ancak bir
 test ya da bir doğrulama betiği tarafından yakalandı; bu yüzden her düzeltmenin
 adlandırılmış bir regresyon testi var. 14 numara farklı bir tür: kod doğruydu,
-ölçülen şey yanlıştı.
+ölçülen şey yanlıştı. 18 ise bir adım daha ileride: hem kod hem ölçüm doğruydu,
+yalnızca sonucun adı yanlıştı. 23 numara bu deponun kendi içinde de vardı.
 
 ## 1. Scaler'ı bölmeden önce eğitmek (veri sızıntısı)
 
@@ -225,3 +226,109 @@ sayıyor.
 
 **Düzeltme:** Sonlu bir `tf.data` veri kümesi kendiliğinden bitiyor;
 `dsjourney.vision.collect_predictions()` sıradan bir `for` döngüsü.
+
+## 18. Metriği yanlış adla raporlamak
+
+```python
+evaluator = BinaryClassificationEvaluator(labelCol="outcome")
+accuracy = evaluator.evaluate(predictions)
+print("Accuracy:", accuracy)  # 0.854
+```
+
+`BinaryClassificationEvaluator`'ın varsayılan `metricName` değeri `areaUnderROC`
+— yani ekrana basılan 0,854 doğruluk değil, ROC eğrisi altındaki alan. Aynı
+tahminler üzerinde gerçek doğruluk birkaç puan aşağıda çıkıyor. Kod hata
+vermiyor, çünkü kodda bir hata yok; yanlış olan etiket.
+
+4 numaralı hatadan farkı şu: orada doğru ölçülen bir metrik yanlış soru için
+kullanılıyordu, burada metriğin adı ölçülen şeyle uyuşmuyor.
+
+**Düzeltme:** `dsjourney.spark.binary_classification_scores()` beşini birden
+döndürüyor (accuracy, precision, recall, f1, roc_auc), dolayısıyla yanlış
+adlandırılacak tek bir sayı kalmıyor. Testi:
+`test_spark_and_sklearn_score_identical_predictions_identically` — aynı
+tahminleri iki kütüphaneye ayrı ayrı puanlatıp sonuçların eşit çıktığını
+doğruluyor, üstelik accuracy ile roc_auc'un birbirinden farklı olduğunu da.
+
+## 19. Eksik değeri sıfırla kodlanmış veriyi ham haliyle kullanmak
+
+Pima veri setinde beş sütunda 0 bir ölçüm değil, "kaydedilmemiş" demek:
+
+| Sütun | Sıfır | Oran |
+|---|---|---|
+| Insulin | 374 | %48,7 |
+| SkinThickness | 227 | %29,6 |
+| BloodPressure | 35 | %4,6 |
+| BMI | 11 | %1,4 |
+| Glucose | 5 | %0,7 |
+
+Notebook bunların hepsini gerçek ölçüm olarak modele verdi. Model de insülin
+düzeyi ölçeğin en altında kümelenmiş kalabalık bir hasta grubu olduğunu öğrendi.
+Yaşayan hiç kimsenin kan basıncı sıfır değildir.
+
+**Düzeltme:** `projects/diabetes_screening/pipeline.py` içindeki
+`ZERO_IS_MISSING` bu sütunları adlandırıyor, `build_features()` sıfırları
+`NaN`'a çeviriyor, doldurma işini MLlib `Imputer`'ı eğitim katlamasında
+yapıyor. `Pregnancies` bilerek listede yok: sıfır gebelik bir olgudur.
+Testi: `test_the_impossible_zeros_are_still_in_the_raw_file`.
+
+## 20. Dosyayı yanlış kodlamayla okumak
+
+`Marvel-names.txt` Latin-1, `book.txt` cp1252. Spark'ın `textFile`/`read.text`
+okuyucusu her ikisini de UTF-8 varsayar ve çözemediği baytı U+FFFD ile
+değiştirir — istisna yok, uyarı yok. `book.txt`'de 269 satır, isim dosyasında 2
+satır bu şekilde bozuluyor. Kesme işareti bozulunca `don't` kelimesi `don` ve
+`t` diye iki kelimeye ayrılıyor ve kelime sayımı sessizce kayıyor.
+
+`read.text` bir `encoding` seçeneği kabul etmiyor; CSV okuyucusu ediyor.
+
+**Düzeltme:** `dsjourney.spark.read_text_lines()` metinde geçemeyecek bir
+ayırıcıyla CSV okuyucusundan geçiyor ve kodlamayı açıkça alıyor. Testi:
+`test_read_text_lines_honours_a_non_utf8_encoding` — hem doğru kodlamanın
+düzgün okuduğunu hem de UTF-8'in bozduğunu iddia ediyor.
+
+## 21. Dağıtık işi driver'a toplamak
+
+```python
+words = input.flatMap(lambda x: x.split(" "))
+wordCounts = words.countByValue()  # tüm sözlük driver'ın RAM'ine
+```
+
+`countByValue()` bir aksiyon: sonucu tek bir Python `dict`'i olarak sürücü
+sürecine çekiyor. Yani egzersizin göstermek için var olduğu işlem tek makinede
+yapılıyor. Veri gerçekten büyük olsaydı bu satır belleği doldururdu.
+
+**Düzeltme:** `dsjourney.spark.word_frequencies()` DataFrame döndürüyor;
+toplama küme üstünde kalıyor, sürücüye yalnızca istenen satırlar iniyor.
+
+## 22. `getOrCreate(conf=...)` yeni ayarı sessizce yok sayar
+
+```python
+conf = SparkConf().setMaster("local").setAppName("WordCount")
+sc = SparkContext.getOrCreate(conf=conf)  # zaten context varsa conf çöpe gider
+```
+
+Notebook'un her hücre arasına serpiştirilmiş çıplak `sc.stop()` satırlarının
+sebebi bu. Bir context açık kaldığında sonraki `getOrCreate` eskisini
+döndürüyor, verilen ayar hiç uygulanmıyor ve iş beklenenden farklı bir
+yapılandırmayla çalışıyor.
+
+**Düzeltme:** `dsjourney.spark.session()` bir context manager — çıkışta
+`stop()` garanti. Testi: `test_session_stops_itself_on_exit`.
+
+## 23. Veri dosyasının kendi künyesiyle çelişmesi
+
+`ml-100k/u.info` "943 users, 100000 ratings" diyor. Aynı klasördeki `u.data`'da
+100.003 satır ve 944 kullanıcı var: birileri kendini `user_id = 0` olarak üç
+puanla dosyanın başına eklemiş. Bu depodaki `movie_recommender` projesi de aynı
+dosyayı kullanıyordu ve `metadata.json` dosyasına `"ratings": 100003,
+"users": 944` yazmıştı — sayı aylarca orada durdu, kimse künyeyle
+karşılaştırmadı.
+
+Doğru sayının ne olduğu burada önemli değil; önemli olan iki kaynağın
+çeliştiğinin hiç fark edilmemiş olması.
+
+**Düzeltme:** Veri kümesinin ilan ettiği şekil, koda sabit olarak yazılıp test
+ediliyor — `test_the_raw_file_has_the_published_shape`,
+`test_pandas_degrees_match_the_published_shape`. Dosya değişirse test
+konuşuyor.

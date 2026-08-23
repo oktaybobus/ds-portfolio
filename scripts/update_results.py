@@ -37,6 +37,9 @@ HEADLINE = {
     "recommendation": ("precision_at_10", "Precision@10"),
     "retrieval": ("mrr", "MRR"),
     "detection": ("error", "Miscount"),
+    # A graph has no single score. Reach from the chosen root is the number
+    # that says the most about the shape of this one.
+    "graph": ("reachable_fraction", "Reach"),
 }
 
 # Fallbacks for projects that do not transform their target.
@@ -151,6 +154,13 @@ def build_document() -> str:
         "  trade against context size visible.",
         "- **`object_detection` is scored as a miscount, so lower is better.** Six",
         "  of seven faces found on the reference image, zero false positives.",
+        "- **`diabetes_screening` is ranked on recall for the same reason as",
+        "  `loan_default`.** It is a screening test: a missed diabetic patient",
+        "  costs more than a false alarm. Its accuracy of 0.745 sits only 0.095",
+        "  above always answering 'not diabetic'.",
+        "- **`marvel_network` has no single score.** Reach is the fraction of the",
+        "  graph within `eccentricity` hops of Captain America; the degree",
+        "  distribution is the rest of the answer.",
         "",
     ]
     return "\n".join(lines)

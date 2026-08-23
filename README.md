@@ -34,6 +34,8 @@ uv run dsj train laptop_price
 | [`article_search`](projects/article_search) | Retrieval | TF-IDF + SVD | **MRR 0.569** | AI Agents |
 | [`object_detection`](projects/object_detection) | Detection | Haar cascade / YOLO | **6 of 7 faces** | Computer Vision |
 | [`image_classifiers`](projects/image_classifiers) | Image classification | CNN / MobileNetV2 | 7 datasets | CNN Model Training |
+| [`marvel_network`](projects/marvel_network) | Graph (PySpark) | Distributed BFS | **99.4% within 3 hops** | Big Data Hadoop Spark |
+| [`diabetes_screening`](projects/diabetes_screening) | Classification (PySpark) | MLlib logistic | **Recall 0.531** | Big Data Hadoop Spark |
 
 Every trained project is also reachable over HTTP - see [service/](service/).
 
@@ -91,8 +93,8 @@ feature engineering; everything else it needs is a function call.
 
 ## What changed on the way out of the notebooks
 
-Fifteen defects were found and fixed while porting. None of them raised an error;
-all of them silently changed results. The full list with reproductions is in
+Twenty-three defects were found and fixed while porting. None of them raised an
+error; all of them silently changed results. The full list with reproductions is in
 [docs/tr/tekrar-eden-hatalar.md](docs/tr/tekrar-eden-hatalar.md); the ones that
 mattered most:
 
@@ -140,6 +142,20 @@ surfaced a defect that had been shipping quietly in the CLI: a TF-IDF pipeline
 handed a one-column DataFrame iterates its *column names*, so every review was
 scored as the literal string `"text"`. A glowing review and a scathing one both
 came back positive at 0.696, and nothing raised.
+
+**A metric reported under the wrong name.** The Spark notebook scored its
+classifier with a `BinaryClassificationEvaluator`, left `metricName` at its
+default of `areaUnderROC`, and printed the result as `Accuracy: 0.854`. Nothing
+was broken - the label was. Real accuracy on the same predictions is 0.745,
+against 0.649 for always answering "not diabetic", so the mislabel triples the
+apparent margin over doing nothing.
+
+**Text read as UTF-8 whatever it actually was.** `Marvel-names.txt` is Latin-1
+and `book.txt` is cp1252. Spark's text reader assumes UTF-8 and substitutes
+U+FFFD for anything that fails - 269 lines in `book.txt` - so every curly
+apostrophe vanishes and `don't` is counted as two words. Its `read.text` has no
+encoding option at all; `dsjourney.spark.read_text_lines` routes through the one
+reader that does.
 
 Two data-quality findings are worth their own lines. All 16,611 duplicate rows
 in the loan dataset are charged-off loans, so the raw file overstates the
@@ -215,10 +231,18 @@ Image datasets are pulled straight from Kaggle at training time by `kagglehub`.
 | `yolo` | Ultralytics, for YOLO object detection |
 | `hub` | `huggingface-hub`, for fetching datasets |
 | `data` | `kagglehub` and `openpyxl` |
+| `spark` | PySpark, for `marvel_network` and `diabetes_screening` |
 | `dev` | pytest, ruff, mypy |
 
 On macOS, XGBoost and LightGBM need `brew install libomp`. Without it the
 registry simply offers fewer models - it does not fail.
+
+PySpark needs a JVM as well as the extra: `brew install openjdk@17`, or
+`apt install openjdk-17-jdk`. Homebrew keeps versioned JDKs off `PATH`, so
+`dsjourney.spark.java_home()` looks in the usual places and sets `JAVA_HOME`
+for the child process - no shell configuration required. Without a JVM the
+Spark tests skip themselves and the two Spark projects print the install
+command instead of failing.
 
 ## Turkish notes
 

@@ -49,6 +49,14 @@ def read_tabular(path: Path, dataset: DatasetConfig) -> pd.DataFrame:
         return pd.read_csv(path, **options)
     if dataset.format == "excel":
         return pd.read_excel(path, **options)
+    if dataset.format == "text":
+        # One row per line, so a line-oriented source (an adjacency list, a
+        # book) still answers `dsj eda-report`. The encoding is explicit and
+        # strict: these files are not all UTF-8, and a silent replacement
+        # character is how the source notebook lost punctuation.
+        encoding = str(options.pop("encoding", "utf-8"))
+        text = path.read_text(encoding=encoding, errors="strict")
+        return pd.DataFrame({"line": text.splitlines()})
     if dataset.format == "sqlite":
         if not dataset.table:
             raise ValueError(f"dataset '{dataset.id}' is sqlite but declares no table")
