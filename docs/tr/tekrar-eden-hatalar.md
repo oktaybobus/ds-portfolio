@@ -2,7 +2,9 @@
 
 Bu depo kurulurken kaynak notebook'larda bulunan ve burada düzeltilen somut
 hatalar. Hepsi sessizce yanlış sonuç üreten türden — hiçbiri hata mesajı
-vermiyordu.
+vermiyordu. İkisi (10 ve 11 numara) bu depoda yeniden üretildi ve ancak bir
+test tarafından yakalandı; bu yüzden her düzeltmenin adlandırılmış bir
+regresyon testi var.
 
 ## 1. Scaler'ı bölmeden önce eğitmek (veri sızıntısı)
 
@@ -85,7 +87,63 @@ Ham dosya %31,4 temerrüt oranı gösteriyor, temizlendikten sonra %26,7. Notebo
 **Düzeltme:** Bulgu bir testle sabitlendi:
 `test_every_duplicate_row_is_a_default`.
 
-## 8. Keras üretecini `batch_index` ile döngüden çıkmak
+## 8. Holdout olmadan tahmin çizmek
+
+```python
+model = sm.tsa.statespace.SARIMAX(df["Revenue"])
+result = model.fit()
+predictions = result.predict(len(df), len(df) + 7)
+```
+
+Model tüm seriye uyduruluyor, sonra serinin sonundan sonrası tahmin ediliyor.
+Bu tahminleri karşılaştıracak hiçbir gözlem yok, dolayısıyla "makul görünüyor"
+dışında bir yargı mümkün değil.
+
+Kronolojik holdout ile ölçüldüğünde bu SARIMAX, Adidas gelir serisinde son
+çeyreği tekrarlamaktan **%84 daha kötü** çıkıyor.
+
+**Düzeltme:** `dsjourney.forecasting.chronological_split()` son dönemleri
+ayırıyor, `compare_forecasters()` her yöntemi naive baseline'a karşı
+puanlıyor. Testi: `test_nothing_beats_naive_on_adidas_revenue`.
+
+## 9. Öneri listesinde minimum destek eşiği olmaması
+
+Notebook'un `corrwith` listesinin tepesinde, tesadüfen aynı filmi de beğenen üç
+kişinin puanladığı belirsiz başlıklar vardı. Daha kötüsü, SVD sıralamasında:
+destek eşiği olmadan precision@10 **0,0005** ölçüldü — rastgele sıralamanın
+ulaşacağı ~0,002'nin bile altında. Sebebi, bir kişinin 5 verdiği bir filmin
+ortalamasının 5,0 olması ve herkes için her şeyin üstüne çıkması.
+
+**Düzeltme:** `MIN_SUPPORT_FOR_RANKING = 20`. Tek bir sabit precision@10'u 32
+kat artırdı. Testi: `test_ranking_excludes_low_support_items`.
+
+## 10. Sözlükte eksik etiketlerin sessizce satır silmesi
+
+İstanbul konut verisinde bina yaşı haritası dört etiketi kaçırıyordu
+(`0 (Oturuma Hazır)`, `0 (Yapım Aşamasında)`, `21-25`, `31 Ve Üzeri`).
+Eşleşmeyen değerler `NaN` oldu ve `dropna()` **3.264 satırı — dosyanın %30'unu
+ve tüm yeni bina segmentini** attı.
+
+Bu hata bu depoda bir kez daha tekrarlandı: haritayı genişleten yama sessizce
+düşünce, medyanla doldurma boşlukları kapattı ve veri kullanım oranı yine %98,7
+göründü. Model 2.838 yeni binayı sekiz yaşındaymış gibi öğreniyordu ve bütün
+metrikler makul duruyordu.
+
+**Düzeltme:** Metriğe değil, veriye bakan bir test:
+`test_every_building_age_label_is_mapped` — dosyadaki her etiketin haritada
+karşılığı olduğunu doğruluyor.
+
+## 11. Log ölçeğindeki R²'yi orijinal ölçekmiş gibi raporlamak
+
+`log1p(fiyat)` üzerinde eğitilen bir modelin R²'si ile fiyat üzerindeki R²'si
+farklı sayılar. İkisini birbirinin yerine kullanmak, portfolyo metriklerini
+başka hiçbir şeyle karşılaştırılamaz hâle getiriyor.
+
+**Düzeltme:** `train_supervised(..., inverse_transform=...)` her iki ölçeği de
+raporluyor; `RESULTS.md` başlıkta orijinal ölçeği gösteriyor. Testi:
+`test_training_reports_both_scales`.
+
+## 12. Keras üretecini `batch_index` ile döngüden çıkmak
 
 ```python
 for images, labels in val_data:

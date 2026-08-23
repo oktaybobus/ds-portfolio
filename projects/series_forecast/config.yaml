@@ -1,0 +1,29 @@
+name: series_forecast
+title: Univariate Time-Series Forecasting
+task: forecasting
+summary: >-
+  Forecast two very different univariate series with the same code path: New
+  Delhi daily mean temperature (1,462 days, strong yearly seasonality) and
+  Adidas quarterly revenue (87 quarters, trend plus a quarterly cycle). Both are
+  scored on a chronological holdout against a naive baseline, which is the step
+  the source notebooks omitted entirely.
+source_notebook: "DATA SCIENCE COURSE/week10 bigdata/Day10 AOB ProphetNewDelhiWeather.ipynb"
+
+target: meantemp
+
+dataset:
+  id: delhi_climate
+  file: DailyDelhiClimateTrain.csv
+  format: csv
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  estimator: sarima
+  params:
+    order: [1, 1, 1]
+  scale_features: []
+
+metrics: [mae, rmse, mape, mase, skill_vs_naive]

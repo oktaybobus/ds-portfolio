@@ -125,3 +125,54 @@ def review_frame() -> pd.DataFrame:
             "text": positive + negative + neutral,
         }
     )
+
+
+@pytest.fixture
+def seasonal_series() -> pd.Series:
+    """Two years of daily data with a clear yearly cycle, a trend and light noise."""
+    index = pd.date_range("2020-01-01", periods=730, freq="D")
+    rng = np.random.default_rng(7)
+    day_of_year = np.arange(730) % 365
+    seasonal = 10 * np.sin(2 * np.pi * day_of_year / 365)
+    trend = np.linspace(0, 5, 730)
+    return pd.Series(20 + seasonal + trend + rng.normal(scale=0.5, size=730), index=index)
+
+
+@pytest.fixture
+def ratings_log() -> pd.DataFrame:
+    """A small interaction log with two clear taste groups and a popularity skew.
+
+    Users 0-9 like items 1-3, users 10-19 like items 4-6, and item 99 is rated
+    5 by exactly one person - the pattern that breaks unfiltered top-N ranking.
+    """
+    rows = []
+    timestamp = 1_000_000
+    for user in range(20):
+        favourites = (1, 2, 3) if user < 10 else (4, 5, 6)
+        others = (4, 5, 6) if user < 10 else (1, 2, 3)
+        for item in others:
+            rows.append((user, item, 2, timestamp))
+            timestamp += 10
+        for item in (7, 8):
+            rows.append((user, item, 3, timestamp))
+            timestamp += 10
+        # Favourites are rated last so that a chronological holdout contains
+        # liked items; otherwise precision@k has no relevant set to score.
+        for item in favourites:
+            rows.append((user, item, 5, timestamp))
+            timestamp += 10
+    rows.append((0, 99, 5, timestamp))
+    return pd.DataFrame(rows, columns=["user_id", "item_id", "rating", "timestamp"])
+
+
+@pytest.fixture
+def item_catalogue() -> pd.DataFrame:
+    """A catalogue matching ``ratings_log`` with two-genre structure."""
+    from dsjourney.recommend import GENRE_NAMES
+
+    rows = []
+    for item_id in [1, 2, 3, 4, 5, 6, 7, 8, 99]:
+        flags = dict.fromkeys(GENRE_NAMES, 0)
+        flags["action" if item_id <= 3 else "drama"] = 1
+        rows.append({"item_id": item_id, "title": f"Film {item_id}", **flags})
+    return pd.DataFrame(rows)

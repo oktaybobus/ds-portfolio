@@ -1,0 +1,35 @@
+name: movie_recommender
+title: MovieLens Recommender
+task: recommendation
+summary: >-
+  Recommend films from the MovieLens 100k interaction log using three methods -
+  item-item rating correlation, content similarity over genre vectors, and SVD
+  matrix factorisation. Scored on each user's most recent ratings, held out
+  chronologically, with RMSE alongside precision and recall at 10.
+source_notebook: "DATA SCIENCE COURSE/week10 bigdata/Day10 AOB RSSKNN.ipynb"
+
+target: null
+
+dataset:
+  id: movielens_ratings
+  file: u.data
+  format: csv
+  read_options:
+    sep: "\t"
+    header: null
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  # Rank 50 chosen by `train.py --scan`. Rank 20 gives marginally better RMSE
+  # (1.055 vs 1.059), but 50 gives the best precision@10 and recall@10 by a
+  # clear margin - and a recommender is judged on what it puts at the top of the
+  # list, not on how close its rating estimates are.
+  estimator: svd
+  params:
+    components: 50
+  scale_features: []
+
+metrics: [rmse, mae, precision_at_10, recall_at_10]

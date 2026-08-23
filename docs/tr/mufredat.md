@@ -59,7 +59,22 @@ hangi fonksiyona dönüştüğünü gösteriyor.
 
 Örnek proje: [`image_classifiers`](../../projects/image_classifiers/README.tr.md)
 
-## 9-10. Hafta — AutoML, büyük veri, öneri sistemleri
+## 10. Hafta — Zaman serisi ve öneri sistemleri
+
+| Notebook'ta | Depoda |
+|---|---|
+| `SARIMAX(df).fit()` + serinin sonundan sonrasını tahmin | `dsjourney.forecasting.chronological_split()` — holdout zorunlu |
+| `seasonal_decompose` + göz kararı yorum | `forecasting.seasonal_strength()` — trend ve mevsimsellik sayıya döküyor |
+| Karşılaştırma yok | `forecasting.compare_forecasters()` — naive baseline'a karşı skill skoru |
+| `mf.corrwith(swr)` ile benzer film listesi | `recommend.similar_by_ratings()` — minimum destek eşiğiyle |
+| Tür vektörleriyle içerik benzerliği | `recommend.similar_by_genre()` |
+| "MatrixFactorization" adlı popülerlik hesabı | `recommend.popularity_ranking()` (adı doğru) ve `recommend.fit_svd()` (gerçek ayrıştırma) |
+| Hiçbir ölçüm yok | `recommend.split_ratings()` + `evaluate_recommender()` — RMSE, precision@k, recall@k |
+
+Örnek projeler: [`series_forecast`](../../projects/series_forecast/README.tr.md),
+[`movie_recommender`](../../projects/movie_recommender/README.tr.md)
+
+## 9-10. Hafta — AutoML ve büyük veri
 
 Notebook'lardaki 150 satırlık `algo_test()` bloğu — 22 modeli sırayla eğitip
 tablo basan kod — `dsjourney.benchmark.compare_models()` oldu. Tek fark: burada

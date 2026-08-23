@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-"""Train the laptop price model.
+"""Train the Istanbul apartment price model.
 
-Equivalent to ``dsj train laptop_price``; kept as a standalone entry point so the
+Equivalent to ``dsj train istanbul_housing``; kept as a standalone entry point so the
 project can be run, scheduled or containerised on its own.
 
 Usage:
-    python projects/laptop_price/train.py
-    python projects/laptop_price/train.py --benchmark
+    python projects/istanbul_housing/train.py
+    python projects/istanbul_housing/train.py --benchmark
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ from __future__ import annotations
 import argparse
 
 from dsjourney.training import train_supervised
-from projects.laptop_price import pipeline
+from projects.istanbul_housing import pipeline
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -1,0 +1,11 @@
+{
+  "model_class": "TruncatedSVD",
+  "components": 50,
+  "holdout_per_user": 5,
+  "ratings": 100003,
+  "users": 944,
+  "films": 1682,
+  "catalogue_size": 1682,
+  "train_ratings": 95288,
+  "holdout_ratings": 4715
+}

@@ -23,11 +23,17 @@ uv run dsj train laptop_price
 
 | Project | Task | Model | Headline | Source notebook |
 |---|---|---|---|---|
-| [`laptop_price`](projects/laptop_price) | Regression | CatBoost | **R² 0.895** | Laptop Price Prediction with ML |
+| [`laptop_price`](projects/laptop_price) | Regression | CatBoost | **R² 0.805** | Laptop Price Prediction with ML |
+| [`istanbul_housing`](projects/istanbul_housing) | Regression | CatBoost | **R² 0.814** | Regression Final Project |
 | [`loan_default`](projects/loan_default) | Classification | Random forest | **Recall 0.737** | Loan Prediction - Classification |
 | [`customer_segments`](projects/customer_segments) | Clustering | KMeans, k=4 | **Silhouette 0.337** | Customer Segmentation |
 | [`review_sentiment`](projects/review_sentiment) | Text classification | TF-IDF → logistic | **F1 0.957** | NLP Class & Sentiment Analysis |
+| [`series_forecast`](projects/series_forecast) | Forecasting | Holt-Winters / naive | **+44.7% vs naive** | Prophet & Time-Series Analysis |
+| [`movie_recommender`](projects/movie_recommender) | Recommendation | Truncated SVD | **Precision@10 0.019** | RS KNN / SK22 / MatrixFactorization |
 | [`image_classifiers`](projects/image_classifiers) | Image classification | CNN / MobileNetV2 | 7 datasets | CNN Model Training |
+
+Regression headlines are on the original price scale, not the log-transformed
+target the models are fitted on - both are reported in [RESULTS.md](RESULTS.md).
 
 Full metric tables in [RESULTS.md](RESULTS.md), regenerated from
 `artifacts/*/metrics.json` rather than typed by hand.
@@ -42,6 +48,8 @@ src/dsjourney/          the reusable half - tested toolkit
   preprocess.py         pure feature transforms - nothing mutates in place
   benchmark.py          estimator registry + one-call model sweep
   evaluate.py           regression / classification / clustering metrics
+  forecasting.py        chronological splits, forecasters, skill against naive
+  recommend.py          rating splits, similarity, SVD, precision@k
   text.py               dependency-light NLP cleaning and TF-IDF pipelines
   vision.py             CNN and transfer-learning builders (TensorFlow, lazy)
   viz.py                figures returned, never shown - headless by default
@@ -50,7 +58,7 @@ src/dsjourney/          the reusable half - tested toolkit
   cli.py                the `dsj` command
 
 projects/<name>/        config.yaml, pipeline.py, train.py, app.py, READMEs
-tests/                  174 tests: unit for the toolkit, smoke per project
+tests/                  255 tests: unit for the toolkit, smoke per project
 scripts/                asset fetching and RESULTS.md generation
 ```
 
@@ -73,9 +81,9 @@ feature engineering; everything else it needs is a function call.
 
 ## What changed on the way out of the notebooks
 
-Eight defects were found and fixed while porting. None of them raised an error;
+Eleven defects were found and fixed while porting. None of them raised an error;
 all of them silently changed results. The full list with reproductions is in
-[docs/tr/tekrar-eden-hatalar.md](docs/tr/tekrar-eden-hatalar.md); the four that
+[docs/tr/tekrar-eden-hatalar.md](docs/tr/tekrar-eden-hatalar.md); the ones that
 mattered most:
 
 **Scaler leakage.** `StandardScaler` was fitted on the full frame before
@@ -96,9 +104,22 @@ customer and the "RFM" clustering was really an FM clustering.
 **Accuracy on imbalanced data.** Loan defaults are 27% of the rows; predicting
 "never defaults" scores 73%. The model is now selected and reported on recall.
 
-One data-quality finding is worth its own line: all 16,611 duplicate rows in the
-loan dataset are charged-off loans, so the raw file overstates the default rate
-by 4.7 points.
+**No holdout at all.** Both forecasting notebooks fitted a model to the entire
+series and predicted past its end, which produces a plot with nothing to
+disagree with it. Scored on a chronological holdout, the SARIMAX in one of them
+turns out to be 84% *worse* than repeating last quarter's number.
+
+**Recommendations nobody measured.** The recommender notebooks produced
+similarity lists and stopped. Adding a held-out set exposed a second problem:
+without a minimum-support floor, precision@10 measured 0.0005 - below what
+random ranking achieves - because films rated 5 by one person outranked
+everything for everyone.
+
+Two data-quality findings are worth their own lines. All 16,611 duplicate rows
+in the loan dataset are charged-off loans, so the raw file overstates the
+default rate by 4.7 points. And the Istanbul housing notebook's building-age
+map omitted four labels, so 3,264 listings - 30% of the file, and the whole
+new-build segment - became NaN and were dropped before training.
 
 ## Docker
 
@@ -139,7 +160,7 @@ build. `mypy` is strict over the whole package with no suppressions.
 
 ### Data
 
-Only `laptop_data.csv` (178 KB) is committed - it lets CI verify the full path
+Only `laptop_data.csv` (178 KB) and the two forecasting series (77 KB) are committed - it lets CI verify the full path
 from CSV to scored model with no network access. Everything else is declared in
 [`assets.yaml`](assets.yaml) and fetched by `scripts/fetch_assets.py`, which
 resolves each asset in order: already on disk, committed, copied from the
@@ -156,7 +177,7 @@ Image datasets are pulled straight from Kaggle at training time by `kagglehub`.
 
 | Extra | Adds |
 |---|---|
-| `boost` | XGBoost, CatBoost, LightGBM |
+| `boost` | XGBoost, CatBoost and LightGBM (also available singly) |
 | `dl` | TensorFlow, for `image_classifiers` |
 | `nlp` | NLTK and wordcloud (not required - `dsjourney.text` is self-contained) |
 | `app` | Streamlit |

@@ -1,0 +1,38 @@
+name: istanbul_housing
+title: Istanbul Apartment Price Prediction
+task: regression
+summary: >-
+  Predict the asking price of an Istanbul apartment from 10,735 listings scraped
+  from Emlakjet. The raw export is Turkish free text - room counts written as
+  "4.5+1", areas as "292 m2", building age as "21 Ve Uzeri" - so most of the
+  work is turning those strings into numbers a model can use.
+source_notebook: "PROJELER/project14-AOB- Regression_Final_Project/AOB_Regression_Final_Project.ipynb"
+
+target: fiyat_log
+
+dataset:
+  id: istanbul_listings
+  file: satilikdaire.xlsx
+  format: excel
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  # Chosen by `dsj train istanbul_housing --benchmark`; see README.md.
+  estimator: catboost
+  params:
+    iterations: 1200
+    depth: 10
+    learning_rate: 0.05
+    random_seed: 42
+  scale_features:
+    - brut_m2
+    - net_m2
+    - toplam_oda
+    - bina_yasi
+    - net_brut_orani
+    - oda_basi_net_m2
+
+metrics: [r2, rmse, mae, mape]

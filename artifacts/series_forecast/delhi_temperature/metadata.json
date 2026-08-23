@@ -1,0 +1,9 @@
+{
+  "model_class": "holt_winters",
+  "series": "New Delhi daily mean temperature",
+  "units": "degrees C",
+  "observations": 1462,
+  "horizon": 60,
+  "trend_strength": 0.17373237860959634,
+  "seasonal_strength": 0.9454141294706659
+}

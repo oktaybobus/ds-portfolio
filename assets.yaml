@@ -51,6 +51,56 @@ assets:
     hf_path: review_sentiment/restaurantt.csv
     description: Restaurant reviews with star ratings, mapped to sentiment labels
 
+  delhi_climate:
+    project: series_forecast
+    file: DailyDelhiClimateTrain.csv
+    size_mb: 0.08
+    committed_in_repo: true
+    local_source: "DATA SCIENCE COURSE/week10 bigdata/art intelligence/DailyDelhiClimateTrain.csv"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: series_forecast/DailyDelhiClimateTrain.csv
+    description: 1462 days of New Delhi weather - mean temperature, humidity, wind, pressure
+
+  adidas_sales:
+    project: series_forecast
+    file: adidas-quarterly-sales.csv
+    size_mb: 0.001
+    committed_in_repo: true
+    local_source: "DATA SCIENCE COURSE/week10 bigdata/art intelligence/adidas-quarterly-sales.csv"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: series_forecast/adidas-quarterly-sales.csv
+    description: 87 quarters of Adidas revenue, 2000Q1 onward
+
+  movielens_ratings:
+    project: movie_recommender
+    file: u.data
+    size_mb: 1.9
+    committed_in_repo: false
+    local_source: "DATA SCIENCE COURSE/week10 bigdata/spark/ml-100k/u.data"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: movie_recommender/u.data
+    description: MovieLens 100k - 100,000 ratings from 943 users on 1,682 films
+
+  movielens_items:
+    project: movie_recommender
+    file: u.item
+    size_mb: 0.23
+    committed_in_repo: false
+    local_source: "DATA SCIENCE COURSE/week10 bigdata/spark/ml-100k/u.item"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: movie_recommender/u.item
+    description: MovieLens 100k film catalogue with 19 binary genre flags
+
+  istanbul_listings:
+    project: istanbul_housing
+    file: satilikdaire.xlsx
+    size_mb: 1.3
+    committed_in_repo: false
+    local_source: "PROJELER/project14-AOB- Regression_Final_Project/satilikdaire.xlsx"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: istanbul_housing/satilikdaire.xlsx
+    description: 10,735 Istanbul apartment listings scraped from Emlakjet, 18 raw columns
+
 # Image datasets are pulled straight from Kaggle at training time by kagglehub;
 # they are far too large to mirror and each one is public.
 kaggle_datasets:

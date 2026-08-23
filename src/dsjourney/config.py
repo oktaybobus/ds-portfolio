@@ -17,8 +17,19 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from dsjourney.paths import PROJECTS_DIR
 
 TaskType = Literal[
-    "regression", "classification", "clustering", "text-classification", "image-classification"
+    "regression",
+    "classification",
+    "clustering",
+    "text-classification",
+    "image-classification",
+    "forecasting",
+    "recommendation",
 ]
+
+# Tasks that do not fit a features-plus-target frame: clustering has no target,
+# and a recommender is trained on an interaction log rather than rows of
+# features. Both are exempt from the target requirement.
+UNSUPERVISED_TASKS = frozenset({"clustering", "recommendation"})
 
 
 class DatasetConfig(BaseModel):
@@ -85,8 +96,12 @@ class ProjectConfig(BaseModel):
 
     @property
     def is_supervised(self) -> bool:
-        """True when the task needs a target column."""
-        return self.task != "clustering"
+        """True when the task needs a target column.
+
+        Forecasting counts as supervised: it has a target series, even though it
+        is split chronologically rather than at random.
+        """
+        return self.task not in UNSUPERVISED_TASKS
 
 
 def load_project_config(name_or_path: str | Path) -> ProjectConfig:

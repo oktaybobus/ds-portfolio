@@ -31,6 +31,10 @@ data/raw/*
 !data/raw/laptop_price/
 data/raw/laptop_price/*
 !data/raw/laptop_price/laptop_data.csv
+!data/raw/series_forecast/
+data/raw/series_forecast/*
+!data/raw/series_forecast/DailyDelhiClimateTrain.csv
+!data/raw/series_forecast/adidas-quarterly-sales.csv
 data/interim/
 # Trained models are regenerable and large (the loan forest alone is 80 MB), but
 # the evidence they produced - metrics, provenance, benchmark tables and

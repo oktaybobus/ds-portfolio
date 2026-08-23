@@ -17,6 +17,7 @@ import json
 import sys
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
@@ -25,12 +26,33 @@ from dsjourney.config import load_project_config  # noqa: E402
 from dsjourney.paths import ARTIFACTS_DIR, available_projects  # noqa: E402
 
 HEADLINE = {
-    "regression": ("r2", "R²"),
+    # Regression projects that train on a transformed target report both scales;
+    # the price-scale figure is the one a reader can interpret.
+    "regression": ("r2_original", "R²"),
     "classification": ("recall", "Recall"),
     "text-classification": ("f1", "F1"),
     "image-classification": ("accuracy", "Accuracy"),
     "clustering": ("silhouette", "Silhouette"),
+    "forecasting": ("skill_vs_naive", "Skill vs naive"),
+    "recommendation": ("precision_at_10", "Precision@10"),
 }
+
+# Fallbacks for projects that do not transform their target.
+HEADLINE_FALLBACK = {"r2_original": "r2"}
+
+
+def _render_row(name: str, config: Any, metrics: dict[str, Any], metadata: dict[str, Any]) -> str:
+    """Render one results table row."""
+    key, label = HEADLINE.get(config.task, ("", ""))
+    value = metrics.get(key, metrics.get(HEADLINE_FALLBACK.get(key, "")))
+    headline = f"**{label} {value:.3f}**" if isinstance(value, (int, float)) else "-"
+    rendered = ", ".join(
+        f"{metric} {number:.3f}"
+        for metric, number in metrics.items()
+        if isinstance(number, (int, float)) and not isinstance(number, bool)
+    )
+    model = str(metadata.get("model_class") or metrics.get("method") or "?")
+    return f"| `{name}` | {config.task} | {model} | {headline} | {rendered} |"
 
 
 def _train_hint(project: str, task: str) -> str:
@@ -70,6 +92,22 @@ def build_document() -> str:
     for project in available_projects():
         config = load_project_config(project)
         directory = ARTIFACTS_DIR / project
+
+        # Some projects train several models under one name (one per series, one
+        # per image dataset), so their metrics live a level down.
+        nested = sorted(p for p in directory.glob("*/metrics.json"))
+        if nested and not (directory / "metrics.json").is_file():
+            for path in nested:
+                lines.append(
+                    _render_row(
+                        f"{project} / {path.parent.name}",
+                        config,
+                        _read_json(path),
+                        _read_json(path.parent / "metadata.json"),
+                    )
+                )
+            continue
+
         metrics = _read_json(directory / "metrics.json")
         metadata = _read_json(directory / "metadata.json")
 
@@ -77,16 +115,7 @@ def build_document() -> str:
             untrained.append(_train_hint(project, config.task))
             continue
 
-        key, label = HEADLINE.get(config.task, ("", ""))
-        value = metrics.get(key)
-        headline = f"**{label} {value:.3f}**" if isinstance(value, (int, float)) else "-"
-        rendered = ", ".join(
-            f"{name} {number:.3f}"
-            for name, number in metrics.items()
-            if isinstance(number, (int, float))
-        )
-        model = str(metadata.get("model_class", "?"))
-        lines.append(f"| `{project}` | {config.task} | {model} | {headline} | {rendered} |")
+        lines.append(_render_row(project, config, metrics, metadata))
 
     if untrained:
         lines += [
@@ -103,11 +132,18 @@ def build_document() -> str:
         "- **`loan_default` is ranked on recall, not accuracy.** The data is 27%",
         "  defaults, so predicting 'never defaults' for everyone scores 73% accuracy",
         "  and catches nothing.",
-        "- **`laptop_price` metrics are on the log-transformed target.** MAPE is on",
-        "  the same scale; the demo app converts predictions back to currency.",
+        "- **Regression headlines are on the original target scale.** Both projects",
+        "  train on `log1p(price)`; a log-scale R² and a price-scale R² are different",
+        "  numbers, so `r2` and `r2_original` are both reported.",
         "- **`customer_segments` uses k = 4 although k = 2 scores higher.** Four",
         "  segments are actionable; two are not. The scan is in",
         "  `artifacts/customer_segments/cluster_selection.png`.",
+        "- **`series_forecast` is ranked on skill against a naive baseline.** On",
+        "  Adidas revenue that skill is 0.0 - nothing beats repeating the last",
+        "  quarter, which is a result, not a missing model.",
+        "- **`movie_recommender` precision@10 looks small by construction.** Each",
+        "  user has a handful of held-out films among 1,682 candidates; random",
+        "  ranking scores about 0.002.",
         "",
     ]
     return "\n".join(lines)

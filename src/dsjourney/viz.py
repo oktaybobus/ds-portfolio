@@ -156,6 +156,45 @@ def elbow_plot(
     return figure
 
 
+def forecast_plot(
+    train: pd.Series,
+    test: pd.Series,
+    forecast: pd.Series | np.ndarray,
+    *,
+    title: str = "Forecast",
+    context: int = 200,
+    figsize: tuple[int, int] = (11, 5),
+) -> plt.Figure:
+    """Plot the tail of the training period, the holdout, and the forecast.
+
+    Showing the holdout and the forecast on the same axes is the point: a
+    forecast drawn past the end of a fully-fitted series looks convincing no
+    matter how wrong it is, because there is nothing beside it to disagree.
+    """
+    figure, axes = plt.subplots(figsize=figsize)
+
+    recent = train.iloc[-context:] if context and len(train) > context else train
+    axes.plot(recent.index, recent.to_numpy(), label="train", color="#4c72b0", linewidth=1.2)
+    axes.plot(test.index, test.to_numpy(), label="actual (holdout)", color="#111111", linewidth=1.6)
+
+    values = forecast.to_numpy() if isinstance(forecast, pd.Series) else np.asarray(forecast)
+    axes.plot(
+        test.index[: len(values)],
+        values[: len(test)],
+        label="forecast",
+        color="#c44e52",
+        linestyle="--",
+        linewidth=1.8,
+    )
+
+    axes.axvline(test.index[0], color="grey", linestyle=":", linewidth=1)
+    axes.set_title(title)
+    axes.legend(loc="best")
+    axes.grid(alpha=0.25)
+    figure.tight_layout()
+    return figure
+
+
 def save_figure(figure: plt.Figure, path: Path, *, dpi: int = 120) -> Path:
     """Write a figure to disk, creating parent directories, and close it."""
     path.parent.mkdir(parents=True, exist_ok=True)

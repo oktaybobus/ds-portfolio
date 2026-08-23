@@ -1,0 +1,9 @@
+{
+  "model_class": "naive",
+  "series": "Adidas quarterly revenue",
+  "units": "EUR millions",
+  "observations": 88,
+  "horizon": 8,
+  "trend_strength": 0.9933805623404366,
+  "seasonal_strength": 0.8243503984604237
+}

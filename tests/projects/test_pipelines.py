@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import pytest
 
+from dsjourney import forecasting, recommend
 from dsjourney.benchmark import available_models
 from dsjourney.config import load_project_config
 from dsjourney.paths import available_projects, project_dir
@@ -21,9 +22,12 @@ def test_the_expected_projects_are_present() -> None:
     assert set(PROJECTS) == {
         "customer_segments",
         "image_classifiers",
+        "istanbul_housing",
         "laptop_price",
         "loan_default",
+        "movie_recommender",
         "review_sentiment",
+        "series_forecast",
     }
 
 
@@ -42,9 +46,17 @@ def test_pipeline_exposes_the_contract(project: str) -> None:
 
 @pytest.mark.parametrize("project", PROJECTS)
 def test_configured_estimator_exists_in_the_registry(project: str) -> None:
+    """Each task family has its own registry; a config must name one of its members."""
     config = load_project_config(project)
+
     if config.task == "image-classification":
         pytest.skip("image projects build Keras models, not registry estimators")
+    if config.task == "forecasting":
+        assert config.model.estimator in forecasting.available_models()
+        return
+    if config.task == "recommendation":
+        assert config.model.estimator in recommend.available_models()
+        return
     assert config.model.estimator in available_models(config.task)
 
 

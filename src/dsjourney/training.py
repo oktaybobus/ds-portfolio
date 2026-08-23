@@ -49,6 +49,7 @@ def train_supervised(
     benchmark: bool = False,
     save: bool = True,
     make_plots: bool = True,
+    inverse_transform: Callable[[np.ndarray], np.ndarray] | None = None,
 ) -> TrainingReport:
     """Split, fit and score a supervised model, then persist the bundle.
 
@@ -58,6 +59,12 @@ def train_supervised(
             of using the one named in the config.
         save: Write the model, metrics and plots to ``artifacts/<project>/``.
         make_plots: Render the diagnostic figures (skipped by fast unit tests).
+        inverse_transform: For a project trained on a transformed target, the
+            function that undoes it. A second set of metrics suffixed
+            ``_original`` is then reported on the scale a reader cares about -
+            R2 on ``log1p(price)`` and R2 on price are different numbers, and
+            quoting one as the other is how portfolio metrics stop being
+            comparable to anything.
     """
     if config.target is None:
         raise ValueError(f"project '{config.name}' is supervised but declares no target")
@@ -80,6 +87,8 @@ def train_supervised(
 
     predictions = model.predict(split.x_test)
     metrics = _score_supervised(config, model, split, predictions)
+    if inverse_transform is not None and config.task == "regression":
+        metrics |= _original_scale_scores(split.y_test, predictions, inverse_transform)
 
     bundle = ModelBundle(
         project=config.name,
@@ -237,6 +246,22 @@ def train_clustering(
         scaled, empty, pd.Series(labels, index=frame.index), pd.Series(dtype=float), scaler
     )
     return TrainingReport(bundle, split, np.asarray(labels), None, directory)
+
+
+def _original_scale_scores(
+    y_test: pd.Series,
+    predictions: np.ndarray,
+    inverse_transform: Callable[[np.ndarray], np.ndarray],
+) -> dict[str, float]:
+    """Score a regression on the untransformed target scale.
+
+    Both sides are inverted, so this answers "how far off is the predicted price
+    in currency?" rather than "how far off is the predicted logarithm?".
+    """
+    restored_truth = inverse_transform(np.asarray(y_test, dtype=float))
+    restored_prediction = inverse_transform(np.asarray(predictions, dtype=float))
+    scores = evaluate.regression_scores(restored_truth, restored_prediction)
+    return {f"{name}_original": value for name, value in scores.items()}
 
 
 def _score_supervised(

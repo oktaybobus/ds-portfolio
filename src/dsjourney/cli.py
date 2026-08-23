@@ -115,7 +115,13 @@ def train(
     report = (
         train_clustering(config, features, save=save)
         if config.task == "clustering"
-        else train_supervised(config, features, benchmark=benchmark, save=save)
+        else train_supervised(
+            config,
+            features,
+            benchmark=benchmark,
+            save=save,
+            inverse_transform=getattr(module, "postprocess", None),
+        )
     )
 
     console.print(f"[green]{report.summary()}[/green]")
