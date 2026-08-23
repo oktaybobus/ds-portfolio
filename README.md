@@ -100,6 +100,21 @@ One data-quality finding is worth its own line: all 16,611 duplicate rows in the
 loan dataset are charged-off loans, so the raw file overstates the default rate
 by 4.7 points.
 
+## Docker
+
+The image ships the CLI, the tabular projects and the Streamlit apps, with
+`dsj` as its entrypoint - so the arguments you pass are the subcommand:
+
+```bash
+docker build -t ds-portfolio .
+docker run --rm ds-portfolio list
+docker run --rm -v "$PWD/artifacts:/app/artifacts" ds-portfolio train laptop_price
+```
+
+TensorFlow and XGBoost are left out on purpose: the first would add ~2 GB for
+projects whose data is downloaded at training time anyway, the second pulls
+~326 MB of CUDA runtime a CPU-only image never touches.
+
 ## Development
 
 ```bash

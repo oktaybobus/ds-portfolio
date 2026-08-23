@@ -110,5 +110,12 @@ jobs:
       - name: Build image
         run: docker build -t ds-portfolio:ci .
 
+      # ENTRYPOINT is `dsj`, so the arguments are the subcommand - not `dsj train`.
       - name: Train inside the image
-        run: docker run --rm ds-portfolio:ci dsj train laptop_price
+        run: docker run --rm ds-portfolio:ci train laptop_price
+
+      - name: Score a record inside the image
+        run: |
+          docker run --rm ds-portfolio:ci predict laptop_price \
+            --json '{"company":"Dell","type_name":"Gaming","ram_gb":16,"ssd_gb":512}'
+
