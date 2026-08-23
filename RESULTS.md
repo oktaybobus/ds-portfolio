@@ -8,12 +8,14 @@ Last generated: 2026-08-23
 
 | Project | Task | Model | Headline | All metrics |
 |---|---|---|---|---|
+| `article_search` | retrieval | TfidfSVD | **MRR 0.569** | probes 300.000, recall_at_1 0.470, recall_at_5 0.737, mrr 0.569, passage_at_5 0.627, context_words 1398.173, hits_per_1k_words 0.448 |
 | `bart_ridership` | regression | HistGradientBoostingRegressor | **R² 0.818** | r2 0.818, rmse 0.457, mae 0.354, mape 0.282, r2_original 0.818, rmse_original 14.234, mae_original 4.497, mape_original 0.602 |
 | `customer_segments` | clustering | KMeans | **Silhouette 0.337** | silhouette 0.337, calinski_harabasz 1701.229, davies_bouldin 0.888 |
 | `istanbul_housing` | regression | CatBoostRegressor | **R² 0.814** | r2 0.849, rmse 0.240, mae 0.179, mape 0.093, r2_original 0.814, rmse_original 3.219, mae_original 1.889, mape_original 0.218 |
 | `laptop_price` | regression | CatBoostRegressor | **R² 0.805** | r2 0.895, rmse 0.195, mae 0.138, mape 0.013, r2_original 0.805, rmse_original 17443.991, mae_original 8849.380, mape_original 0.140 |
 | `loan_default` | classification | RandomForestClassifier | **Recall 0.737** | accuracy 0.680, precision 0.441, recall 0.737, f1 0.552, roc_auc 0.775 |
 | `movie_recommender` | recommendation | TruncatedSVD | **Precision@10 0.019** | rmse 1.059, mae 0.846, precision_at_10 0.019, recall_at_10 0.061, evaluated_users 820.000 |
+| `object_detection` | detection | HaarCascade | **Miscount 1.000** | detected 6.000, expected 7.000, error 1.000 |
 | `review_sentiment` | text-classification | Pipeline | **F1 0.957** | accuracy 0.934, precision 0.975, recall 0.939, f1 0.957, roc_auc 0.978 |
 | `series_forecast / adidas_revenue` | forecasting | naive | **Skill vs naive 0.000** | mae 879.250, rmse 1132.862, mape 0.209, mase 1.169, skill_vs_naive 0.000 |
 | `series_forecast / delhi_temperature` | forecasting | holt_winters | **Skill vs naive 0.447** | mae 2.169, rmse 2.616, mape 0.111, mase 1.749, skill_vs_naive 0.447 |
@@ -39,3 +41,8 @@ Last generated: 2026-08-23
 - **`movie_recommender` precision@10 looks small by construction.** Each
   user has a handful of held-out films among 1,682 candidates; random
   ranking scores about 0.002.
+- **`article_search` reports two levels plus a cost.** Document recall
+  always favours bigger chunks; `hits_per_1k_words` is what makes the
+  trade against context size visible.
+- **`object_detection` is scored as a miscount, so lower is better.** Six
+  of seven faces found on the reference image, zero false positives.

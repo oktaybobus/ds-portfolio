@@ -1,0 +1,37 @@
+name: object_detection
+title: Face and Object Detection
+task: detection
+summary: >-
+  Detect faces with Haar cascades and objects with YOLO on a set of sample
+  photographs. Every function returns an array or a figure rather than opening
+  a desktop window, and the cascade parameters are chosen by measuring them
+  against a known face count instead of left at the tutorial defaults - which,
+  on the test image, find zero faces out of seven.
+source_notebook: "DATA SCIENCE COURSE/week8 Computer vision/Day8 AOB Computer Vision.ipynb"
+
+target: null
+
+dataset:
+  id: cv_samples
+  file: images
+  format: csv
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  # Chosen by sweeping against g8.jpg, which has seven clearly frontal faces:
+  #   1.05 / 3-8  -> 6 faces
+  #   1.10 / 8    -> 5 faces
+  #   1.20 / 8    -> 2 faces
+  #   1.30 / 5    -> 0 faces
+  # 1.30 is a common tutorial value and finds nothing here.
+  estimator: haar_cascade
+  params:
+    scale_factor: 1.05
+    min_neighbours: 5
+    min_size: 24
+  scale_features: []
+
+metrics: [detected, expected, error]

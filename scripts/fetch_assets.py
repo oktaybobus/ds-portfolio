@@ -41,10 +41,18 @@ class Asset:
     hf_repo: str | None
     hf_path: str | None
     description: str
+    directory: bool = False
+    copy_patterns: tuple[str, ...] = ()
 
     @property
     def destination(self) -> Path:
-        return RAW_DIR / self.project / self.file
+        """Where the asset lands.
+
+        Directory assets are unpacked *into* data/raw/<project>/ rather than
+        into a subfolder, so a project reads its files from one place whether
+        they arrived as a tree or as a single download.
+        """
+        return RAW_DIR / self.project if self.directory else RAW_DIR / self.project / self.file
 
 
 def load_assets() -> list[Asset]:
@@ -61,6 +69,8 @@ def load_assets() -> list[Asset]:
             hf_repo=entry.get("hf_repo"),
             hf_path=entry.get("hf_path"),
             description=str(entry.get("description", "")),
+            directory=bool(entry.get("directory", False)),
+            copy_patterns=tuple(entry.get("copy_patterns", ()) or ()),
         )
         for key, entry in (document.get("assets") or {}).items()
     ]
@@ -69,13 +79,15 @@ def load_assets() -> list[Asset]:
 def fetch(asset: Asset, *, force: bool = False) -> str:
     """Make one asset available on disk and report how it got there."""
     destination = asset.destination
-    if destination.is_file() and not force:
+    if _present(asset) and not force:
         return "present"
 
     destination.parent.mkdir(parents=True, exist_ok=True)
 
     if asset.local_source:
         source = COURSE_ROOT / asset.local_source
+        if asset.directory and source.is_dir():
+            return f"copied {_copy_tree(asset, source)} file(s) from {source.name}/"
         if source.is_file():
             shutil.copy2(source, destination)
             return f"copied from {source.parent.name}/"
@@ -95,6 +107,27 @@ def fetch(asset: Asset, *, force: bool = False) -> str:
         return f"downloaded from {asset.hf_repo}"
 
     return "MISSING (no local source and no Hub location declared)"
+
+
+def _present(asset: Asset) -> bool:
+    """True when the asset is already on disk."""
+    if not asset.directory:
+        return asset.destination.is_file()
+    return asset.destination.is_dir() and any(asset.destination.iterdir())
+
+
+def _copy_tree(asset: Asset, source: Path) -> int:
+    """Copy a directory asset's files, honouring copy_patterns when given."""
+    asset.destination.mkdir(parents=True, exist_ok=True)
+    patterns = asset.copy_patterns or ("*",)
+
+    copied = 0
+    for pattern in patterns:
+        for path in sorted(source.glob(pattern)):
+            if path.is_file():
+                shutil.copy2(path, asset.destination / path.name)
+                copied += 1
+    return copied
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -119,7 +152,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.list or not (args.all or args.project):
         print(f"{'asset':24} {'project':20} {'size':>8}  status")
         for asset in load_assets():
-            status = "present" if asset.destination.is_file() else "missing"
+            status = "present" if _present(asset) else "missing"
             print(f"{asset.key:24} {asset.project:20} {asset.size_mb:>6.1f}MB  {status}")
         return 0
 

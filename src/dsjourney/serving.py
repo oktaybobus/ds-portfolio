@@ -153,7 +153,9 @@ def _cached_bundle(name: str) -> ModelBundle:
 # These task families produce a series, a ranked list or a label for a file -
 # never a score for one row of features - so the record endpoint does not apply
 # to them however well trained they are.
-NON_RECORD_TASKS = frozenset({"forecasting", "recommendation", "image-classification"})
+NON_RECORD_TASKS = frozenset(
+    {"forecasting", "recommendation", "image-classification", "retrieval", "detection"}
+)
 
 
 def _servability(name: str, config: ProjectConfig, *, trained: bool) -> tuple[bool, str]:

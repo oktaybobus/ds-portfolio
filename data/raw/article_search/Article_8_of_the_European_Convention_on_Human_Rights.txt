@@ -1,0 +1,95 @@
+Article 8 of the European Convention on Human Rights provides a right to respect for one's "private and family life, his home and his correspondence", subject to certain restrictions that are "in accordance with law" and "necessary in a democratic society". The European Convention on Human Rights (ECHR) (formally the Convention for the Protection of Human Rights and Fundamental Freedoms) is an international treaty to protect human rights and fundamental freedoms in Europe.
+
+
+== Right ==
+Article 8 – Right to respect for private and family life
+Everyone has the right to respect for his private and family life, his home and his correspondence.
+There shall be no interference by a public authority with the exercise of this right except such as is in accordance with the law and is necessary in a democratic society in the interests of national security, public safety or the economic well-being of the country, for the prevention of disorder or crime, for the protection of health or morals, or for the protection of the rights and freedoms of others.
+Article 8 is considered to be one of the convention's most open-ended provisions.
+
+
+=== Structure ===
+The European Court of Human Rights applies a structured test when reviewing complaints under Article 8. First, the applicant must show that the matter falls within the scope of one of the four protected interests: private life, family life, home or correspondence. Once Article 8 is engaged, the Court considers whether the case involves a negative obligation or a positive obligation. A negative obligation requires the State to refrain from interfering with the right. A positive obligation requires the State to take active steps to secure the right, and this can extend to disputes between private parties. 
+Where the case involves a negative obligation, Article 8(2) provides three conditions that any interference must meet. These consist of the interference being in accordance with the law, it must pursue one of the legitimate aims listed in the provision and it must also be necessary in a democratic society.
+The condition "in accordance with the law" requires more than just compliance with domestic law. It also requires the law to be accessible, foreseeable in its effects and supported by adequate safeguards against arbitrary use. "Necessary in a democratic society" raises the question as to whether the interference responds to a "pressing social need" and is proportionate to the aim pursued.
+
+
+=== Family life ===
+In X, Y, and Z v. UK, the Court recalls that "the notion of 'family life' in Article 8 is not confined solely to families based on marriage and may encompass other de facto relationships. When deciding whether a relationship can be said to amount to 'family life', a number of factors may be relevant, including whether the couples live together, the length of their relationship and whether they have demonstrated their commitment to each other by having children together or by any other means.
+
+
+=== Home ===
+In Niemietz v Germany case the court gave broader meaning to the 'home' notion including professional/business premises such as a lawyer's office.
+
+
+=== Private life ===
+For better understanding of perception of "private life" case law should be analyzed. In Niemietz v. Germany, the Court held that it "does not consider it possible or necessary to attempt an exhaustive definition of the notion of 'private life'. However, it would be too restrictive to limit the notion to an 'inner circle' in which the individual may live his own personal life as he choose and to exclude therefrom entirely the outside world not encompassed within that circle. Respect for private life must also comprise to a certain degree the right to establish and develop relationship and develop relationship with other human beings."
+
+
+=== Same-sex relationships and family life ===
+The Court's case law on same-sex relationships under Article 8 has developed significantly since the early 1980s. In Dudgeon v United Kingdom (1981) the Court held that the criminalisation of consensual homosexual conduct between adult men in Northern Ireland constituted an unjustified interference with the applicant's right to respect for private life. The Court found that the legislation was disproportionate to any legitimate aim pursued and amounted to a violation of Article 8. 
+The Court initially treated same-sex relationships as falling within the scope of "private life" rather than "family life". This changed in Schalk and Kopf v Austria (2010), where the Court held for the first time that a cohabiting same-sex couple living in a stable de facto partnership fell within the notion of "family life" under Article 8, in the same way as a different-sex couple in the same situation. However, the Court did not find a right for same-sex couples to marry under Article 12 or to obtain a legal status equivalent to marriage under Article 8.
+The Court took this development further in Oliari and Others v Italy (2015). The Court held that Italy's failure to provide any legal framework for the recognition and protection of same-sex couples violated Article 8. The Court emphasised the emerging European consensus in favour of legal recognition and the absence of any particular community interest justifying Italy's lack of action.
+
+
+=== Environmental rights ===
+The Court held that severe environmental harm affecting the home or private life can engage Article 8, even in circumstances where the State itself is not the cause of the harm. In López Ostra v Spain (1994), the applicant lived near a waste-treatment plant whose fumes caused health problems for her family. The Court held that severe environmental pollution can engage Article 8 by interfering with individuals' enjoyment of their homes and their private and family life.The Court extended this approach in Tatar v Romania (2009) where a cyanide spill from a gold mine in Baia Mare had caused serious environmental damage. The Court held that the Romanian authorities had failed in their positive obligation under Article 8 to assess the risks adequately and to inform those affected of those dangers.
+
+
+== Case law ==
+Article 8 clearly provides a right to be free of unlawful searches, but the Court has given the protection for "private and family life" that this article provides a broad interpretation, taking for instance that prohibition of private consensual homosexual acts violates this article. This may be compared to the jurisprudence of the United States Supreme Court, which has also adopted a somewhat broad interpretation of the right to privacy. Furthermore, Article 8 sometimes comprises positive obligations: whereas classical human rights are formulated as prohibiting a State from interfering with rights, and thus not to do something (e.g. not to separate a family under family life protection), the effective enjoyment of such rights may also include an obligation for the State to become active, and to do something (e.g. to enforce access for a divorced father to his child).
+
+Golder v. United Kingdom (1975) 1 EHRR 524 – A prisoner requested a lawyer because he said he wanted to sue a guard for defamation. Access was denied. This violated the right to a fair trial (Article 6 ECHR) and client confidentiality.
+Silver v. United Kingdom (1981) 3 EHRR 475 – Censorship of a prisoner's correspondence regarding conditions in prison breached Article 8.
+R v Brown [1994] 1 AC 212 and Laskey, Jaggard and Brown v United Kingdom – Article 8 was deemed not to "[invalidate] a law which forbids violence which is intentionally harmful to body and mind" (specifically, assault occasioning actual bodily harm as part of consensual sadomasochistic sex acts) by the UK House of Lords (sitting as the highest court of appeal). The ECtHR likewise found the judgment was not a breach of Article 8.
+Rotaru v. Romania [2000] ECHR 192 – Public information that is systematically collected and stored in files held by a state or its agents falls within the scope of private life.
+Pretty v. United Kingdom (2002) – Article 8 extends to protect the right to die. Like with articles 9, 10 and 11, it can be interfered with provided there is valid justification, as there was in Pretty.
+Mosley v News Group Newspapers [2008] EWHC 1777 (QB) — Equitable breach of confidence is extended to protect Art. 8 rights.
+S and Marper v United Kingdom [2008] ECHR 1581 – Retention of DNA information in respect of persons arrested but not convicted of an offence was held to breach Article 8.
+A, B and C v Ireland [2010] ECHR 2032 – Article 8 does not confer a "right to abortion", but the Republic of Ireland breached it by making it difficult for a woman to establish whether she qualifies for a legal abortion.
+Gillan and Quinton v United Kingdom [2010] ECHR 28 – Stop and search powers granted to police under ss. 44–47 of the Terrorism Act 2000 were neither sufficiently circumscribed nor subject to adequate legal safeguards against abuse. As such, the Court found the powers not to be "in accordance with the law", in violation of Article 8.
+Birmingham City Council v Clue [2010] EWCA Civ 460 – A challenge to the decision to refuse to provide Ms Clue and her family with essential support pending the UK Border Agency's determination of her application for indefinite leave to remain in the UK. The Court of Appeal extended the scope of community care provision for families subject to immigration control who seek to remain in the UK on Article 8 ECHR grounds.
+Plantagenet Alliance v Ministry of Justice and others [2014] EWHC 1662 – Article 8 did not entitle modern-day descendants of the House of Plantagenet to be consulted on the place of re-interment of Richard III.
+Zakharov v. Russia (2015) – The Court examined Russian surveillance legislation in abstracto, finding unanimously that the existence of inadequate legislation and its application in practice themselves amounted to a violation of the applicant's rights under Article 8.
+The Northern Ireland Human Rights Commission's Application [2015] NIQB 96 – The Queen's Bench in Northern Ireland issued a declaration of incompatibility with Article 8 in respect of Northern Ireland's criminalization of abortion in cases of fatal foetal abnormality, rape or incest.
+Aycaguer v. France (2017) – ECtHR found France's use of biological sampling for criminal DNA databases to be a violation of Article 8 in the case of Jean-Michel Aycaguer, a French national convicted of non-violent crime. Importantly, the court did not find the entire practice to be in violation, but claimed that the seriousness of Aycaguer's crimes did not constitute a situation wherein public interest outweighed his right to privacy in his private life.
+H.W. v. France (2025) – ECtHR held that a French woman was not at fault for her divorce due to not engaging in sexual relations with her husband. The ruling overturned French court decisions that deemed her failure to fulfil "marital duties" (devoir conjugal, i.e. sexual intercourse) as grounds for fault.
+The notion of private life in the Article 8 is also interpreted as including some duty of environmental protection.
+
+
+=== Cases involving LGBTQ rights ===
+The following cases deal with the applicability of Article 8 to issues related to LGBTQ people including the recognition of same-sex marriage, laws prohibiting sodomy, and access to health services for transgender people.
+
+Modinos v. Cyprus (1993) – Ruling invalidating Section 171 of the Criminal Code of Cyprus under which male homosexual acts were banned, finding that there had been a breach under Article 8 of the applicant's right to respect for private life.
+Smith and Grady v United Kingdom (1999) 29 EHRR 493 – The investigation into and subsequent discharge of personnel from the Royal Navy on the basis of sexual orientation was a breach of the right to a private life under Article 8.
+Goodwin v United Kingdom (2002) — Ruled that a transgender woman's right to a private life had been inadequately protected. The ruling was a factor in the introduction of the Gender Recognition Act 2004.
+Van Kück v. Germany  [2003] ECHR 285 – Inadequate access to a fair hearing in a case involving reimbursement by a private medical insurer for costs of hormone replacement therapy and gender reassignment surgery by a transsexual woman, where undue burden had been placed upon her to prove the medical necessity of the treatment, was a violation under Article 8 and Article 6 § 1.
+Oliari and Others v Italy (2015) – Italy violated Article 8 by not providing legal recognition to same-sex couples.
+R (Christie Elan-Cane) v Secretary of State for the Home Department [2020] EWCA Civ 363 – UK courts held that issues of gender engaged Article 8 as gender was central to a person's private life.
+
+
+== Mass surveillance ==
+Mass surveillance, such as by the programmes revealed in Edward Snowden's global surveillance disclosures, is often accused of violating the 8th article of the European Convention on Human Rights.
+A 2014 report to the UN General Assembly by the United Nations' top official for counter-terrorism and human rights condemned mass electronic surveillance as a clear violation of core privacy rights guaranteed by multiple treaties and conventions and makes a distinction between "targeted surveillance" – which "depend[s] upon the existence of prior suspicion of the targeted individual or organization" – and "mass surveillance", by which "states with high levels of Internet penetration can [] gain access to the telephone and e-mail content of an effectively unlimited number of users and maintain an overview of Internet activity associated with particular websites". Only targeted interception of traffic and location data in order to combat serious crime, including terrorism, is justified, according to a decision by the European Court of Justice.
+The European Court of Human Rights has examined the application of Article 8 to modern surveillance practices in a series of judgments. In Big Brother Watch and Others v United Kingdom (2021), the Grand Chamber considered the United Kingdom's bulk interception of communications, the receipt of intercepted material from foreign intelligence services and the acquisition of communications data from communication service providers. The Court recognised that bulk interception in itself is not contrary to the Convention but held the United Kingdom's regime under section 8(4) of the Regulation of Investigatory Powers Act 2000 violated Article 8 because it did not contain sufficient end-to-end safeguards against arbitrariness and abuse, including the absence of independent authorisation.  
+The Grand Chamber in Bărbulescu v Romania (2017) addressed the workplace surveillance. The applicant had been dismissed after his employer monitored his Yahoo Messenger account, which had been set up for work purposes. The Court held that an employer's instructions cannot reduce private social life in the workplace to zero, and that the Romanian courts had failed to strike a fair balance between the applicant's privacy and his employer's interests. Romania was found to be in breach of its positive obligations under Article 8. 
+In Glukhin v Russia  (2023) the Court examined the use of facial recognition technology for the first time. Russian authorities located and identified the applicant, who had taken part in a peaceful solo demonstration on the Moscow underground, by using facial recognition technology. The Court characterised facial recognition as a particularly invasive form of surveillance and held that its use against a peaceful protester, in the absence of detailed rules and adequate safeguards in domestic law, was incompatible with the requirements of Article 8.
+
+
+== See also ==
+Article 10 of the European Convention on Human Rights
+Entick v Carrington
+Semayne's case
+
+
+== Notes ==
+
+
+== External links ==
+A guide to the implementation of Article 8 of the European Convention on Human Rights (PDF)
+Guide on Article 8 of the European Convention on Human Rights (PDF)
+
+
+== Further reading ==
+The Marckx Case - The Impact on European Jurisprudence of the European Court of Human Rights' 1979 Marckx Decision Declaring Belgian Illegitimacy Statutes Violative of the European Convention on Human Rights
+The Right to Respect for Private and Family Life: New Case-Law on Art. 8 of the European Convention on Human Rights

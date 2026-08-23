@@ -176,3 +176,31 @@ def item_catalogue() -> pd.DataFrame:
         flags["action" if item_id <= 3 else "drama"] = 1
         rows.append({"item_id": item_id, "title": f"Film {item_id}", **flags})
     return pd.DataFrame(rows)
+
+
+@pytest.fixture
+def tiny_corpus() -> dict[str, str]:
+    """Three short documents on clearly separate topics."""
+    return {
+        "solar": (
+            "Photovoltaic panels convert sunlight directly into electricity. "
+            "A solar farm needs land, sunshine and a grid connection. "
+            "Panel efficiency has risen steadily while installation cost has fallen. "
+            "Storage remains the limiting factor for overnight supply. "
+        )
+        * 4,
+        "whales": (
+            "Humpback whales migrate thousands of kilometres between feeding and breeding grounds. "
+            "Their songs travel far through deep water. "
+            "Commercial whaling reduced several populations to near extinction. "
+            "Protection measures have allowed a slow recovery. "
+        )
+        * 4,
+        "bridges": (
+            "A suspension bridge carries its deck from cables slung between towers. "
+            "The cables transfer load to anchorages at either end. "
+            "Wind-induced oscillation destroyed the Tacoma Narrows bridge. "
+            "Modern decks are shaped to shed vortices. "
+        )
+        * 4,
+    }

@@ -1,0 +1,88 @@
+The Charter of Human Rights and Freedoms (French: Charte des droits et libertés de la personne, pronounced [ʃaʁt de dʁwa e libɛʁte də la pɛʁsɔn]), also known as the "Quebec Charter", is a statutory bill of rights and human rights code passed by the National Assembly of Quebec on June 27, 1975.  It received royal assent from Lieutenant Governor Hugues Lapointe, coming into effect on June 28, 1976. Introduced by the Liberal government of Robert Bourassa, the Charter followed extensive preparatory work that began under the Union Nationale government of Daniel Johnson.
+The Charter recognizes that every person on the territory of Quebec is equal in value and in dignity. Since the Charter aims to guarantee human rights and to harmonize the relations between citizens, and between citizens and institutions, the Charter binds the state (legislature, executive, administrative) and applies to private law relations (between persons). The Charter also establishes the Commission des droits de la personne et des droits de la jeunesse (Human Rights and Youth Rights Commission, also known by its acronym "CDPDJ"), charged to promote and apply the Charter, and the Human Rights Tribunal of Québec (French: Tribunal des droits de la personne).
+The Charter ranks among other quasi-constitutional Quebec laws, such as the Charter of the French Language and the Act respecting Access to documents held by public bodies and the Protection of personal information. Having precedence over all provincial legislation (including the latter), the Charter of Human Rights and Freedoms stands at the pinnacle of Quebec's legal system. Only the Constitution of Canada, including the Canadian Charter of Rights and Freedoms, enjoys priority over the Quebec charter. Other Canadian provinces and territories have adopted similar laws.
+
+
+== Provisions ==
+The Charter of Human Rights and Freedoms consists of seven parts:
+
+Part I defines fundamental human rights. Its six chapters enunciate fundamental freedoms and rights, equality rights, political rights, judicial rights, economic and social rights, and interpretative provisions.
+Part II establishes the Commission des droits de la personne et des droits de la jeunesse. The commission is responsible for promoting and upholding the principles of the charter by any appropriate measures, including investigating possible cases of discrimination and the instigation of litigation. Members of the commission are appointed by the National Assembly. The commission's staff members do not belong to the Civil Service, in order to safeguard their independence.
+Part III provides for affirmative action programs.
+Part IV guarantees rights to privacy.
+Part V gives the government regulatory powers.
+Part VI establishes the Human Rights Tribunal of Quebec, whose members that hold the decision-making power are chosen from among the judiciary.
+Part VII provides the final dispositions of the Charter, as well as some punitive sanctions.
+
+
+== Comparison with other human rights instruments ==
+The Charter of Human Rights and Freedoms is unique among Canadian (and North American) human rights documents in that it covers not only the fundamental (civil and political) human rights but also a number of important social and economic rights. The protections contained in the Charter are inspired by the Universal Declaration of Human Rights, the International Covenant on Civil and Political Rights and the International Covenant on Economic, Social and Cultural Rights.
+Furthermore, the list of prohibited grounds of discrimination included in the Quebec Charter is extensive; a total of fourteen prohibited grounds are enumerated, including race, colour, ethnic or national origin, sex, pregnancy, age, disability, and language. "Social condition" has been a prohibited ground of discrimination since the charter came into force. Discrimination based on sexual orientation has been prohibited since 1977; with that change, Quebec became the first jurisdiction larger than a city or county to prohibit anti-gay discrimination. In 2016, gender identity or expression was added to the Quebec Charter.
+
+
+== Enforceability ==
+
+
+=== Enforceability to the public and private sectors ===
+Every person, group, institution, private persons, public and private services, as well as the government of Quebec (its institution and the municipal and school governmental administration) are bound by the Charter. Therefore, an illicit violation of the Charter, whether by a private party or by the provincial Crown, may give rise to a cease-and-desist order and to compensation for damages. Punitive damages may be awarded in case of an intentional and unlawful violation.
+The Quebec Charter does not apply to federally regulated activities in Quebec, such as the federal public services, banks, telecom companies (e.g.: CBC, Bell, Rogers), and air, rail, or sea transport services (e.g.: Air Canada, Via Rail). Those are subject to the Canadian Charter of Rights and Freedoms and/or the Canadian Human Rights Act.
+
+
+=== Quasi-constitutional status ===
+The Charter of Human Rights and Freedoms is called quasi-constitutional because, according to section 52, no provision of any other Act passed by the Quebec National Assembly may derogate from sections 1 to 38, unless such Act expressly states that it applies despite the charter (roughly acting as an equivalent opt-out to the notwithstanding clause of the Canadian Charter of Rights and Freedoms). A total impossibility to adopt derogating laws could be considered incompatible with parliamentary sovereignty, a fundamental principle in political systems following the British tradition; however, Canada, of which Quebec is a province, has a tradition of constitutional supremacy. Its Constitution, which includes the Canadian Charter of Rights and Freedoms, is supreme, binding the federal parliament and the legislative assemblies of Canada's provinces and territories.
+
+
+=== The non-supremacy of economic and social rights ===
+The Quebec Charter's supremacy under its section 52 applies to the following categories of rights: fundamental rights and freedoms (the right to life, free speech, freedom of religion, the right to privacy, etc.); the right to equality; political rights; and judicial rights.  Economic and social rights do not enjoy supremacy but, according to the Supreme Court of Canada in the 2002 case of Gosselin v. Quebec (Attorney General), failure to respect such a right may give rise to a judicial declaration of violation.
+
+
+=== The Human Rights Commission and the Human Rights Tribunal ===
+The Charter provides for specific machinery in cases of discrimination (or exploitation of an elderly person or person with a disability). Instead of introducing litigation in court, victims of such a violation may file a complaint with the Human Rights and Youth Rights Commission. The commission will investigate the matter and attempt to foster a settlement between the parties. It may recommend corrective measures. If those are not followed, the commission may introduce litigation before a court (usually, but not necessarily, the Human Rights Tribunal). Victims can be represented free of charge by the commission (subject to the commission's discretion).
+
+
+== History ==
+The Charter of Human Rights and Freedoms followed extensive preparatory work that began under the Union Nationale government of Daniel Johnson.
+Before the adoption of the Charter, Quebec did not have a Bill of Rights, unlike some of the other provinces. At that time, the Civil Code (Code civil du Bas-Canada) served to protect some Human Rights and Freedoms. The Ligue des droits de l'Homme (now the Ligue des droits et libertés) convinced the government of the importance of protecting Human Rights through a specific law. Many famous law professors at the time, such as Paul-André Crépeau, Jacques-Yvan Morin and Frank Scott, took part in drafting the Bill that would eventually become the Quebec Charter.
+On October 29, 1974, the minister of Justice, the liberal Jérôme Choquette, introduced the Bill before the National Assembly of Quebec. The Charter was adopted unanimously by the Assembly on June 27, 1975, and came into force on June 28, 1976.
+Since it came into force, the Charter was modified many times in order to better guarantee Human Rights:
+
+1977: Sexual orientation was added amongst the forbidden ground of discrimination (s. 10).
+1979: The right of every worker to fair and reasonable conditions of employment which have proper regard for his health, safety and physical well-being was added amongst the economic and social rights (s. 46).
+1982: The Charter is modified in order to forbid discriminatory harassment (s. 10.1), discrimination in employment based on criminal records (s. 18.2), as well as discrimination based on disability, pregnancy, and age (s. 10). Part III of the Charter, which regulates Affirmative action programs, was also added.
+1989: Part IV of the Charter was added, in order to create a Human Rights Tribunal. Part II of the Charter, regarding the role and powers of the Human Rights Commission, was modified accordingly.
+2006: The right of every person to live in a healthful environment in which biodiversity is preserved was added amongst the economic and social rights (s. 46.1).
+2008: The Charter provides that all rights and freedoms must be guaranteed equally between men and women (s. 50.1).
+2019: The principle of State laicity (State secularism) is added at s. 9.1 and to the Preamble of the Charter.
+2022: The importance of protecting the French language is added to s. 9.1 and to the Preamble of the Charter. The Charter also guarantees the right to live in French (s. 3.1) and a new paragraph was added to s. 50, according to which the Charter cannot be interpreted in a way that would suppress or restrict a right that aims to protect French language.
+Note that except when the legislator modifies the text of the Charter, the evolution of the Charter and the interpretation of its disposition are the result not only from the decisions of the courts, but also from the struggles carried out by civil society.
+
+
+== Notable case law ==
+Notable cases decided under the Charter include:
+
+Ford v. Quebec (Attorney General), [1988] 2 S.C.R. 712 : Freedom of expression and signs
+Devine v. Quebec (Attorney General) [1988] 2 S.C.R. 790 : Freedom of expression
+Tremblay v. Daigle [1989] 2 S.C.R. 530 : Abortion
+Godbout v. Longueuil (City), [1997] 3 S.C.R. 844 : Residency requirements
+Aubry v. Éditions Vice-Versa inc., [1998] 1 S.C.R. 591 : Privacy rights
+Quebec (Commission des droits de la personne et des droits de la jeunesse) v. Montreal (City of); Quebec (Commission des droits de la personne et des droits de la jeunesse) v. Boisbriand (City of), 2000 SCC 27 : Discrimination based on disability (handicap)
+Gosselin v. Quebec (Attorney General) [2002] 4 S.C.R. 429, 2002 SCC 84 : Social rights
+Syndicat Northcrest v. Amselem [2004] 2 S.C.R. 551 : Freedom of religion
+Gosselin (Tutor of) v. Quebec (Attorney General) [2005] 1 S.C.R. 238 : Minority language education
+Chaoulli v. Quebec (Attorney General) [2005] 1 S.C.R. 791 : Health care
+Mouvement laïque québécois v. Saguenay (City), 2015 SCC 16 : State neutrality in religious matters
+Ward v. Quebec (Commission des droits de la personne et des droits de la jeunesse), 2021 SCC 43: discriminatory remarks and conflict of rights
+
+
+== See also ==
+Human rights in Canada
+Human Rights Tribunal of Quebec
+
+
+== References ==
+
+
+== External links ==
+LegisQuebec: C-12 – Charter of human rights and freedoms
+Commission des droits de la personne et des droits de la jeunesse du Québec (Quebec Human Rights and Youth Rights Commission)
+Quebec Statutes and Regulations

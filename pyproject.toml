@@ -34,6 +34,10 @@ dl = ["tensorflow>=2.16; platform_machine != 'arm64'", "tensorflow-macos>=2.16; 
 nlp = ["nltk>=3.8", "wordcloud>=1.9"]
 app = ["streamlit>=1.35"]
 api = ["fastapi>=0.111", "uvicorn[standard]>=0.30", "httpx>=0.27"]
+# Headless OpenCV: the server variant, without the GUI bindings that make
+# cv2.imshow available and a container build 200 MB larger.
+detect = ["opencv-python-headless>=4.9", "pillow>=10.0"]
+yolo = ["ultralytics>=8.2"]
 hub = ["huggingface-hub>=0.23"]
 data = ["kagglehub>=0.3", "openpyxl>=3.1"]
 dev = [

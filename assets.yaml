@@ -101,6 +101,29 @@ assets:
     hf_path: istanbul_housing/satilikdaire.xlsx
     description: 10,735 Istanbul apartment listings scraped from Emlakjet, 18 raw columns
 
+  wikipedia_articles:
+    project: article_search
+    file: all_articles
+    directory: true
+    size_mb: 9.4
+    committed_in_repo: true
+    local_source: "DATA SCIENCE COURSE/week14/all_articles"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: article_search/all_articles.zip
+    description: 390 Wikipedia articles on human rights, conflict and international law
+
+  cv_samples:
+    project: object_detection
+    file: images
+    directory: true
+    copy_patterns: ["*.jpg", "*.jpeg", "haarcascade_*.xml"]
+    size_mb: 1.8
+    committed_in_repo: true
+    local_source: "DATA SCIENCE COURSE/week8 Computer vision"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: object_detection/images.zip
+    description: Sample photographs and Haar cascade files from the computer-vision week
+
 # Image datasets are pulled straight from Kaggle at training time by kagglehub;
 # they are far too large to mirror and each one is public.
 kaggle_datasets:

@@ -111,7 +111,29 @@ uv run dsj api        # http://127.0.0.1:8000/docs
 
 Ayrıntı: [service/README.tr.md](../../service/README.tr.md)
 
-## 12-15. Hafta — Transformer, RAG, ajanlar
+## 14. Hafta — RAG ve anlamsal erişim
+
+| Notebook'ta | Depoda |
+|---|---|
+| Belge başına tek vektör (150 KB'lık makaleler dahil) | `retrieval.chunk_corpus()` — örtüşmeli pencereler |
+| Tek bir sorgu, göz kararı değerlendirme | `retrieval.build_probes()` + `evaluate_retrieval()` — recall@k, MRR |
+| Bağlam maliyeti hiç ölçülmemiş | `hits_per_1k_words` — arama kutusu ile RAG'in takası |
+| `chromadb.PersistentClient` | TF-IDF → SVD → L2, indirme gerektirmeyen LSA |
+
+Örnek proje: [`article_search`](../../projects/article_search/README.tr.md)
+
+## 8. Hafta — Nesne tespiti
+
+| Notebook'ta | Depoda |
+|---|---|
+| `cv2.imshow` + `cv2.waitKey()` (pencere açar, bloklar) | `detection.draw_boxes()` — figür döndürür |
+| BGR/RGB karışıklığı her hücrede | `detection.load_image()` — kapıda bir kez çevirir |
+| `scaleFactor` eğitimdeki değerde | `sweep_cascade_parameters()` — sayılmış gerçek değere karşı ölçüm |
+| Tekrarlanan tespitler sayılıyor | `non_max_suppression()` — IoU ile kümeleme |
+
+Örnek proje: [`object_detection`](../../projects/object_detection/README.tr.md)
+
+## 12-15. Hafta — Transformer, ajanlar, blockchain
 
 Bu haftaların içeriği (FastAPI servis, Docker, ChromaDB, LangChain, RL, quantum,
 blockchain) bu depoya taşınmadı. Kapsam olarak ayrı projeler; buradaki paket

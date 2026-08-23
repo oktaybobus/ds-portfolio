@@ -1,0 +1,38 @@
+name: article_search
+title: Wikipedia Article Search
+task: retrieval
+summary: >-
+  Semantic search over 390 Wikipedia articles on human rights, conflict and
+  international law. Documents are chunked with overlap, embedded with latent
+  semantic analysis, and - unlike the source notebook, which ran one query and
+  looked at the output - the index is scored with recall@k and MRR over
+  hundreds of probes with known answers.
+source_notebook: "DATA SCIENCE COURSE/week14/AI agents.ipynb"
+
+target: null
+
+dataset:
+  id: wikipedia_articles
+  file: all_articles
+  format: csv
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  # Chosen from `train.py --scan`, which reports both what a search box wants
+  # and what a RAG pipeline wants - and they disagree. See README.md.
+  #   2000 words: best article retrieval (MRR 0.775), 7,444 words of context
+  #    300 words: MRR 0.586, 1,396 words of context, 4x the hits per 1k words
+  #    120 words: MRR 0.473, 583 words of context, 8x the hits per 1k words
+  # 300/60 is the middle this project's demo needs: it both ranks articles and
+  # shows the matching passage.
+  estimator: lsa
+  params:
+    chunk_words: 300
+    overlap: 60
+    components: 256
+  scale_features: []
+
+metrics: [recall_at_1, recall_at_5, mrr, passage_at_5, hits_per_1k_words]

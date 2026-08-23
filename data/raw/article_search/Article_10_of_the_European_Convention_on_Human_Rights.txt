@@ -1,0 +1,67 @@
+Article 10 of the European Convention on Human Rights provides the right to freedom of expression and information. A fundamental aspect of this right is the freedom to hold opinions and receive and impart information and ideas, even if the receiver of such information does not share the same opinions or views as the provider.
+
+
+== Article text ==
+Article 10 – Freedom of expression
+Everyone has the right to freedom of expression. This right shall include freedom to hold opinions and to receive and impart information and ideas without interference by public authority and regardless of frontiers. This article shall not prevent States from requiring the licensing of broadcasting, television or cinema enterprises.
+The exercise of these freedoms, since it carries with it duties and responsibilities, may be subject to such formalities, conditions, restrictions or penalties as are prescribed by law and are necessary in a democratic society, in the interests of national security, territorial integrity or public safety, for the prevention of disorder or crime, for the protection of health or morals, for the protection of the reputation or rights of others, for preventing the disclosure of information received in confidence, or for maintaining the authority and impartiality of the judiciary.
+
+
+== Limitations to the freedom of expression ==
+Freedom of expression is not an absolute right, meaning it can be interfered with by states and other public authority bodies.
+However, each state is allowed a margin of appreciation. An acceptance of varying historical, legal, political, and cultural differences, which may lead the application of such freedom to be slightly varied in its nature despite the widespread adoption of the article. Such differences in the application have been allowed as long as the freedom of expression is as found in The Observer and The Guardian v United Kingdom (1991). "Narrowly interpreted and the necessity for any restrictions must be convincingly established" by national authorities.
+Voorhoof and Cannie suggest that for a state to legally interfere with a person's freedom of expression they need to pass the 'triple test' of conditions in Article 10(2): such interferences have to be laid out in the nation's national law, be justified through the coverage of one of the objectives listed in the latter half of the section, and necessary in a democratic society. Although by attempting to have a uniform application through the request of the 'triple test' and narrow interpretation of the article's content in individual national circumstances it has led some states through a belief the European court is being too stringent to neglect their duties and responsibilities of protection as required by the convention.
+Importantly, the European Court of Human Rights (ECtHR) recognises the development and use of the internet to exercise this right and also the restrictions on it also being able to be justified by the same objectives.
+
+
+== Comparison to the US First Amendment ==
+
+Freedom of expression under Article 10 of the European Convention on Human Rights is often compared with the protection of speech under the First Amendment of the United States Constitution. Both provisions recognise freedom of expression as a fundamental principle of democratic governance, though they differ in their legal structure and scope of permissible restrictions. 
+The First Amendment provides that Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the government for a redress of grievances. Within United States constitutional law, courts have interpreted this provision as providing broad protection against government restrictions on speech. 
+By contrast, Article 10 of the European Convention on Human Rights explicitly allows certain limitations on freedom of expression. Article 10(2) provides that the exercise of this freedom may be subject to restrictions that are prescribed by law and necessary in a democratic society for purposes such as national security, public safety, the prevention of disorder or crime, and the protection of the reputation or rights of others. 
+The European Court of Human Rights evaluates restrictions on expression through a proportionality test and applies the doctrine of the "margin of appreciation", which allows member states a degree of discretion when balancing freedom of expression against competing rights and interests. As a result, certain forms of expression that may receive constitutional protection in the United States, including some forms of hate speech, may be subject to restriction under European human rights law. 
+
+
+== Hate speech ==
+Hate speech is highly contextual and often difficult to define in terms of content and victim, which makes it very difficult to legislate against on a national and especially on a multinational level. As revealed by Steve Foster, Article 10 is applicable to all forms of speech and expressions, but the ECtHR, as highlighted in Handyside v United Kingdom, demands a level of tolerance and pluralism of the exercise of the same freedom of expression right of others who share views which may not be shared by the receiver of the information or opinions. The European Court of Human Rights has nevertheless recognised that expressions which spread, incite, promote or justify hatred based on intolerance may be restricted under Article 10 where such limitations are considered necessary in a democratic society. 
+However, despite the expectancy of citizens to exercise tolerance, it may be difficult to achieve not only as stated before due to the subjective nature of offence being taken but also the complexity of the ECHR failing to define hate speech within either Article 10 or any other convention, ruling or European wide statute to date. This could be explained through the need to provide states with a margin of appreciation, due to varying cultures finding offence to differing things. It has been seen as an area of great debate that Article 10 and the wider ECHR, not having a definition of hate speech within its content, could leave the fundamental concepts of freedom of expression and freedom of speech to be abused by its users.
+
+
+== The licensing exception ==
+The provision about "licensing of broadcasting, television or cinema enterprises", i.e. the state's right to license the
+media companies, was included because of the limited number of available frequencies and the fact that, at that time, most European states had a monopoly of broadcasting and television. Later court decisions held that due to "the technical progress in the last decades, the justification of these restrictions cannot be made by reference to the number of available frequencies and channels." The public monopolies within the audiovisual media were seen by the court as contrary to Article 10, primarily because they cannot provide a plurality of sources of information.
+The court also held that devices for receiving broadcasting information, such as satellite dishes, do not fall under the restriction provided for in the last sentence of the first paragraph.
+
+
+== Connections to Articles 8, 9 and 11 ==
+It has been noted by several sources that Articles 8 to 11 of the European Convention on Human Rights share a comparable structure, allowing the European Court of Human Rights to apply a similar method of analysis when determining whether a breach has occurred. For example, in Axel Springer AG v Germany (2012) the European Court of Human Rights examined the balance between freedom of expression under Article 10 and the right to respect for private life under Article 8 when determining whether restrictions on press reporting were justified. In the same way as Article 10, similarly Articles 8 (right to respect for private and family life), 9 (freedom of thought, conscience and religion), and 11 (freedom of assembly and association) briefly describe the Convention right and within the second section of the article describe the restrictions that can be used by a state or public authority body that can be imposed upon the right.
+Van Dijk et al. discuss how within Article 8 through the concept of private correspondence expression of an opinion can often take the form of the correspondence and so there needs to be adequate protection for the privacy of the correspondence and the expression within it from state interference. In a similar way, the freedom of thought, conscience, and religion in particular the latter is a form of self-expression. Consequently, Article 10 covers such expression too due to its wide scope. Lastly, expression is a vital aspect of freedom of assembly and association as "Demonstration always constitutes an expression of opinion."
+
+
+== Case law ==
+Handyside v United Kingdom (1976) (Article 10 stated obiter to cover even speech that may "offend, shock or disturb"; conviction for obscenity was nonetheless not in breach)
+Lingens v Austria (1986) 8 EHRR 407 (statements of opinion, rather than fact, are protected and cannot be actionable as defamatory)
+Mueller and Others v Switzerland (1988), application number 10737/84 (conviction for obscenity was not in breach; the vagueness in "obscene" was accepted as inevitable given the necessity of it changing with changing moral standards in order to be "necessary in a democratic society")
+The Observer and The Guardian v United Kingdom (1991) 14 EHRR 153, the "Spycatcher" case (the government's ban on reporting on a book about the British security services was in breach)
+Otto-Preminger-Institut v Austria (1994) (banning the film Liebeskonzil was not a breach)
+Jersild v. Denmark (1994) (conviction for reporting racist statements that constituted hate crimes was a breach)
+Bowman v United Kingdom [1998] ECHR 4, (1998) 26 EHRR 1 (excessively tight restrictions on political campaign spending were in breach)
+Appleby v United Kingdom (2003) 37 EHRR 38 (the courts permitting the private owner of a shopping centre to ban collection of signatures for a petition was not in breach)
+Steel and Morris v United Kingdom (2005), ancillary to the 'McLibel case' (English courts were in breach by finding conduct to be defamatory that should have been protected under Article 10)
+Yildirim v Turkey (2012) (Turkish block on Google websites was in breach because it was not reasonably foreseeable or in accordance with the rule of law)
+MGN Ltd v United Kingdom (2011) 39401/04, the Naomi Campbell success fee case (success fees, designed to improve access to justice, would be an acceptable interference with Article 10 rights under part 2, but in this case were excessive and not justified for this purpose in the case of a wealthy complainant)
+Delfi AS v. Estonia (2015) (civil liability for defamatory comments posted on defendant's website by anonymous third parties, despite their removal, was not a breach)
+Peruzzi v. Italy (2015) (fine for criminal defamation of a judge held not to be in breach as "necessary in a democratic society" to "uphold the authority and impartiality of the judiciary")
+E.S. v. Austria (2018) (fine for "disparaging religious doctrines" by calling Muhammad a paedophile was not in breach)
+
+
+== See also ==
+Declaration of the Rights of Man and of the Citizen – Article XI states: "The free communication of thoughts and of opinions is one of the most precious rights of man: any citizen thus may speak, write, print freely, except to respond to the abuse of this liberty, in the cases determined by the law."
+First Amendment to the United States Constitution – government "shall make no law ... abridging the freedom of speech"
+Universal Declaration of Human Rights – Article 19 is nearly identical to Article 10 of the ECHR
+
+
+== Notes ==
+
+
+== External links ==

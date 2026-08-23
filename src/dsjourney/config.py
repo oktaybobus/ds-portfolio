@@ -24,12 +24,14 @@ TaskType = Literal[
     "image-classification",
     "forecasting",
     "recommendation",
+    "retrieval",
+    "detection",
 ]
 
 # Tasks that do not fit a features-plus-target frame: clustering has no target,
 # and a recommender is trained on an interaction log rather than rows of
 # features. Both are exempt from the target requirement.
-UNSUPERVISED_TASKS = frozenset({"clustering", "recommendation"})
+UNSUPERVISED_TASKS = frozenset({"clustering", "recommendation", "retrieval", "detection"})
 
 
 class DatasetConfig(BaseModel):

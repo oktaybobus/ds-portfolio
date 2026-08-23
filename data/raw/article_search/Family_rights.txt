@@ -1,0 +1,104 @@
+The family rights or right to family life are the rights of all individuals to have their established family life respected, and to start, have and maintain a family. This right is recognised in a variety of international human rights instruments, including Article 16 of the Universal Declaration of Human Rights, Article 23 of the International Covenant on Civil and Political Rights, and Article 8 of the European Convention on Human Rights.
+
+
+== Definition ==
+The changing concept of family requires a subjective definition of what family entails. There is no contest that the relationship between husband and wife, unmarried (de facto) partners, parents and children, siblings, and 'near relatives' such as between grandparents and grandchildren represents family as required under the right to family life. Challenge exists where modern forms of family relationships have developed that the law has not yet explicitly recognised. The "existence... of family life is a question of fact" and is decided subjectively under each factual scenario. The European Court of Human Rights has stated that when considering what constitutes family relationships the Court "must necessarily take into account developments in society and changes in the perception of social, civil-status and relational issues, including the fact that there is not just one way or one choice in the sphere of leading and living one's family or private life". The ECHR first recognized that same-sex relationships fall under the right to family life in the 2010 Schalk and Kopf v. Austria case. Established family ties can be broken.
+
+
+== Relationship to the right to marry ==
+
+The right to marry is closely related to the right to family life, however the two rights are not identical. The right to marry is explicitly provided for in all human rights instruments, essentially providing that all people have the right to marry and found a family. The right to family life predominantly refers to an individual's right to create and maintain their family relationships. It was clarified in X, Y and Z v United Kingdom that in the situation where a spouse has been deported from their partner's State due to their nationality, there is no infringement on the right to marry as the individuals are already married, and so the right to family life must be considered.
+
+
+== Challenges ==
+The main area of conflict arises between the ability of States to control entry and residence within its borders and the impact this control has over an individual's right to family life. Within international law the general principle holds that a State has the right to regulate entry and residence within its own territory. When this power of control results in the deportation of an individual, this may cause a breach of an individual's right to stay with their family. This conflict occurs where the immigrant is the spouse, parent or relative of a State's citizen, and the State wishes to remove or refuse entry to the immigrant. When a challenge is brought forward to the Courts or monitoring bodies, a balance must be struck between the rights of the State to enforce immigration laws and maintain public order, and the impact the enforcement of said laws will have on an individual's right to family life. It has been emphasised that it is not the task of monitoring bodies to "supervise the government's immigration policy, but to examine whether the applicant's right to respect for family life had been ensured without discrimination".
+
+
+== International instruments ==
+Both Article 16 of the Universal Declaration of Human Rights and Article 23 of the International Covenant on Civil and Political Rights provide basis for the right to family life as a fundamental human right.
+
+
+=== Universal Declaration of Human Rights ===
+
+The Universal Declaration of Human Rights (UDHR) was adopted by the United Nations General Assembly on 10 December 1948, clarifying universal rights held by all individuals regardless of subjective factors. Arguably the UDHR now represents customary international law, and as such has legally binding force over States.
+The pertinent provision relating to the right to family lies in Article 16(3) of the UDHR:
+
+3. The family is the natural and fundamental group unit of society and is entitled to protection by society and the State.
+
+
+=== International Covenant on Civil and Political Rights ===
+The International Covenant on Civil and Political Rights (ICCPR) was adopted by the United Nations General Assembly on the 16 December 1966, and came into force on the 23 March 1976. As at May 2016 there are 168 State parties to the ICCPR, giving effect to the civil and political rights of individuals within their borders. Articles 17 and 23(1) ICCPR refer to the right to family:
+Article 17:
+
+1.	No one shall be subjected to arbitrary or unlawful interference with his privacy, family, home or correspondence, nor to unlawful attacks on his honour and reputation.
+2.	Everyone has the right to the protection of the law against such interference or attacks.
+Article 23(1):
+
+1. The family is the natural and fundamental group unit of society and is entitled to protection by society and the State.
+The Human Rights Committee has noted that the protection of the family and its members is also directly and indirectly guaranteed by other Articles within the Covenant in addition to Articles 17 and 23, such as protection of the child under Article 24.
+
+
+==== Case law ====
+Winata v Australia 
+This case was based on applications made by Hendrick Winata and So Lan Li under Articles 17, 23(1) and 24(1) of the ICCPR alleging that the removal of Winata and Li from Australia, where their adolescent son held residency, would amount a violation of their fundamental human rights, specifically that of their right to family. Both Winata and Li were living illegally in Australia, and were facing deportation by the State. It was claimed that through either the separation of Winata and Li from their son through deportation, or the forced removal of the whole family unit to Indonesia, there would be interference with the fundamental family unit that was not compatible with the State's protection obligations to the right to family under the ICCPR. Australia argued that the application was inadmissible and incompatible with the provisions of the ICCPR, emphasising the ICCPR provides protection "only [to] a right to family life, not a right to family life in a particular country." The majority view of the Human Rights Committee found in favour of Winata and Li, holding that while individuals may not have the right to decide where they reside, States are obligated to protect all of the rights within the ICCPR. The Committee recognised the importance of State's control over immigration within their territory, however this discretion is "not unlimited". It was held that deportation of Winata and Li would constitute a violation of Article 17 and 23(1) ICCPR.
+Prior to this case international practice indicated that it was for States to determine who could reside in their territory, even where an infringement of Article 23 would arguably occur. The Committee's decision in this instance challenges this assumption, indicating that an individual's right to family life receives precedence over States' ability to control residence within their territory.
+
+
+=== International Covenant on Economic, Social and Cultural Rights ===
+The International Covenant on Economic, Social and Cultural Rights (ICESCR) was also adopted by the General Assembly on 16 December 1966, however it did not enter into force till nine years after it opened for signature on 3 January 1976. Article 10(1) provides for the right to family:
+
+1. The widest possible protection and assistance should be accorded to the family, which is the natural and fundamental group unit of society, particularly for its establishment and while it is responsible for the care and education of dependant children.
+
+
+== By region ==
+
+
+=== European Union ===
+Within Europe the European Convention on Human Rights and the European Social Charter stand as foundational human rights instruments.
+
+
+==== European Convention on Human Rights ====
+Article 8 of the European Convention on Human Rights (ECHR) states:
+
+1.  Everyone has the right to respect for his private and family life, his home and his correspondence.
+2. There shall be no interference by a public authority with the exercise of this right except such as is in accordance with the law and is necessary in a democratic society in the interests of national security, public safety or the economic well being of the country, for the prevention of disorder or crime, for the protection of health or morals, or for the protection of the rights and freedoms of others.
+The Article imposes both positive and negative obligations on States; not only is the State required to protect its constituents from arbitrary interference in family life by public authorities, it must also provide within its domestic legal system safeguards that allow the development of a "normal family life". It is clear that Article 8 applies to both "legitimate" and "illegitimate" family, with no distinction between the two qualifications within the Convention.
+
+
+==== Case law ====
+EM (Lebanon) (FC) v. Secretary of State for the Home Department
+This case involved a second appeal against a decision of the Secretary of State for the Home Department that EM and her son (AF) must return from the UK to Lebanon, the appellant's country of origin. EM had fled from Lebanon with AF following a violent marriage and resulting divorce. Under Lebanese Shari'a law, the physical custody of the child must be transferred to the father or a male family member once the child reaches seven years of age. AF was over the age of seven, and so would have all custodial rights transferred to his paternal father upon return to Lebanon. EM argued that the forced removal to Lebanon by the United Kingdom would result in a direct breach of both her and AF's right to family life under Article 8 of the ECHR. The Court held that removal of the appellant and her son to Lebanon would violate both EM and AF's Article 8 rights, and granted the appeal. This decision is significant, representing the first successful Article 8 claim in a foreign case.
+
+
+==== European Social Charter ====
+The European Social Charter (the Charter) is the counterpart to the European Convention on Human Rights, providing for fundamental social and economic rights under a Council of Europe treaty. The Charter also provides for the right to family under Article 16, reaffirming European parties commitment to the right:
+
+With a view to ensuring the necessary conditions for the full development of the family, which is a fundamental unit of society, the Contracting Parties undertake to promote the economic, legal and social protection of family life by such means as social and family benefits, fiscal arrangements, provision of family housing, benefits for the newly married, and other appropriate means.
+
+
+=== Americas ===
+The American Convention on Human Rights is a regional human rights treaty that similarly provides for the right to family life under Article 17(1):
+
+1. The family is the natural and fundamental group unit of society and is entitled to protection by society and the state.
+
+
+=== Africa ===
+The protection of the family and vulnerable groups is specified under the African Charter on Human and People's Rights in Article 18, stating:
+
+1. The family shall be the natural unit and basis of society. It shall be protected by the State which shall take care of its physical health and moral.
+2. The State shall have the duty to assist the family which is the custodian of morals and traditional values recognized by the community.
+The African Charter on Human and Peoples' Rights was adopted by the Organisation of African Unity in 1981 and entered into force on 21 October 1986.
+
+
+=== United Kingdom ===
+Within the United Kingdom, the right to family life is a 'qualified right' under the Human Rights Act 1998. This qualification allows a public authority to interfere with the right to family life if it is in protection of others' rights or in the interest of the wider community. On 9 July 2012 new Immigration Rules came into effect within the United Kingdom, affording greater weight to the States' ability to control entry and residence as compared to the individual right to family life. There is a presumption that decisions made under the Immigration Rules will breach Article 8 of the ECHR only in "genuinely exceptional circumstances". This presumption significantly limits individual's ability to successfully challenge decisions they believe have breached their fundamental right to family life.
+
+
+== References ==
+
+
+== External links ==
+The Universal Declaration of Human Rights
+European Convention on Human Rights
+International Covenant on Civil and Political Rights
+International Covenant on Economic, Social and Cultural Rights

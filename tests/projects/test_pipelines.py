@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import pytest
 
-from dsjourney import forecasting, recommend
+from dsjourney import detection, forecasting, recommend, retrieval
 from dsjourney.benchmark import available_models
 from dsjourney.config import load_project_config
 from dsjourney.paths import available_projects, project_dir
@@ -20,8 +20,10 @@ PROJECTS = available_projects()
 
 def test_the_expected_projects_are_present() -> None:
     assert set(PROJECTS) == {
+        "article_search",
         "bart_ridership",
         "customer_segments",
+        "object_detection",
         "image_classifiers",
         "istanbul_housing",
         "laptop_price",
@@ -52,18 +54,29 @@ def test_configured_estimator_exists_in_the_registry(project: str) -> None:
 
     if config.task == "image-classification":
         pytest.skip("image projects build Keras models, not registry estimators")
-    if config.task == "forecasting":
-        assert config.model.estimator in forecasting.available_models()
-        return
-    if config.task == "recommendation":
-        assert config.model.estimator in recommend.available_models()
+    registries = {
+        "forecasting": forecasting.available_models,
+        "recommendation": recommend.available_models,
+        "retrieval": retrieval.available_models,
+        "detection": detection.available_models,
+    }
+    if config.task in registries:
+        assert config.model.estimator in registries[config.task]()
         return
     assert config.model.estimator in available_models(config.task)
 
 
+# Not every project trains a model: retrieval builds an index, detection runs a
+# classifier over images. What every project must ship is one runnable entry
+# point, whatever it is called.
+ENTRY_POINTS = ("train.py", "detect.py", "search.py", "predict.py")
+
+
 @pytest.mark.parametrize("project", PROJECTS)
-def test_project_ships_a_train_entry_point(project: str) -> None:
-    assert (project_dir(project) / "train.py").is_file()
+def test_project_ships_an_entry_point(project: str) -> None:
+    directory = project_dir(project)
+    present = [name for name in ENTRY_POINTS if (directory / name).is_file()]
+    assert present, f"{project} ships none of {ENTRY_POINTS}"
 
 
 @pytest.mark.parametrize("project", PROJECTS)

@@ -31,6 +31,8 @@ uv run dsj train laptop_price
 | [`series_forecast`](projects/series_forecast) | Forecasting | Holt-Winters / naive | **+44.7% vs naive** | Prophet & Time-Series Analysis |
 | [`movie_recommender`](projects/movie_recommender) | Recommendation | Truncated SVD | **Precision@10 0.019** | RS KNN / SK22 / MatrixFactorization |
 | [`bart_ridership`](projects/bart_ridership) | Regression (spatio-temporal) | HistGradientBoosting | **R² 0.818** | BART Analysis |
+| [`article_search`](projects/article_search) | Retrieval | TF-IDF + SVD | **MRR 0.569** | AI Agents |
+| [`object_detection`](projects/object_detection) | Detection | Haar cascade / YOLO | **6 of 7 faces** | Computer Vision |
 | [`image_classifiers`](projects/image_classifiers) | Image classification | CNN / MobileNetV2 | 7 datasets | CNN Model Training |
 
 Every trained project is also reachable over HTTP - see [service/](service/).
@@ -50,9 +52,11 @@ src/dsjourney/          the reusable half - tested toolkit
   eda.py                column overview, missing report, correlation filter
   preprocess.py         pure feature transforms - nothing mutates in place
   benchmark.py          estimator registry + one-call model sweep
+  detection.py          bounding boxes, IoU, NMS, cascades - figures not windows
   evaluate.py           regression / classification / clustering metrics
   forecasting.py        chronological splits, forecasters, skill against naive
   recommend.py          rating splits, similarity, SVD, precision@k
+  retrieval.py          chunking, LSA index, recall@k and context cost
   text.py               dependency-light NLP cleaning and TF-IDF pipelines
   vision.py             CNN and transfer-learning builders (TensorFlow, lazy)
   viz.py                figures returned, never shown - headless by default
@@ -63,7 +67,7 @@ src/dsjourney/          the reusable half - tested toolkit
 
 service/                FastAPI app serving every trained bundle
 projects/<name>/        config.yaml, pipeline.py, train.py, app.py, READMEs
-tests/                  304 tests: unit for the toolkit, smoke per project
+tests/                  362 tests: unit for the toolkit, smoke per project
 scripts/                asset fetching and RESULTS.md generation
 ```
 
@@ -87,7 +91,7 @@ feature engineering; everything else it needs is a function call.
 
 ## What changed on the way out of the notebooks
 
-Thirteen defects were found and fixed while porting. None of them raised an error;
+Fifteen defects were found and fixed while porting. None of them raised an error;
 all of them silently changed results. The full list with reproductions is in
 [docs/tr/tekrar-eden-hatalar.md](docs/tr/tekrar-eden-hatalar.md); the ones that
 mattered most:
@@ -120,6 +124,16 @@ similarity lists and stopped. Adding a held-out set exposed a second problem:
 without a minimum-support floor, precision@10 measured 0.0005 - below what
 random ranking achieves - because films rated 5 by one person outranked
 everything for everyone.
+
+**Evaluation that measured the wrong thing.** Scoring the article index on
+document recall alone recommends ever-larger chunks - in the limit, one vector
+per document, which is what the notebook did. Adding a context-cost metric
+inverts the answer: 120-word chunks retrieve eight times more efficiently per
+word of context. Neither number is wrong; reporting only one is.
+
+**A tutorial default that detects nothing.** The face cascade's `scaleFactor`
+was left at the value the notebook used. Swept against a photograph with seven
+faces, 1.05 finds six and 1.30 finds zero.
 
 **A text model that answered the same thing every time.** Building the API
 surfaced a defect that had been shipping quietly in the CLI: a TF-IDF pipeline
@@ -174,7 +188,8 @@ build. `mypy` is strict over the whole package with no suppressions.
 
 ### Data
 
-Only `laptop_data.csv` (178 KB) and the two forecasting series (77 KB) are committed - it lets CI verify the full path
+Only `laptop_data.csv` (178 KB), the two forecasting series (77 KB), the 390-article
+corpus (9.4 MB) and the detection samples (2.7 MB) are committed - it lets CI verify the full path
 from CSV to scored model with no network access. Everything else is declared in
 [`assets.yaml`](assets.yaml) and fetched by `scripts/fetch_assets.py`, which
 resolves each asset in order: already on disk, committed, copied from the
@@ -196,6 +211,8 @@ Image datasets are pulled straight from Kaggle at training time by `kagglehub`.
 | `nlp` | NLTK and wordcloud (not required - `dsjourney.text` is self-contained) |
 | `app` | Streamlit |
 | `api` | FastAPI and uvicorn, for `dsj api` |
+| `detect` | Headless OpenCV, for Haar cascade detection |
+| `yolo` | Ultralytics, for YOLO object detection |
 | `hub` | `huggingface-hub`, for fetching datasets |
 | `data` | `kagglehub` and `openpyxl` |
 | `dev` | pytest, ruff, mypy |

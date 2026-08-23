@@ -1,0 +1,65 @@
+Human rights in cyberspace is a relatively new and uncharted area of law. The United Nations Human Rights Council (UNHRC) has stated that the freedoms of expression and information under Article 19(2) of the International Covenant on Civil and Political Rights (ICCPR) include the freedom to receive and communicate information, ideas and opinions through the Internet.
+
+An important clause is Article 19(3) of the ICCPR, which provides that:The exercise of the right provided in paragraph two of this article carries with it special duties and responsibilities. It may therefore be subjected to certain restrictions, but these shall only be such as are provided by law and are necessary:(a) For respect of the rights or reputations of others;(b) For the protection of national security or of public order, or of public health and morals.The HRC has stated that "the same rights that people have offline must also be protected online" (mentioning, in particular, freedom of expression). It is widely regarded that this freedom of information must be balanced with other rights. The question is raised whether people's expectations of human rights are different in cyberspace.
+
+
+== Public privacy ==
+Public privacy encompasses freedom of information and expression on the Internet on the one side, and security and privacy in cyberspace on the other side. In the context of cyberspace, privacy means using the Internet as a service tool for private purposes without the fear of third parties accessing and using user data in various ways without their consent.
+The right to freedom encompasses the right of expression and is stated in several international treaties. The right includes freedom to receive and impart information and ideas and to hold opinions without any state interference. It also includes the right to express oneself in any medium including exchanging ideas and thoughts through Internet platforms or social networks. Freedom means the right to political expression especially when it raises matters of public importance.
+Most democratic countries advance the installation of the Internet for economic and communication purposes; therefore, political expression is given some protection on the Internet. Some governments actively move to protect citizen's data on the Internet. However, these intergovernmental agreements can lead to misuse and abuse of private data, which in turn can affect many other fundamental freedoms and basic human rights. The challenge for governments is balancing private interests with rules against privacy and freedom rights for all.
+
+
+== Governance in cyberspace ==
+German political scientist Anja Mihr says that cyberspace harbors more individuals than any other country in the world, yet it is without any government, legislative bodies, law enforcement or any other sort of constitution. Without these mechanisms difficulties arise in protecting and enjoying citizen's rights. International Governmental Organisations (IGO's), such as the United Nations (UN), the Organization of American States, the African Union or the European Union aim to set international standards for the use of cyberspace and the Internet to be enforced by national governments, but commonly fail to do so. The problem is that state powers and their mechanisms of enforcement do not extend past the state's borders.
+Because cyberspace has no borders, the ways and means to govern it are as-yet undefined. This leads to problems wherein those who are willing to commit crimes find it easier to cross borders through the web, as it is unclear where jurisdiction lies. If a governing regime was ever established, it would most likely consist of multiple stakeholders and actors including national, international, and private actors such as representatives of companies, social networks, nongovernmental organizations as well as individuals.
+
+
+== Liability of Internet service providers ==
+A question arises when there is a breach of an individual's basic human rights. Should the liability fall only on the originator of the breached right, or should the burden also fall on the Internet service provider (ISP)? This is an especially relevant issue when it comes to balancing free speech against defamation. The increasing speed and limitless audience of the Internet pose a greater danger to individuals and their reputations.
+ISPs may not have the means to monitor content published on their websites, and may be unaware that a defamatory statement exists on their site. This was demonstrated in the case Cubby, Inc. v. CompuServe Inc. where it was found that the ISP was acting as a mere distributor and could not be liable for the content posted on its bulletin. However, in Stratton Oakmont, Inc. v. Prodigy Services Co. the New York Supreme Court held that Prodigy acted as a publisher with an editorial function, and so was found liable.
+These cases highlight the ambiguity surrounding the liability placed upon ISPs. A further question is whether ISPs will take it upon themselves to function as “moral guardians” of cyberspace. If over-fanatical ISPs start refusing to host certain Internet sites, this may, in turn, compromise rights for the freedom of speech and freedom of expression. In comparison, ambiguity about ISPs liability could mean ISPs permit content without regard to its potentially harmful effects.
+
+
+== Cybersecurity ==
+Given the prevalence of hacking, viruses and zero day exploits, the World Wide Web (WWW) is a non-secure storage space for the storage of sensitive private information. Cyberspace is a tool where individuals can exercise their freedom rights, but cyberspace cannot guarantee our freedom. Today there are around 2.5 billion internet users. We are living in a world where everyone has a long data trail, so internet security is a high priority.
+Today more people than ever have a common understanding of privacy or freedom of expression therefore share common ideas as to how to protect and secure their private data. Still according to the Freedom in the Net Index issued in 2013, most countries in the world censor Internet freedom, some more than others. Countries will do this in various ways. For example, using Internet police. There are many methods of filtering and censoring the exercise of freedom rights.
+The EU has invested in many filtering projects such as NETprotect I and II, ICRAsafe and the PRINCIP programme. It has been stated that self-censorship Internet users impose upon themselves is probably the most serious threat to Internet freedom. Mass surveillance and fear of private communications being made public lead to self-censorship. This results in individuals no longer using search engines or social networks to express their personal beliefs, ideas or opinions, as certain keywords may trigger concerns with national security agencies, resulting in the Internet becoming a political tool of manipulation.
+
+
+=== Encryption ===
+
+
+== Discriminatory behaviors ==
+
+
+=== Cyber bullying ===
+Discriminatory behaviors that occur ‘offline’ also occur ‘online’ One of these behaviors is ‘cyber bullying’. Cyberbullying affects at least one in ten students in Australia. 
+Cyberbullying can impact on a range of human rights including: 
+i) The right to the highest attainable standard of physical and mental health.
+ii) Rights to work and fair working conditions.
+iii) The right to freedom of expression and to hold opinions without interference.
+iv) A child or young person's right to leisure and play.
+
+
+=== Cyber-racism ===
+Cyber racism can be in the form of individuals posting racist comments or participating in group pages specifically set up for a racist purpose. A well publicised example of this was an Aboriginal memes Facebook page that consisted of various images of indigenous people with racist captions. It was reported that Facebook classified the page as ‘controversial humour’.
+
+
+=== Hate speech ===
+Article 20 of the ICCPR states “Any advocacy of national, racial or religious hatred that constitutes incitement to discrimination, hostility or violence shall be prohibited by law.” Hate speech is intended to disturb violence or prejudicial actions against a group of people based on their ethnicity, race, nationality or sexual orientation. Cyberspace has also been used in this way as a medium for destruction.
+The danger to human rights becomes apparent when terrorists form together to scheme and agitate people to commit violence towards a common good. “Al-Qaeda” moved to cyberspace, “the ultimate ungoverned territory” where schools were set up for promotion of ideological and military training and active propaganda arms. It has become a stated subject of importance that these situations are monitored to prepare for future generations of cyber-terrorists.
+
+
+== Future of human rights in the Digital Age ==
+The future of human rights in cyberspace depends on the evolution of the law and its interpretation by national and international governing bodies. Jon Bing warns that once rules and regulations are automated, they become extremely arduous to subject to judicial review. Bing states that we face a situation in which “technology [is] implementing the law”.
+Roger Brownsword looked at some of the issues associated with developments in biotechnology and human rights alongside those raised by digital technologies and suggested three ethical positions on the issues: a utilitarian pragmatic stance, a defense of human rights, and a “dignitarian alliance”. Of the three positions, Brownsword claims the first two are popular in the UK, stating that technologies are being developed that treat human subjects as if they lack autonomy and the capacity to choose for themselves.
+Recent official discussions have taken place as to the future of cyberspace. In April 2008, the Virtual Law Conference was held in New York. The conference included participants such as Microsoft, Sony, and the Walt Disney Company. The agenda included discussion of intellectual property enforcement, legal issues arising from virtual currency, legal issues arising from virtual property, ethical concerns for attorneys and executives in virtual worlds, and how to litigate a virtual lawsuit.
+The US Congressional Hearing on Virtual Worlds took place with the purpose of education and exploring the prospects of virtual worlds. The agenda included an analysis of concerns related to consumer protection, intellectual property protection, and child protection, among others. This hearing was one of the first legislative inquiries into virtual worlds. It remains to be seen whether either of these gatherings hold any lasting impact on the field, which continues to rapidly evolve in lockstep with advancing technology.
+On May 22, 2020, the UN Security Council in its discussion on Cybersecurity highlighted the need to recognize cyberattacks as one of the human rights issue. The course of action detailed that moves such as Internet shutdowns by government and hacking into devices of dissidents, can lead to serious violation of human rights. The idea was acknowledged by at least a dozen countries including Estonia, Belgium, the Netherlands, Ecuador, Japan, Switzerland, and others.
+
+
+== See also ==
+Digital rights
+
+
+== References ==

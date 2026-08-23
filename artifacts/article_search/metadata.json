@@ -1,0 +1,9 @@
+{
+  "model_class": "TfidfSVD",
+  "documents": 390,
+  "chunks": 6390,
+  "words": 1492537,
+  "chunk_words": 300,
+  "overlap": 60,
+  "components": 256
+}

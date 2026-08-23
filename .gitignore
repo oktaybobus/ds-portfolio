@@ -35,6 +35,14 @@ data/raw/laptop_price/*
 data/raw/series_forecast/*
 !data/raw/series_forecast/DailyDelhiClimateTrain.csv
 !data/raw/series_forecast/adidas-quarterly-sales.csv
+# The article corpus (9.4 MB) and the vision samples (2.7 MB) are small enough
+# to commit, which lets CI exercise retrieval and detection end to end.
+!data/raw/article_search/
+!data/raw/article_search/*.txt
+!data/raw/object_detection/
+!data/raw/object_detection/*.jpg
+!data/raw/object_detection/*.jpeg
+!data/raw/object_detection/haarcascade_*.xml
 data/interim/
 # Trained models are regenerable and large (the loan forest alone is 80 MB), but
 # the evidence they produced - metrics, provenance, benchmark tables and

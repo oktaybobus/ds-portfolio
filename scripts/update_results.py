@@ -35,6 +35,8 @@ HEADLINE = {
     "clustering": ("silhouette", "Silhouette"),
     "forecasting": ("skill_vs_naive", "Skill vs naive"),
     "recommendation": ("precision_at_10", "Precision@10"),
+    "retrieval": ("mrr", "MRR"),
+    "detection": ("error", "Miscount"),
 }
 
 # Fallbacks for projects that do not transform their target.
@@ -144,6 +146,11 @@ def build_document() -> str:
         "- **`movie_recommender` precision@10 looks small by construction.** Each",
         "  user has a handful of held-out films among 1,682 candidates; random",
         "  ranking scores about 0.002.",
+        "- **`article_search` reports two levels plus a cost.** Document recall",
+        "  always favours bigger chunks; `hits_per_1k_words` is what makes the",
+        "  trade against context size visible.",
+        "- **`object_detection` is scored as a miscount, so lower is better.** Six",
+        "  of seven faces found on the reference image, zero false positives.",
         "",
     ]
     return "\n".join(lines)

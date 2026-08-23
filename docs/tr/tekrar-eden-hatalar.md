@@ -4,7 +4,8 @@ Bu depo kurulurken kaynak notebook'larda bulunan ve burada düzeltilen somut
 hatalar. Hepsi sessizce yanlış sonuç üreten türden — hiçbiri hata mesajı
 vermiyordu. Üçü (10, 11 ve 13 numara) bu depoda yeniden üretildi ve ancak bir
 test ya da bir doğrulama betiği tarafından yakalandı; bu yüzden her düzeltmenin
-adlandırılmış bir regresyon testi var.
+adlandırılmış bir regresyon testi var. 14 numara farklı bir tür: kod doğruydu,
+ölçülen şey yanlıştı.
 
 ## 1. Scaler'ı bölmeden önce eğitmek (veri sızıntısı)
 
@@ -172,7 +173,45 @@ kalıyordu — hedefin ta kendisi. Model cevabı okuyabilir hâldeydi. Bu depoda
 **Düzeltme:** `build_features` hedefi ve bölme defter tutma sütunlarını açıkça
 atıyor. Testi: `test_features_exclude_the_raw_target`.
 
-## 14. Keras üretecini `batch_index` ile döngüden çıkmak
+## 14. Yanlış şeyi ölçen değerlendirme
+
+Makale indeksini yalnızca *belge* erişimiyle puanlamak her zaman daha büyük
+parçaları öneriyor — limitte belge başına tek vektör, yani notebook'un yaptığı
+şey. Bağlam maliyeti metriği eklenince cevap tersine dönüyor: 120 kelimelik
+parçalar bağlam kelimesi başına sekiz kat verimli.
+
+Hiçbir sayı yanlış değil; yalnızca birini raporlamak yanlış. Bir parça boyutu
+kararı, onu gerekçelendirmek için kullanılan ama o şeyi hiç ölçmemiş bir sayıyla
+alınıyordu.
+
+**Düzeltme:** `evaluate_retrieval()` iki düzeyi ve maliyeti birlikte döndürüyor.
+Testi: `test_evaluate_reports_both_levels_and_cost`.
+
+## 15. Eğitimdeki varsayılanı hiç sorgulamamak
+
+Yüz cascade'inin `scaleFactor` değeri notebook'ta eğitimdeki gibi bırakılmıştı.
+Yedi yüzlü bir fotoğrafta taranınca 1,05 altı yüz buluyor, 1,30 **hiçbirini**
+bulamıyor. Elle dokunulmayan tek bir parametre, altı ile sıfır arasındaki farkı
+belirliyor.
+
+**Düzeltme:** `sweep_cascade_parameters()` sayılmış gerçek değere karşı ölçüyor.
+Testi: `test_the_tutorial_scale_factor_finds_nothing`.
+
+## 16. `cv2.imshow` ile görüntü göstermek
+
+```python
+cv2.imshow("Merhaba CV", resim)
+cv2.waitKey()
+```
+
+Masaüstü penceresi açar ve tuşa basılana kadar bloklar. Sunucuda, CI'da veya
+başkasının açtığı bir notebook'ta hücre sonsuza kadar asılı kalır — çıktı da
+yok, hata da.
+
+**Düzeltme:** `dsjourney.detection` ve `dsjourney.viz` içindeki her fonksiyon
+dizi ya da figür döndürüyor; hiçbiri pencere açmıyor.
+
+## 17. Keras üretecini `batch_index` ile döngüden çıkmak
 
 ```python
 for images, labels in val_data:
