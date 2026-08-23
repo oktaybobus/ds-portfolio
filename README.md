@@ -109,7 +109,13 @@ The image ships the CLI, the tabular projects and the Streamlit apps, with
 docker build -t ds-portfolio .
 docker run --rm ds-portfolio list
 docker run --rm -v "$PWD/artifacts:/app/artifacts" ds-portfolio train laptop_price
+docker run --rm -v "$PWD/artifacts:/app/artifacts" ds-portfolio predict laptop_price \
+  --json '{"company":"Dell","type_name":"Gaming","ram_gb":16,"ssd_gb":512}'
 ```
+
+Mount the volume: with `--rm` and no mount, the model a training run writes is
+discarded when the container exits, and the next `docker run` has nothing to
+score against.
 
 TensorFlow and XGBoost are left out on purpose: the first would add ~2 GB for
 projects whose data is downloaded at training time anyway, the second pulls

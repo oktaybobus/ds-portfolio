@@ -111,11 +111,17 @@ jobs:
         run: docker build -t ds-portfolio:ci .
 
       # ENTRYPOINT is `dsj`, so the arguments are the subcommand - not `dsj train`.
-      - name: Train inside the image
-        run: docker run --rm ds-portfolio:ci train laptop_price
+      - name: List projects inside the image
+        run: docker run --rm ds-portfolio:ci list
 
-      - name: Score a record inside the image
+      # Train and score in one container: `--rm` discards the filesystem, so a
+      # model written by an earlier `docker run` is gone by the next one. Real
+      # use mounts a volume onto /app/artifacts instead.
+      - name: Train and score inside the image
         run: |
-          docker run --rm ds-portfolio:ci predict laptop_price \
-            --json '{"company":"Dell","type_name":"Gaming","ram_gb":16,"ssd_gb":512}'
+          docker run --rm --entrypoint /bin/sh ds-portfolio:ci -c '
+            set -e
+            dsj train laptop_price
+            dsj predict laptop_price --json "{\"company\":\"Dell\",\"type_name\":\"Gaming\",\"ram_gb\":16,\"ssd_gb\":512}"
+          '
 
