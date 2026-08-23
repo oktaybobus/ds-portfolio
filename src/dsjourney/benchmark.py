@@ -74,7 +74,8 @@ REGRESSORS: dict[str, Factory] = {
     "ridge": Ridge,
     "lasso": Lasso,
     "elastic_net": ElasticNet,
-    "huber": HuberRegressor,
+    # 100 iterations is not enough for lbfgs to converge on the shipped data.
+    "huber": lambda **kw: HuberRegressor(**{"max_iter": 300, **kw}),
     "bayesian_ridge": BayesianRidge,
     "knn": KNeighborsRegressor,
     "svr": SVR,
