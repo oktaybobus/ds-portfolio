@@ -1,0 +1,29 @@
+name: image_classifiers
+title: Image Classification Suite
+task: image-classification
+summary: >-
+  Seven image classifiers over public Kaggle datasets - grape leaf disease, rice
+  variety, fruit and vegetable, fish species, tomato leaf disease, animal
+  species and brain MRI tumour type. Small datasets get a scratch CNN, larger or
+  harder ones get MobileNetV2 transfer learning; both architectures and the
+  whole training loop come from dsjourney.vision.
+source_notebook: "PROJELER/project16-AOB- 3-CNN - Convolutional Neural Networks/HW19_AOB_CNN_ModelsTraining.ipynb"
+
+target: label
+
+dataset:
+  id: kaggle_images
+  file: grape
+  format: kagglehub
+  kaggle_handle: rm1000/augmented-grape-disease-detection-dataset
+
+split:
+  test_size: 0.2
+  random_state: 123
+
+model:
+  estimator: random_forest  # unused: Keras models are built by dsjourney.vision
+  params: {}
+  scale_features: []
+
+metrics: [accuracy, precision, recall, f1]

@@ -1,0 +1,32 @@
+name: customer_segments
+title: RFM Customer Segmentation
+task: clustering
+summary: >-
+  Segment e-commerce customers by Recency, Frequency and Monetary value. The
+  input is a single denormalised export of customers, orders, order items and
+  products, which is split back into tables and re-joined before the RFM
+  metrics are aggregated per customer.
+source_notebook: "PROJELER/project9-AOB- Customer Segmentetion-Clustering/HW12-AOB-customersegment.ipynb"
+
+target: null
+
+dataset:
+  id: ecommerce_transactions
+  file: PBL5recommendationdata.csv
+  format: csv
+  read_options:
+    encoding: latin-1
+    low_memory: false
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  estimator: kmeans
+  params:
+    n_clusters: 4
+    random_state: 42
+  scale_features: []
+
+metrics: [silhouette, calinski_harabasz, davies_bouldin]

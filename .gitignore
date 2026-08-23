@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Environments
+.venv/
+venv/
+.env
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# Data and model artifacts fetched at runtime (see scripts/fetch_assets.py).
+# laptop_data.csv is the one exception: it is small enough to commit and lets CI
+# run a real end-to-end training test without network access.
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/laptop_price/
+data/raw/laptop_price/*
+!data/raw/laptop_price/laptop_data.csv
+data/interim/
+artifacts/
+!artifacts/.gitkeep
+*.keras
+*.h5
+*.pt
+*.pth
+*.onnx
+
+# Large tabular assets pulled from the Hugging Face Hub
+data/external/
+
+# CatBoost writes a training log directory into the working directory
+catboost_info/
+coverage.xml

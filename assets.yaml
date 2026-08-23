@@ -1,0 +1,64 @@
+# Registry of every dataset a project needs.
+#
+# scripts/fetch_assets.py resolves each entry in order:
+#   1. already present under data/raw/<project>/  -> nothing to do
+#   2. committed_in_repo: true                    -> nothing to fetch
+#   3. local_source                               -> copied from the original
+#                                                    course tree on this machine
+#   4. hf_repo + hf_path                          -> downloaded from the Hub
+#
+# Only laptop_data.csv is small enough to live in git; it keeps CI able to run a
+# real end-to-end training test with no network access.
+
+assets:
+  laptop_data:
+    project: laptop_price
+    file: laptop_data.csv
+    size_mb: 0.18
+    committed_in_repo: true
+    local_source: "PROJELER/project2-Laptop Price Prediction - Regression/laptop_data.csv"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: laptop_price/laptop_data.csv
+    description: 1303 laptop listings with hardware specs and price (Kaggle)
+
+  loans_training_set:
+    project: loan_default
+    file: LoansTrainingSet.csv
+    size_mb: 45.0
+    committed_in_repo: false
+    local_source: "PROJELER/project8-AOB- Loan Prediction - Classification/LoansTrainingSet.csv"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: loan_default/LoansTrainingSet.csv
+    description: ~256k consumer loan applications labelled fully-paid / charged-off
+
+  ecommerce_transactions:
+    project: customer_segments
+    file: PBL5recommendationdata.csv
+    size_mb: 6.7
+    committed_in_repo: false
+    local_source: "PROJELER/project9-AOB- Customer Segmentetion-Clustering/PBL5recommendationdata.csv"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: customer_segments/PBL5recommendationdata.csv
+    description: Online retail transaction log used to build RFM customer segments
+
+  restaurant_reviews:
+    project: review_sentiment
+    file: restaurantt.csv
+    size_mb: 8.5
+    committed_in_repo: false
+    local_source: "PROJELER/project13-NLP Class & Sentiment Anlysis/restaurantt.csv"
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: review_sentiment/restaurantt.csv
+    description: Restaurant reviews with star ratings, mapped to sentiment labels
+
+# Image datasets are pulled straight from Kaggle at training time by kagglehub;
+# they are far too large to mirror and each one is public.
+kaggle_datasets:
+  grape: rm1000/augmented-grape-disease-detection-dataset
+  rice: muratkokludataset/rice-image-dataset
+  fruits_veg: kritikseth/fruit-and-vegetable-image-recognition
+  fish: crowww/a-large-scale-fish-dataset
+  tomato: kaustubhb999/tomatoleaf
+  animal: emirhanai/animal-computer-vision-clean-dataset-code-cnnai
+  brain: sartajbhuvaji/brain-tumor-classification-mri
+  dental: imtkaggleteam/dental-radiography

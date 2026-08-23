@@ -1,0 +1,30 @@
+name: review_sentiment
+title: Restaurant Review Sentiment
+task: text-classification
+summary: >-
+  Classify restaurant reviews as positive or negative from their text alone.
+  Labels are derived from the star rating: 4-5 stars positive, 1-2 negative,
+  3-star reviews dropped as genuinely ambiguous rather than forced into a class.
+source_notebook: "PROJELER/project13-NLP Class & Sentiment Anlysis/HW16_AOB_NLP_ClassSentimentAnalysis.ipynb"
+
+target: sentiment
+
+dataset:
+  id: restaurant_reviews
+  file: restaurantt.csv
+  format: csv
+
+split:
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+
+model:
+  estimator: logistic
+  params:
+    class_weight: balanced
+    max_iter: 1000
+    random_state: 42
+  scale_features: []
+
+metrics: [accuracy, precision, recall, f1, roc_auc]

@@ -1,0 +1,41 @@
+name: laptop_price
+title: Laptop Price Prediction
+task: regression
+summary: >-
+  Predict the retail price of a laptop from its hardware configuration. The
+  interesting work is feature extraction: screen resolution, storage string and
+  CPU model are free text in the source data and have to be mined for the
+  numbers that actually drive price (pixel density, SSD size, CPU generation).
+source_notebook: "PROJELER/project2-Laptop Price Prediction - Regression/14- AOB-Laptop Price Prediction with ML.ipynb"
+
+target: price_log
+
+dataset:
+  id: laptop_data
+  file: laptop_data.csv
+  format: csv
+
+split:
+  test_size: 0.16
+  random_state: 42
+
+model:
+  # Chosen by `dsj train laptop_price --benchmark`: CatBoost beat the notebook's
+  # LinearRegression by 0.056 R2 and every other candidate in the sweep.
+  estimator: catboost
+  params:
+    iterations: 600
+    depth: 6
+    learning_rate: 0.05
+    random_seed: 42
+  scale_features:
+    - ram_gb
+    - weight_kg
+    - ppi
+    - ssd_gb
+    - hdd_gb
+    - cpu_ghz
+    - cpu_generation
+    - cpu_performance
+
+metrics: [r2, rmse, mae, mape]

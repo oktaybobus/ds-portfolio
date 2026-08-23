@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_FROZEN: "1"
+
+jobs:
+  quality:
+    name: Lint and type-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --extra dev --extra boost --extra data --extra app
+
+      - name: Ruff lint
+        run: uv run ruff check .
+
+      - name: Ruff format check
+        run: uv run ruff format --check .
+
+      - name: Mypy
+        run: uv run mypy
+
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --extra dev --extra boost --extra data --extra app --python ${{ matrix.python-version }}
+
+      # laptop_data.csv is committed, so this covers the full path from CSV to
+      # scored model. Projects whose data is fetched are excluded by marker.
+      - name: Run tests
+        run: uv run pytest -m "not needs_data and not needs_dl" --cov --cov-report=xml --cov-report=term-missing
+
+      - name: Upload coverage
+        if: matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.xml
+          if-no-files-found: warn
+
+  train:
+    name: End-to-end training smoke test
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --extra boost
+
+      # Proves the CLI, the config, the pipeline and the artifact writer still
+      # work together - the failure mode unit tests cannot see.
+      - name: Train laptop_price from the committed dataset
+        run: uv run dsj train laptop_price
+
+      - name: Score a single record against the saved model
+        run: |
+          uv run dsj predict laptop_price --json '{"company":"Dell","type_name":"Gaming","ram_gb":16,"ssd_gb":512,"cpu_brand":"Intel Core i7","gpu_brand":"Nvidia GTX"}'
+
+      - name: Show the project table
+        run: uv run dsj list
+
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t ds-portfolio:ci .
+
+      - name: Train inside the image
+        run: docker run --rm ds-portfolio:ci dsj train laptop_price
