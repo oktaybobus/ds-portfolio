@@ -125,6 +125,10 @@ Hesabın kendisinde pandas **9,6 kat**, JVM'in üç buçuk saniyelik açılış�
 sayıldığında uçtan uca yaklaşık **10 kat** daha hızlı. Spark hazırlanmak için,
 pandas'ın işi bitirmesinden uzun süre harcıyor.
 
+Bu süreler M serisi bir Mac'ten; aynı koşu Linux CI makinesinde 13,6 kat
+veriyor. Oran makineye göre değişiyor, yön değişmiyor — `--benchmark` bu yüzden
+sabit bir sayı aktarmak yerine bulunduğun makinede ölçüyor.
+
 Bunların hiçbiri Spark'a karşı bir argüman değil. Eşiğin nerede olduğunu bilmek
 gerektiğinin argümanı: Spark, veri tek makinenin belleğine sığmaz olduğunda
 masrafını çıkarıyor ve 336.534 çift bundan dört büyüklük mertebesi uzakta.

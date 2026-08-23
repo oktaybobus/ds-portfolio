@@ -127,6 +127,10 @@ pandas is **9.6x faster** on the computation itself, and about **10x faster**
 on the end-to-end task once the JVM's three and a half seconds of start-up are
 counted. Spark spends more time getting ready than pandas spends finishing.
 
+Those timings are from an M-series Mac; the same run on the Linux CI runner
+reports 13.6x. The ratio moves with the machine, the direction does not - which
+is why `--benchmark` measures it where you are rather than quoting a constant.
+
 None of this is an argument against Spark. It is the argument for knowing where
 the crossover is: Spark pays for its overhead when the data no longer fits in
 memory on one machine, and 336,534 pairs is four orders of magnitude short of
