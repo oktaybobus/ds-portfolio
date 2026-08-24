@@ -92,24 +92,32 @@ class TestMovieRecommender:
         except DatasetNotFoundError as error:
             pytest.skip(str(error))
 
-    def test_the_raw_file_has_the_published_shape(self) -> None:
-        """u.info declares 943 users and 100,000 ratings; the shipped file disagrees.
+    def test_the_raw_file_is_one_of_the_two_known_copies(self) -> None:
+        """Two different u.data files are in circulation, and both are valid inputs.
 
-        u.data actually has 944 users and 100,003 ratings. Three rows at the
-        top belong to user_id 0 - a synthetic id absent from u.user, where
-        real MovieLens ids start at 1. load_raw() drops those three rows (see
-        README.md, "About user 0"); this test pins what the raw file itself
-        contains, unfiltered, so a replacement download that changes either
-        number - or quietly drops the synthetic user - does not pass unnoticed.
+        The course tree carries an edited copy: 100,003 ratings from 944 users,
+        the extra three belonging to user_id 0, a synthetic id absent from
+        u.user where real MovieLens ids start at 1. A fresh clone instead
+        fetches the pristine file from GroupLens - MovieLens forbids
+        redistribution, so it is not on the mirror - and that one matches the
+        100,000/943 its own u.info declares.
+
+        Pinning only the edited shape would fail on any machine that fetched
+        from the publisher. What holds for both is that the file is exactly one
+        of the two, which is what this asserts; the invariant the model depends
+        on is in test_load_raw_excludes_the_synthetic_user.
         """
         try:
             raw = recommend.load_ratings(movies.ratings_path())
         except DatasetNotFoundError as error:
             pytest.skip(str(error))
 
-        assert len(raw) == 100_003
-        assert int(raw["user_id"].nunique()) == 944
-        assert int((raw["user_id"] == 0).sum()) == 3
+        synthetic = int((raw["user_id"] == movies.SYNTHETIC_USER_ID).sum())
+        shape = (len(raw), int(raw["user_id"].nunique()), synthetic)
+        assert shape in {
+            (100_003, 944, 3),  # the course tree's edited copy
+            (100_000, 943, 0),  # GroupLens, as published
+        }, f"unrecognised u.data: {shape}"
 
     def test_load_raw_excludes_the_synthetic_user(self, ratings: pd.DataFrame) -> None:
         """The trained model never sees user_id 0 - see README.md, "About user 0"."""

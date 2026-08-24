@@ -5,10 +5,16 @@
 #   2. committed_in_repo: true                    -> nothing to fetch
 #   3. local_source                               -> copied from the original
 #                                                    course tree on this machine
-#   4. hf_repo + hf_path                          -> downloaded from the Hub
+#   4. hf_repo + hf_path                          -> downloaded from the mirror
+#   5. source_url (+ archive_member)              -> fetched from the publisher
 #
 # Only laptop_data.csv is small enough to live in git; it keeps CI able to run a
 # real end-to-end training test with no network access.
+#
+# The mirror OKTAYBBS/ds-portfolio-data is a **private** Hugging Face dataset:
+# most of these files are third-party and republishing them openly is not ours
+# to do. Downloading from it needs `hf auth login` with an account that has
+# access. MovieLens is deliberately absent - see movielens_ratings below.
 
 assets:
   laptop_data:
@@ -71,14 +77,18 @@ assets:
     hf_path: series_forecast/adidas-quarterly-sales.csv
     description: 87 quarters of Adidas revenue, 2000Q1 onward
 
+  # Not mirrored. ml-100k/README: "The user may not redistribute the data
+  # without separate permission." Fetched from GroupLens instead, which also
+  # means a fresh clone gets the pristine 100,000-rating file rather than the
+  # course tree's edited copy - see the project README, "About user 0".
   movielens_ratings:
     project: movie_recommender
     file: u.data
     size_mb: 1.9
     committed_in_repo: false
     local_source: "DATA SCIENCE COURSE/week10 bigdata/spark/ml-100k/u.data"
-    hf_repo: OKTAYBBS/ds-portfolio-data
-    hf_path: movie_recommender/u.data
+    source_url: https://files.grouplens.org/datasets/movielens/ml-100k.zip
+    archive_member: ml-100k/u.data
     description: >-
       MovieLens 100k - ships 100,003 ratings from 944 users, not the
       100,000/943 u.info declares. Extra 3 rows: synthetic user_id 0, absent
@@ -90,8 +100,8 @@ assets:
     size_mb: 0.23
     committed_in_repo: false
     local_source: "DATA SCIENCE COURSE/week10 bigdata/spark/ml-100k/u.item"
-    hf_repo: OKTAYBBS/ds-portfolio-data
-    hf_path: movie_recommender/u.item
+    source_url: https://files.grouplens.org/datasets/movielens/ml-100k.zip
+    archive_member: ml-100k/u.item
     description: MovieLens 100k film catalogue with 19 binary genre flags
 
   istanbul_listings:

@@ -1,10 +1,18 @@
 #!/usr/bin/env python
 """Fetch the datasets declared in assets.yaml into data/raw/<project>/.
 
-Resolution order per asset: already on disk, committed in the repo, copied from
-the original course tree if this is the author's machine, otherwise downloaded
-from the Hugging Face Hub. That ordering means the script is a no-op for anyone
-who already has the data and a single command for anyone who does not.
+Resolution order per asset: already on disk, copied from the original course
+tree if this is the author's machine, downloaded from the Hugging Face mirror,
+or fetched from the publisher's own URL. That ordering means the script is a
+no-op for anyone who already has the data and a single command for anyone who
+does not.
+
+The mirror (``OKTAYBBS/ds-portfolio-data``) is private, so downloading from it
+needs `hf auth login` with an account that has access. MovieLens is not on it
+at all - its licence says "the user may not redistribute the data without
+separate permission" - so it carries a ``source_url`` pointing at GroupLens
+instead, and arrives as the pristine 100,000-rating file rather than the
+edited copy in the course tree.
 
 Usage:
     python scripts/fetch_assets.py --all
@@ -17,6 +25,9 @@ from __future__ import annotations
 import argparse
 import shutil
 import sys
+import tempfile
+import urllib.request
+import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -43,6 +54,8 @@ class Asset:
     description: str
     directory: bool = False
     copy_patterns: tuple[str, ...] = ()
+    source_url: str | None = None
+    archive_member: str | None = None
 
     @property
     def destination(self) -> Path:
@@ -71,6 +84,8 @@ def load_assets() -> list[Asset]:
             description=str(entry.get("description", "")),
             directory=bool(entry.get("directory", False)),
             copy_patterns=tuple(entry.get("copy_patterns", ()) or ()),
+            source_url=entry.get("source_url"),
+            archive_member=entry.get("archive_member"),
         )
         for key, entry in (document.get("assets") or {}).items()
     ]
@@ -103,10 +118,56 @@ def fetch(asset: Asset, *, force: bool = False) -> str:
             )
         except Exception as error:
             return f"FAILED ({type(error).__name__}: {error})"
+        if asset.directory:
+            count = _unpack(Path(downloaded), destination)
+            return f"downloaded and unpacked {count} file(s) from {asset.hf_repo}"
         shutil.copy2(downloaded, destination)
         return f"downloaded from {asset.hf_repo}"
 
-    return "MISSING (no local source and no Hub location declared)"
+    if asset.source_url:
+        try:
+            return _fetch_url(asset, destination)
+        except Exception as error:
+            return f"FAILED ({type(error).__name__}: {error})"
+
+    return "MISSING (no local source, mirror entry or source URL declared)"
+
+
+def _fetch_url(asset: Asset, destination: Path) -> str:
+    """Download from the publisher, extracting one member when it is an archive."""
+    assert asset.source_url is not None
+    with tempfile.TemporaryDirectory() as directory:
+        archive = Path(directory) / Path(asset.source_url).name
+        with urllib.request.urlopen(asset.source_url, timeout=120) as response:
+            archive.write_bytes(response.read())
+
+        if not asset.archive_member:
+            shutil.copy2(archive, destination)
+            return f"downloaded from {_host(asset.source_url)}"
+
+        with (
+            zipfile.ZipFile(archive) as bundle,
+            bundle.open(asset.archive_member) as member,
+            destination.open("wb") as target,
+        ):
+            shutil.copyfileobj(member, target)
+        return f"downloaded {asset.archive_member} from {_host(asset.source_url)}"
+
+
+def _unpack(archive: Path, directory: Path) -> int:
+    """Extract a zip into a directory asset's destination."""
+    directory.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(archive) as bundle:
+        members = [m for m in bundle.namelist() if not m.endswith("/")]
+        bundle.extractall(directory)
+    return len(members)
+
+
+def _host(url: str) -> str:
+    """Return the hostname of a URL, for the status line."""
+    from urllib.parse import urlparse
+
+    return urlparse(url).netloc or url
 
 
 def _present(asset: Asset) -> bool:

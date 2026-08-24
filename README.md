@@ -231,12 +231,24 @@ corpus (9.4 MB) and the detection samples (2.7 MB) are committed - it lets CI ve
 from CSV to scored model with no network access. Everything else is declared in
 [`assets.yaml`](assets.yaml) and fetched by `scripts/fetch_assets.py`, which
 resolves each asset in order: already on disk, committed, copied from the
-original course tree, then downloaded from the Hugging Face Hub.
+original course tree, downloaded from the Hugging Face mirror, or fetched from
+the publisher's own URL.
 
-> **Status:** the Hub mirror (`OKTAYBBS/ds-portfolio-data`) is declared but not
-> populated yet, so the download step is the only one that will not currently
-> succeed on a fresh machine. On the author's machine the local-copy step
-> handles all four assets.
+The mirror
+([`OKTAYBBS/ds-portfolio-data`](https://huggingface.co/datasets/OKTAYBBS/ds-portfolio-data))
+holds twelve of the fourteen assets, 69 MB. It is **private**: these files are
+third-party in origin and republishing them openly is not ours to do, so
+downloading from it needs `hf auth login` with an account that has access.
+
+**MovieLens is not on it.** Its licence says "the user may not redistribute the
+data without separate permission", so that asset carries a `source_url` and is
+fetched from GroupLens directly. One consequence is visible in the tests: the
+course tree's `u.data` has 100,003 ratings from 944 users, while GroupLens'
+own file has the 100,000 from 943 that its manifest declares. `movie_recommender`
+reads either - see its README, "About user 0".
+
+Verified end to end: with the local course tree ignored, all fourteen assets
+resolve from the mirror or the publisher.
 
 Image datasets are pulled straight from Kaggle at training time by `kagglehub`.
 
