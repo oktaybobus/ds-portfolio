@@ -92,6 +92,31 @@ class TestMovieRecommender:
         except DatasetNotFoundError as error:
             pytest.skip(str(error))
 
+    def test_the_raw_file_has_the_published_shape(self) -> None:
+        """u.info declares 943 users and 100,000 ratings; the shipped file disagrees.
+
+        u.data actually has 944 users and 100,003 ratings. Three rows at the
+        top belong to user_id 0 - a synthetic id absent from u.user, where
+        real MovieLens ids start at 1. load_raw() drops those three rows (see
+        README.md, "About user 0"); this test pins what the raw file itself
+        contains, unfiltered, so a replacement download that changes either
+        number - or quietly drops the synthetic user - does not pass unnoticed.
+        """
+        try:
+            raw = recommend.load_ratings(movies.ratings_path())
+        except DatasetNotFoundError as error:
+            pytest.skip(str(error))
+
+        assert len(raw) == 100_003
+        assert int(raw["user_id"].nunique()) == 944
+        assert int((raw["user_id"] == 0).sum()) == 3
+
+    def test_load_raw_excludes_the_synthetic_user(self, ratings: pd.DataFrame) -> None:
+        """The trained model never sees user_id 0 - see README.md, "About user 0"."""
+        assert len(ratings) == 100_000
+        assert int(ratings["user_id"].nunique()) == 943
+        assert 0 not in set(ratings["user_id"])
+
     def test_ratings_keep_the_timestamp(self, ratings: pd.DataFrame) -> None:
         """The notebooks read only three columns, which made a time split impossible."""
         assert "timestamp" in ratings.columns
@@ -134,7 +159,11 @@ class TestMovieRecommender:
         metrics = recommend.evaluate_recommender(model, split, k=10)
 
         random_baseline = 10 / int(ratings["item_id"].nunique())
-        assert metrics["precision_at_10"] > 3 * random_baseline
+        # Was `3 *`: excluding the synthetic user_id 0 (see README.md, "About
+        # user 0") trimmed precision@10 just enough to clear that bar by under
+        # 0.2%. 2.5x keeps real headroom instead of hugging whatever the
+        # current numbers happen to be.
+        assert metrics["precision_at_10"] > 2.5 * random_baseline
         assert metrics["rmse"] < 1.2
 
 

@@ -79,7 +79,10 @@ assets:
     local_source: "DATA SCIENCE COURSE/week10 bigdata/spark/ml-100k/u.data"
     hf_repo: OKTAYBBS/ds-portfolio-data
     hf_path: movie_recommender/u.data
-    description: MovieLens 100k - 100,000 ratings from 943 users on 1,682 films
+    description: >-
+      MovieLens 100k - ships 100,003 ratings from 944 users, not the
+      100,000/943 u.info declares. Extra 3 rows: synthetic user_id 0, absent
+      from u.user (see movie_recommender's README, "About user 0")
 
   movielens_items:
     project: movie_recommender

@@ -18,7 +18,7 @@ Last generated: 2026-08-24
 | `laptop_price` | regression | CatBoostRegressor | **R² 0.805** | r2 0.895, rmse 0.195, mae 0.138, mape 0.013, r2_original 0.805, rmse_original 17443.991, mae_original 8849.380, mape_original 0.140 |
 | `loan_default` | classification | RandomForestClassifier | **Recall 0.737** | accuracy 0.680, precision 0.441, recall 0.737, f1 0.552, roc_auc 0.775 |
 | `marvel_network` | graph | SparkBFS | **Reach 0.994** | heroes 6486.000, co_appearance_pairs 336534.000, max_degree 1933.000, mean_degree 51.886, median_degree 20.000, isolated_heroes 19.000, reachable_fraction 0.994, mean_distance 1.706, eccentricity 3.000 |
-| `movie_recommender` | recommendation | TruncatedSVD | **Precision@10 0.019** | rmse 1.059, mae 0.846, precision_at_10 0.019, recall_at_10 0.061, evaluated_users 820.000 |
+| `movie_recommender` | recommendation | TruncatedSVD | **Precision@10 0.018** | rmse 1.059, mae 0.845, precision_at_10 0.018, recall_at_10 0.058, evaluated_users 820.000 |
 | `object_detection` | detection | HaarCascade | **Miscount 1.000** | detected 6.000, expected 7.000, error 1.000 |
 | `review_sentiment` | text-classification | Pipeline | **F1 0.957** | accuracy 0.934, precision 0.975, recall 0.939, f1 0.957, roc_auc 0.978 |
 | `series_forecast / adidas_revenue` | forecasting | naive | **Skill vs naive 0.000** | mae 879.250, rmse 1132.862, mape 0.209, mase 1.169, skill_vs_naive 0.000 |
