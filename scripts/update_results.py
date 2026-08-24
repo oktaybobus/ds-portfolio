@@ -73,6 +73,25 @@ def _train_hint(project: str, task: str) -> str:
     return f"`{project}` - run `dsj train {project}`"
 
 
+def _missing_members(project: str, trained: set[str]) -> list[str]:
+    """Return the sub-models a multi-model project declares but has not trained."""
+    if project != "image_classifiers":
+        return []
+    from projects.image_classifiers import pipeline
+
+    return sorted(set(pipeline.DATASETS) - trained)
+
+
+def _partial_hint(project: str, missing: list[str]) -> str:
+    """Explain which members of a multi-model project are still untrained."""
+    listed = ", ".join(f"`{name}`" for name in missing)
+    return (
+        f"`{project}` - {len(missing)} of the declared datasets are not trained "
+        f"here ({listed}); each needs its Kaggle archive downloaded. "
+        f"Run `python projects/{project}/train.py --dataset <name>`"
+    )
+
+
 def _read_json(path: Path) -> dict[str, object]:
     if not path.is_file():
         return {}
@@ -113,6 +132,12 @@ def build_document() -> str:
                         _read_json(path.parent / "metadata.json"),
                     )
                 )
+            # A project whose models come one per dataset can be partly trained,
+            # which the table alone does not show: a reader sees three rows and
+            # no sign that four more were declared and never run.
+            missing = _missing_members(project, {path.parent.name for path in nested})
+            if missing:
+                untrained.append(_partial_hint(project, missing))
             continue
 
         metrics = _read_json(directory / "metrics.json")

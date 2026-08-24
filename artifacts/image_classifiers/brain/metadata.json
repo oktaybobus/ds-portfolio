@@ -1,0 +1,16 @@
+{
+  "model_class": "CNN",
+  "dataset": "brain",
+  "title": "Brain MRI tumour type",
+  "kaggle_handle": "sartajbhuvaji/brain-tumor-classification-mri",
+  "classes": 4,
+  "class_names": [
+    "glioma_tumor",
+    "meningioma_tumor",
+    "no_tumor",
+    "pituitary_tumor"
+  ],
+  "image_size": 128,
+  "epochs_run": 12,
+  "best_val_accuracy": 0.8955
+}

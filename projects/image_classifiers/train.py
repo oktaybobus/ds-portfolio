@@ -59,9 +59,31 @@ def _save_outputs(
     truths: object,
     predictions: object,
 ) -> Path:
-    """Write the model, labels, metrics, history and confusion matrix to disk."""
+    """Write the model, labels, metrics, history, metadata and confusion matrix."""
+    spec = pipeline.spec_for(dataset)
     directory = project_artifacts_dir("image_classifiers", create=True) / dataset
     directory.mkdir(parents=True, exist_ok=True)
+
+    frame = vision.history_frame(history)
+    (directory / "metadata.json").write_text(
+        json.dumps(
+            {
+                # Named the way every other project names its estimator, so
+                # RESULTS.md has something to put in the model column.
+                "model_class": "MobileNetV2" if spec.architecture == "transfer" else "CNN",
+                "dataset": dataset,
+                "title": spec.title,
+                "kaggle_handle": spec.kaggle_handle,
+                "classes": len(class_names),
+                "class_names": list(class_names),
+                "image_size": spec.image_size,
+                "epochs_run": len(frame),
+                "best_val_accuracy": round(float(frame["val_accuracy"].max()), 4),
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
 
     model.save(directory / "model.keras")  # type: ignore[attr-defined]
     (directory / "labels.json").write_text(
@@ -69,7 +91,7 @@ def _save_outputs(
         encoding="utf-8",
     )
     (directory / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
-    vision.history_frame(history).to_csv(directory / "history.csv", index=False)
+    frame.to_csv(directory / "history.csv", index=False)
 
     matrix = evaluate.confusion_frame(truths, predictions, labels=list(range(len(class_names))))
     viz.save_figure(viz.confusion_matrix_plot(matrix), directory / "confusion_matrix.png")

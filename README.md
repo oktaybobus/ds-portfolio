@@ -33,7 +33,7 @@ uv run dsj train laptop_price
 | [`bart_ridership`](projects/bart_ridership) | Regression (spatio-temporal) | HistGradientBoosting | **R² 0.818** | BART Analysis |
 | [`article_search`](projects/article_search) | Retrieval | TF-IDF + SVD | **MRR 0.569** | AI Agents |
 | [`object_detection`](projects/object_detection) | Detection | Haar cascade / YOLO | **6 of 7 faces** | Computer Vision |
-| [`image_classifiers`](projects/image_classifiers) | Image classification | CNN / MobileNetV2 | 7 datasets | CNN Model Training |
+| [`image_classifiers`](projects/image_classifiers) | Image classification | CNN / MobileNetV2 | **Accuracy 0.895-0.971** (3 of 7) | CNN Model Training |
 | [`marvel_network`](projects/marvel_network) | Graph (PySpark) | Distributed BFS | **99.4% within 3 hops** | Big Data Hadoop Spark |
 | [`diabetes_screening`](projects/diabetes_screening) | Classification (PySpark) | MLlib logistic | **Recall 0.531** | Big Data Hadoop Spark |
 | [`frozenlake_control`](projects/frozenlake_control) | Control (RL) | Tabular Q-learning | **0.726 = optimal** | Reinforcement Learning |

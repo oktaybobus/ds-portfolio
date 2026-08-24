@@ -1,0 +1,16 @@
+{
+  "model_class": "MobileNetV2",
+  "dataset": "animal",
+  "title": "Animal species",
+  "kaggle_handle": "emirhanai/animal-computer-vision-clean-dataset-code-cnnai",
+  "classes": 4,
+  "class_names": [
+    "Buffalo",
+    "Elephant",
+    "Rhino",
+    "Zebra"
+  ],
+  "image_size": 128,
+  "epochs_run": 7,
+  "best_val_accuracy": 0.9762
+}

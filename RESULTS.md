@@ -14,6 +14,9 @@ Last generated: 2026-08-24
 | `customer_segments` | clustering | KMeans | **Silhouette 0.337** | silhouette 0.337, calinski_harabasz 1701.229, davies_bouldin 0.888 |
 | `diabetes_screening` | classification | SparkLogisticRegression | **Recall 0.531** | accuracy 0.745, precision 0.672, recall 0.531, f1 0.593, roc_auc 0.836, majority_baseline 0.649 |
 | `frozenlake_control` | control | TabularQLearning | **Success 0.726** | success_rate 0.726, ci_low 0.706, ci_high 0.745, mean_return 0.726, optimal_success_rate 0.726, gap_to_optimal 0.000, seeds_failed 0.000 |
+| `image_classifiers / animal` | image-classification | MobileNetV2 | **Accuracy 0.971** | accuracy 0.971, precision 0.971, recall 0.971, f1 0.971 |
+| `image_classifiers / brain` | image-classification | CNN | **Accuracy 0.895** | accuracy 0.895, precision 0.889, recall 0.898, f1 0.893 |
+| `image_classifiers / tomato` | image-classification | CNN | **Accuracy 0.902** | accuracy 0.902, precision 0.903, recall 0.903, f1 0.902 |
 | `istanbul_housing` | regression | CatBoostRegressor | **R² 0.814** | r2 0.849, rmse 0.240, mae 0.179, mape 0.093, r2_original 0.814, rmse_original 3.219, mae_original 1.889, mape_original 0.218 |
 | `laptop_price` | regression | CatBoostRegressor | **R² 0.805** | r2 0.895, rmse 0.195, mae 0.138, mape 0.013, r2_original 0.805, rmse_original 17443.991, mae_original 8849.380, mape_original 0.140 |
 | `loan_default` | classification | RandomForestClassifier | **Recall 0.737** | accuracy 0.680, precision 0.441, recall 0.737, f1 0.552, roc_auc 0.775 |
@@ -26,7 +29,7 @@ Last generated: 2026-08-24
 
 ## Not trained in this checkout
 
-- `image_classifiers` - run `uv sync --extra dl --extra data && python projects/image_classifiers/train.py --dataset grape`
+- `image_classifiers` - 4 of the declared datasets are not trained here (`fish`, `fruits_veg`, `grape`, `rice`); each needs its Kaggle archive downloaded. Run `python projects/image_classifiers/train.py --dataset <name>`
 
 ## Reading these numbers
 

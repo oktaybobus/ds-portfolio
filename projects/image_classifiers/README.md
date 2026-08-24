@@ -6,8 +6,9 @@ two architectures and one training loop in `dsjourney.vision`.
 | | |
 |---|---|
 | Task | Multi-class image classification |
-| Datasets | 7, downloaded on demand via `kagglehub` |
+| Datasets | 7 declared, **3 trained here**, downloaded on demand via `kagglehub` |
 | Architectures | Scratch CNN (3 conv blocks) and MobileNetV2 transfer learning |
+| **Best** | **Animal species, accuracy 0.971** (MobileNetV2) |
 | Source | `HW19_AOB_CNN_ModelsTraining.ipynb` |
 
 ```bash
@@ -22,21 +23,46 @@ datasets are tens of gigabytes in total and are never mirrored into this repo.
 
 ## The catalogue
 
-| Key | Dataset | Input | Architecture |
-|---|---|---|---|
-| `grape` | Augmented grape leaf disease | 128² | CNN |
-| `rice` | Rice variety (5 classes) | 128² | CNN |
-| `fruits_veg` | Fruit and vegetable recognition | 128² | CNN |
-| `fish` | Large-scale fish species | 170² | MobileNetV2 |
-| `tomato` | Tomato leaf disease | 128² | CNN |
-| `animal` | Animal species | 128² | MobileNetV2 |
-| `brain` | Brain MRI tumour type | 128² | CNN |
+| Key | Dataset | Input | Architecture | Classes | Accuracy | F1 |
+|---|---|---|---|---|---|---|
+| `grape` | Augmented grape leaf disease | 128² | CNN | - | not trained | - |
+| `rice` | Rice variety | 128² | CNN | - | not trained | - |
+| `fruits_veg` | Fruit and vegetable recognition | 128² | CNN | - | not trained | - |
+| `fish` | Large-scale fish species | 170² | MobileNetV2 | - | not trained | - |
+| **`tomato`** | Tomato leaf disease | 128² | CNN | 10 | **0.902** | 0.902 |
+| **`animal`** | Animal species | 128² | MobileNetV2 | 4 | **0.971** | 0.971 |
+| **`brain`** | Brain MRI tumour type | 128² | CNN | 4 | **0.895** | 0.893 |
 
 Small, visually distinctive datasets get a scratch CNN; the harder ones get
 frozen ImageNet features and a fresh head.
 
+The four untrained rows each need a multi-gigabyte Kaggle archive that is not
+on this machine; the three that are trained were already in the `kagglehub`
+cache. Nothing about them is special - `train.py --dataset <key>` trains any of
+the seven, and the row fills itself in from `metrics.json`.
+
+### What the three runs show
+
+`animal` is the easiest of the three and gets the best score: four visually
+unmistakable species (buffalo, elephant, rhino, zebra) and transfer learning
+from ImageNet, which has seen all four. It converged in 7 epochs.
+
+`tomato` is the hardest brief - ten classes, most of them a green leaf with
+slightly different blotches - and a scratch CNN still reaches 0.902 over 11,000
+images.
+
+`brain` is the one to read carefully. 0.895 accuracy across four MRI classes
+sounds strong, and for a coursework CNN on 3,264 images it is. It is also not a
+medical claim: the split is random rather than by patient, so slices from one
+scan can land on both sides of it, which inflates the number by an amount this
+project does not measure. The confusion matrix in
+`artifacts/image_classifiers/brain/confusion_matrix.png` is the honest view of
+where it fails.
+
 Each run writes `artifacts/image_classifiers/<key>/` containing `model.keras`,
-`labels.json`, `metrics.json`, `history.csv` and `confusion_matrix.png`.
+`labels.json`, `metrics.json`, `metadata.json`, `history.csv` and
+`confusion_matrix.png`. The `.keras` files are gitignored - a trained model is
+40 MB and reproducible from the command above.
 
 ## Three fixes carried over from the notebook
 
