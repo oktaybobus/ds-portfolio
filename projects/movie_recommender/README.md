@@ -70,11 +70,11 @@ Requiring 50 ratings gives a list that reads correctly:
 | Indiana Jones and the Last Crusade (1989) | 0.353 | 320 |
 
 **Ranking needs it even more.** Without a support floor, precision@10 measured
-**0.0005** - *below* the ~0.002 that random ranking would achieve. The cause:
+**0.0004** - *below* the ~0.002 that random ranking would achieve. The cause:
 SVD fills unseen cells with item means, so a film one person rated 5 gets a
 predicted score of 5.0 for everybody and outranks anything a real user might
 watch. Requiring 20 ratings to enter a top-N list lifted precision@10 to 0.0178,
-a 36x difference from a single constant.
+a 49x difference from a single constant.
 
 ## Choosing the rank
 

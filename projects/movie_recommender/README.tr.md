@@ -70,11 +70,11 @@ başlıklar dolduruyordu. 50 puanlama şartı, doğru okunan bir liste veriyor:
 | Indiana Jones and the Last Crusade (1989) | 0,353 | 320 |
 
 **Sıralamanın buna daha da çok ihtiyacı var.** Destek eşiği olmadan precision@10
-**0,0005** ölçüldü — rastgele sıralamanın ulaşacağı ~0,002'nin bile *altında*.
+**0,0004** ölçüldü — rastgele sıralamanın ulaşacağı ~0,002'nin bile *altında*.
 Sebebi: SVD görülmemiş hücreleri film ortalamalarıyla dolduruyor, dolayısıyla
 bir kişinin 5 verdiği bir film herkes için 5,0 tahmin ediliyor ve gerçek bir
 kullanıcının izleyebileceği her şeyin üstüne çıkıyor. Top-N listesine girmek
-için 20 puanlama şartı precision@10'u 0,0178'e çıkardı — tek bir sabitle 36
+için 20 puanlama şartı precision@10'u 0,0178'e çıkardı — tek bir sabitle 49
 kat fark.
 
 ## Rank seçimi
