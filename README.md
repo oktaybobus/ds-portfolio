@@ -123,7 +123,7 @@ turns out to be 84% *worse* than repeating last quarter's number.
 
 **Recommendations nobody measured.** The recommender notebooks produced
 similarity lists and stopped. Adding a held-out set exposed a second problem:
-without a minimum-support floor, precision@10 measured 0.0005 - below what
+without a minimum-support floor, precision@10 measured 0.0004 - below what
 random ranking achieves - because films rated 5 by one person outranked
 everything for everyone.
 
