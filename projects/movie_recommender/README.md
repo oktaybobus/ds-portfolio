@@ -44,12 +44,14 @@ Requiring 50 ratings gives a list that reads correctly:
 | Raiders of the Lost Ark (1981) | 0.526 | 407 |
 | Indiana Jones and the Last Crusade (1989) | 0.353 | 320 |
 
-**Ranking needs it even more.** Without a support floor, precision@10 measured
-**0.0005** - *below* the ~0.002 that random ranking would achieve. The cause:
-SVD fills unseen cells with item means, so a film one person rated 5 gets a
-predicted score of 5.0 for everybody and outranks anything a real user might
-watch. Requiring 20 ratings to enter a top-N list lifted precision@10 to 0.0187,
-a 32x difference from a single constant.
+**Ranking needs it even more.** Without a support floor, the same rank-50
+model that produced the 0.0187 above measures precision@10 at **0.0002**
+(`evaluate_recommender(model, split, min_support=0)`) - *below* the ~0.002
+that random ranking would achieve. The cause: SVD fills unseen cells with
+item means, so a film one person rated 5 gets a predicted score of 5.0 for
+everybody and outranks anything a real user might watch. Requiring 20
+ratings to enter a top-N list lifted precision@10 to 0.0187, a 76.5x
+difference from a single constant.
 
 ## Choosing the rank
 

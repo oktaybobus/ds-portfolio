@@ -43,13 +43,15 @@ başlıklar dolduruyordu. 50 puanlama şartı, doğru okunan bir liste veriyor:
 | Raiders of the Lost Ark (1981) | 0,526 | 407 |
 | Indiana Jones and the Last Crusade (1989) | 0,353 | 320 |
 
-**Sıralamanın buna daha da çok ihtiyacı var.** Destek eşiği olmadan precision@10
-**0,0005** ölçüldü — rastgele sıralamanın ulaşacağı ~0,002'nin bile *altında*.
-Sebebi: SVD görülmemiş hücreleri film ortalamalarıyla dolduruyor, dolayısıyla
-bir kişinin 5 verdiği bir film herkes için 5,0 tahmin ediliyor ve gerçek bir
-kullanıcının izleyebileceği her şeyin üstüne çıkıyor. Top-N listesine girmek
-için 20 puanlama şartı precision@10'u 0,0187'ye çıkardı — tek bir sabitle 32
-kat fark.
+**Sıralamanın buna daha da çok ihtiyacı var.** Destek eşiği olmadan, yukarıdaki
+0,0187'yi üreten aynı rank-50 model precision@10'u **0,0002**
+(`evaluate_recommender(model, split, min_support=0)`) olarak ölçüyor —
+rastgele sıralamanın ulaşacağı ~0,002'nin bile *altında*. Sebebi: SVD
+görülmemiş hücreleri film ortalamalarıyla dolduruyor, dolayısıyla bir kişinin
+5 verdiği bir film herkes için 5,0 tahmin ediliyor ve gerçek bir kullanıcının
+izleyebileceği her şeyin üstüne çıkıyor. Top-N listesine girmek için 20
+puanlama şartı precision@10'u 0,0187'ye çıkardı — tek bir sabitle 76,5 kat
+fark.
 
 ## Rank seçimi
 
