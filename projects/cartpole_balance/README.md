@@ -40,10 +40,11 @@ model.save("cartpole_dqn")
 That is the last cell. The model is saved and the notebook ends, so the obvious
 question - is it any good? - is never asked.
 
-It is not. Over 200 episodes it averages **197 of a possible 500** and solves
-the environment **0%** of the time. Trained again on six different seeds it
-lands between 126 and 202 and never once solves the environment, so that is a
-property of the configuration rather than of the run. `verbose=1` prints a
+It is not. Over 200 episodes it averages **197 of a possible 500**, where 475
+is what CartPole calls solved, and not one of those 200 episodes cleared the
+bar. Trained again on six different seeds it lands between 124 and 202, so that
+is a property of the configuration rather than of the run - though the odd
+episode does clear 475 by luck, and CI saw one in fifty. `verbose=1` prints a
 training reward that climbs, which looks like success and is not the same
 measurement.
 

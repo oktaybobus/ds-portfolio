@@ -79,8 +79,13 @@ def test_the_notebook_hyperparameters_lose_to_two_lines_of_physics() -> None:
 
     Two seeds rather than one, because the claim being pinned is about the
     configuration and not about a run. This configuration is the reliable half
-    of the result: across six seeds locally and one CI platform it lands
-    between 126 and 233 and never solves the environment.
+    of the result: across six seeds locally and one CI platform its mean return
+    lands between 124 and 233, against the 475 CartPole calls solved.
+
+    The assertion is on the mean and not on the per-episode success rate. An
+    occasional episode does clear 475 by luck - CI saw one in fifty - and
+    `success_rate == 0.0` was an exact equality on a noisy measurement, which
+    failed the first time a different machine ran it.
 
     There is deliberately no companion test asserting the *tuned* configuration
     succeeds. It reaches 500 on most seeds, collapsed to 105 on one of six, and
@@ -96,4 +101,6 @@ def test_the_notebook_hyperparameters_lose_to_two_lines_of_physics() -> None:
         policy, _ = train_dqn(NOTEBOOK_DQN, timesteps=50_000, seed=seed)
         dqn = rl.evaluate_policy(pipeline.ENV_ID, policy, episodes=50, seed=7, success_return=475.0)
         assert dqn.mean_return < heuristic.mean_return, f"seed {seed}"
-        assert dqn.success_rate == 0.0, f"seed {seed}"
+        # 475 is the solved threshold; the measured range is 124-233.
+        assert dqn.mean_return < 300, f"seed {seed}"
+        assert dqn.success_rate < 0.1, f"seed {seed}"

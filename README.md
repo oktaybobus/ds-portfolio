@@ -167,8 +167,9 @@ between. The notebook drew a 1. Spreading the same epsilon decay over the
 episode budget instead of collapsing it after 920 episodes takes it to 12 of 12.
 
 **An agent trained, saved, and never scored.** The same notebook fitted a DQN
-on CartPole for 50,000 timesteps and ended. Across six seeds it averages 126 to
-202 and solves the environment 0% of the time on every one; `action = pole_angle
+on CartPole for 50,000 timesteps and ended. Across six seeds it averages 124 to
+202, against the 475 CartPole calls solved, and clears that bar on well under
+2% of episodes; `action = pole_angle
 + pole_angular_velocity > 0`, which has no training in it at all, averages 490
 and solves it 93.5%. Tuning the same DQN on the same budget reaches 500 on most
 seeds - so the algorithm was fine and the missing step was the measurement.

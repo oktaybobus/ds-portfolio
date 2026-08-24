@@ -40,10 +40,11 @@ model.save("cartpole_dqn")
 Son hücre bu. Model kaydediliyor ve notebook bitiyor; yani en bariz soru — bu
 iyi mi? — hiç sorulmuyor.
 
-İyi değil. 200 bölüm üzerinde 500 üzerinden **197** ortalama alıyor ve ortamı
-**%0** oranında çözüyor. Altı farklı tohumla yeniden eğitildiğinde 126 ile 202
-arasında kalıyor ve hiçbirinde ortamı çözmüyor — yani bu koşunun değil
-yapılandırmanın özelliği. `verbose=1` yükselen bir eğitim ödülü yazdırıyor; bu
+İyi değil. 200 bölüm üzerinde 500 üzerinden **197** ortalama alıyor — CartPole'un
+"çözülmüş" saydığı eşik 475 — ve o 200 bölümün hiçbiri eşiği geçmiyor. Altı
+farklı tohumla yeniden eğitildiğinde 124 ile 202 arasında kalıyor; yani bu
+koşunun değil yapılandırmanın özelliği. Yine de arada bir bölüm şansa 475'i
+geçiyor: CI ellide bir gördü. `verbose=1` yükselen bir eğitim ödülü yazdırıyor; bu
 başarı gibi görünüyor ama aynı ölçüm değil.
 
 ## İki satır fizik daha iyisini yapıyor
