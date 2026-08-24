@@ -163,8 +163,10 @@ jobs:
 
       # Both DQNs train in under 20 seconds; the seed sweep is the slow half, so
       # it runs at a reduced budget here and at full size in `make rl`.
+      # --seeds is the point: a single DQN run reached 500 locally and 18.9
+      # here, and the first version of this job printed that without failing.
       - name: Score the CartPole agents end to end
-        run: uv run python projects/cartpole_balance/train.py --episodes 50
+        run: uv run python projects/cartpole_balance/train.py --seeds 3 --episodes 50
 
       - name: Score the FrozenLake agents end to end
         run: uv run python projects/frozenlake_control/train.py --seeds 4 --episodes 6000 --eval-episodes 500

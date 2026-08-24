@@ -6,9 +6,9 @@ A DQN, and the two-line rule that beats it.
 |---|---|
 | Task | Control (reinforcement learning) |
 | Environment | `CartPole-v1`, solved at 475 of a maximum 500 |
-| **Tuned DQN** | **500.0, solves 100%** [0.981, 1.000] |
 | Two-line heuristic | 490.1, solves 93.5% |
-| DQN with the notebook's settings | 197.1, solves **0%** |
+| **Tuned DQN**, median of 6 seeds | **~500** - but one seed in six lands at 105 |
+| DQN with the notebook's settings | 126-202 across 6 seeds, solves **0%** on all of them |
 | Random | 22.0 |
 | Source | `day13-AOB-ReinforcementLearning.ipynb` |
 
@@ -41,8 +41,11 @@ That is the last cell. The model is saved and the notebook ends, so the obvious
 question - is it any good? - is never asked.
 
 It is not. Over 200 episodes it averages **197 of a possible 500** and solves
-the environment **0%** of the time. `verbose=1` prints a training reward that
-climbs, which looks like success and is not the same measurement.
+the environment **0%** of the time. Trained again on six different seeds it
+lands between 126 and 202 and never once solves the environment, so that is a
+property of the configuration rather than of the run. `verbose=1` prints a
+training reward that climbs, which looks like success and is not the same
+measurement.
 
 ## Two lines of physics do better
 
@@ -57,17 +60,17 @@ training, and two of the four observations ignored entirely.
 |---|---|---|---|
 | random | 22.0 | 0% | [0.000, 0.019] |
 | **heuristic** | **490.1** | **93.5%** | [0.892, 0.962] |
-| DQN, notebook settings | 197.1 | 0% | [0.000, 0.019] |
-| DQN, tuned | 500.0 | 100% | [0.981, 1.000] |
+| DQN, notebook settings (seed 0) | 197.1 | 0% | [0.000, 0.019] |
 
-The heuristic scores **2.5x** the notebook's DQN. It is the baseline that
-should have been run first, because it costs nothing and it decides whether the
-50,000 timesteps bought anything.
+The heuristic scores **2.5x** the notebook's DQN, and it beats every one of the
+six seeds that configuration was trained on. It is the baseline that should
+have been run first, because it costs nothing and it decides whether the 50,000
+timesteps bought anything.
 
-## The algorithm was never the problem
+## The algorithm was never the problem - but it is not reliable either
 
 The same DQN, the same 50,000 timesteps, with the tuned configuration from RL
-Baselines3 Zoo, scores a perfect 500 on every one of 200 episodes. What changed:
+Baselines3 Zoo, reaches 500 on most seeds. What changed:
 
 | | Notebook | Tuned |
 |---|---|---|
@@ -83,15 +86,52 @@ configuration takes 128 every 256 - roughly eight times as much learning from
 the same experience, which on CartPole is what the gap comes down to. Eight extra seconds separate an
 agent that fails outright from one that is perfect.
 
-So the notebook's DQN did not fail because deep RL is finicky, or because
-50,000 steps is too few. It failed on hyper-parameters - and the only way to
-find that out is to measure, which is the step that was missing.
+So the notebook's DQN did not fail because 50,000 steps is too few. It failed
+on hyper-parameters - and the only way to find that out is to measure, which is
+the step that was missing.
 
-## What the interval is for
+### This project made the same mistake, and CI caught it
 
-Every row above carries one. At 200 episodes the heuristic's solve rate is
-93.5% [0.892, 0.962], so it is genuinely below the tuned DQN rather than
-unluckily so - the intervals do not overlap. Against the notebook's DQN no
-interval is needed, but reporting one costs nothing and removes the question.
+The first version of this README said the tuned DQN "scores a perfect 500 on
+every one of 200 episodes". That was one seed on one machine. Trained six
+times:
+
+| Seed | 0 | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|---|
+| Tuned DQN | 500.0 | 500.0 | 500.0 | 489.6 | **104.9** | 499.1 |
+| Notebook DQN | 202.4 | 143.3 | 125.7 | 126.0 | 157.3 | 198.0 |
+
+One seed in six collapses to 105. And on the Linux CI runner, seed 0 - the one
+that scores 500 here - produced **18.9**, below random, because DQN on this
+budget is sensitive to the platform's floating-point details as well as to the
+seed.
+
+The notebook's configuration is *consistently* bad: 126 to 202, never solving,
+on every seed and both platforms. That claim survives. "The tuned one scores
+500" did not, and it was the same defect this project was written to document -
+[a stochastic result reported from one run](../../docs/tr/tekrar-eden-hatalar.md).
+
+`train.py --seeds N` now trains each configuration N times and reports the
+**median** seed with the range beside it. Never the best one.
+
+How many seeds is the same question as how many episodes, and it has the same
+kind of answer. Against a failure that happens on one seed in six, three seeds
+miss it 58% of the time and five miss it 40% of the time. The default is five
+because the runs cost fifteen seconds each; the table above needed six. A sweep
+that finds nothing is evidence in proportion to its size, and no more.
+
+## Two sources of noise, and they are different
+
+An interval over episodes and a spread over seeds answer different questions,
+and this project needs both:
+
+- **Episodes** measure one trained agent. At 200 episodes the heuristic's solve
+  rate is 93.5% [0.892, 0.962]. More episodes narrow that and nothing else.
+- **Seeds** measure the training procedure. No number of evaluation episodes
+  would have revealed that one tuned run in six collapses, because each run was
+  evaluated perfectly well - the variation is in what training produced.
+
+The first version of this project had the first and not the second, which is
+exactly enough to be confidently wrong.
 
 Türkçe açıklamalar: [README.tr.md](README.tr.md)

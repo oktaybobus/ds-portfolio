@@ -37,7 +37,7 @@ uv run dsj train laptop_price
 | [`marvel_network`](projects/marvel_network) | Graph (PySpark) | Distributed BFS | **99.4% within 3 hops** | Big Data Hadoop Spark |
 | [`diabetes_screening`](projects/diabetes_screening) | Classification (PySpark) | MLlib logistic | **Recall 0.531** | Big Data Hadoop Spark |
 | [`frozenlake_control`](projects/frozenlake_control) | Control (RL) | Tabular Q-learning | **0.726 = optimal** | Reinforcement Learning |
-| [`cartpole_balance`](projects/cartpole_balance) | Control (RL) | DQN | **Solves 100%** | Reinforcement Learning |
+| [`cartpole_balance`](projects/cartpole_balance) | Control (RL) | DQN | **500 median seed** | Reinforcement Learning |
 
 Every trained project is also reachable over HTTP - see [service/](service/).
 
@@ -167,12 +167,16 @@ between. The notebook drew a 1. Spreading the same epsilon decay over the
 episode budget instead of collapsing it after 920 episodes takes it to 12 of 12.
 
 **An agent trained, saved, and never scored.** The same notebook fitted a DQN
-on CartPole for 50,000 timesteps and ended. It averages 197 of a possible 500
-and solves the environment 0% of the time; `action = pole_angle +
-pole_angular_velocity > 0`, which has no training in it at all, averages 490 and
-solves it 93.5%. The same DQN on the same budget with tuned hyper-parameters
-scores a perfect 500 - so the algorithm was fine and the missing step was the
-measurement.
+on CartPole for 50,000 timesteps and ended. Across six seeds it averages 126 to
+202 and solves the environment 0% of the time on every one; `action = pole_angle
++ pole_angular_velocity > 0`, which has no training in it at all, averages 490
+and solves it 93.5%. Tuning the same DQN on the same budget reaches 500 on most
+seeds - so the algorithm was fine and the missing step was the measurement.
+
+That project then reproduced the defect above: its first version reported the
+tuned agent's 500 from one seed, and CI - which none of the assertions covered -
+printed 18.9 on the same seed and stayed green. The write-up is in
+[projects/cartpole_balance](projects/cartpole_balance/README.md#this-project-made-the-same-mistake-and-ci-caught-it).
 
 Two data-quality findings are worth their own lines. All 16,611 duplicate rows
 in the loan dataset are charged-off loans, so the raw file overstates the

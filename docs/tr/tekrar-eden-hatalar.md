@@ -353,6 +353,17 @@ dağılım değil — arada hiçbir şey olmayan iki sonuç. Notebook 1 çekti v
 en iyisini değil hepsini. Testi:
 `test_the_notebook_schedule_fails_on_seeds_the_linear_one_survives`.
 
+**Bu hata bu depoda da tekrarlandı.** `cartpole_balance` projesinin ilk sürümü
+ayarlanmış DQN için "200 bölümün hepsinde tam 500" diyordu — tek makinede tek
+tohum. Altı tohumla ölçünce biri 105'e düştü; Linux CI makinesinde ise aynı
+tohum 18,9 verdi, rastgelenin altında. CI job'ı yeşil kaldı, çünkü hiçbir iddia
+o satırı kapsamıyordu. Ders iki katmanlı: tek koşudan sonuç raporlamayın, ve
+raporladığınız sayıyı bir iddia korumuyorsa CI onu sessizce geçirir.
+
+Notebook'un yapılandırması ise her tohumda tutarlı biçimde kötü (126-233, hiç
+çözmüyor) — ayakta kalan iddia bu oldu. Testi:
+`test_the_notebook_hyperparameters_lose_to_two_lines_of_physics`, iki tohumla.
+
 ## 25. Stokastik bir politikayı tek bölümle değerlendirmek
 
 ```python

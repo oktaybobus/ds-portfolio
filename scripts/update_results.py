@@ -167,9 +167,11 @@ def build_document() -> str:
         "  stochastic, so a success rate needs the episode count that produced it:",
         "  `frozenlake_control` is 0.726 [0.706, 0.745] over 2,000 episodes, and one",
         "  episode would have reported 0.0 or 1.0.",
-        "- **`cartpole_balance` is ranked on the best agent it found.** The row to",
-        "  read next to it is `notebook_dqn_return` 197 against `heuristic_return`",
-        "  490 - the baseline the source notebook never ran.",
+        "- **`cartpole_balance` reports the median seed, not the best run.** The",
+        "  row to read next to it is `notebook_dqn_return` against",
+        "  `heuristic_return` 490 - the baseline the source notebook never ran.",
+        "  The tuned DQN reaches 500 on most seeds and collapsed on one of six, so",
+        "  its headline is a median with a spread behind it, not a number.",
         "",
     ]
     return "\n".join(lines)

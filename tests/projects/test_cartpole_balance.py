@@ -14,7 +14,9 @@ from projects.cartpole_balance import pipeline
 
 RANDOM_RETURN = 22.0
 HEURISTIC_RETURN = 490.0
-NOTEBOOK_DQN_RETURN = 197.0
+# The notebook configuration measured across six seeds. The tuned one is not
+# pinned to a number anywhere, because it does not have a stable one.
+NOTEBOOK_DQN_RANGE = (125.0, 235.0)
 
 
 def test_the_heuristic_pushes_the_way_the_pole_leans() -> None:
@@ -73,13 +75,25 @@ def test_the_heuristic_solves_what_random_cannot() -> None:
 @pytest.mark.needs_deeprl
 @pytest.mark.slow
 def test_the_notebook_hyperparameters_lose_to_two_lines_of_physics() -> None:
-    """The finding: 50,000 timesteps of DQN, unmeasured, beaten by a rule of thumb."""
+    """The finding: 50,000 timesteps of DQN, unmeasured, beaten by a rule of thumb.
+
+    Two seeds rather than one, because the claim being pinned is about the
+    configuration and not about a run. This configuration is the reliable half
+    of the result: across six seeds locally and one CI platform it lands
+    between 126 and 233 and never solves the environment.
+
+    There is deliberately no companion test asserting the *tuned* configuration
+    succeeds. It reaches 500 on most seeds, collapsed to 105 on one of six, and
+    scored below random on the CI runner - so such a test would be flaky, which
+    would be the defect this project documents rather than a check against it.
+    """
     from projects.cartpole_balance.train import NOTEBOOK_DQN, train_dqn
 
-    policy, _ = train_dqn(NOTEBOOK_DQN, timesteps=50_000, seed=0)
-    dqn = rl.evaluate_policy(pipeline.ENV_ID, policy, episodes=50, seed=7, success_return=475.0)
     heuristic = rl.evaluate_policy(
         pipeline.ENV_ID, pipeline.heuristic_policy(), episodes=50, seed=7, success_return=475.0
     )
-    assert dqn.mean_return < heuristic.mean_return
-    assert dqn.success_rate < 0.5
+    for seed in (0, 1):
+        policy, _ = train_dqn(NOTEBOOK_DQN, timesteps=50_000, seed=seed)
+        dqn = rl.evaluate_policy(pipeline.ENV_ID, policy, episodes=50, seed=7, success_return=475.0)
+        assert dqn.mean_return < heuristic.mean_return, f"seed {seed}"
+        assert dqn.success_rate == 0.0, f"seed {seed}"
