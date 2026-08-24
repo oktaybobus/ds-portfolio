@@ -144,3 +144,12 @@ def test_to_jsonable_unwraps_single_element_arrays() -> None:
     assert _to_jsonable(np.array([3.5])) == 3.5
     assert _to_jsonable(np.array([1, 2])) == [1, 2]
     assert _to_jsonable("plain") == "plain"
+
+
+def test_eda_report_works_on_a_tabular_and_a_text_project() -> None:
+    """eda-report had zero tests; it must render for both a CSV-backed project
+    and one whose load_raw synthesises its frame (the graph's line table)."""
+    for project in ("laptop_price", "marvel_network"):
+        result = runner.invoke(app, ["eda-report", project, "--rows", "5"])
+        assert result.exit_code == 0, f"{project}: {result.output[-200:]}"
+        assert "rows" in result.output or "x" in result.output

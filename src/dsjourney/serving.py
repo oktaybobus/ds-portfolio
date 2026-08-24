@@ -150,11 +150,21 @@ def _cached_bundle(name: str) -> ModelBundle:
     return load_bundle(name)
 
 
-# These task families produce a series, a ranked list or a label for a file -
-# never a score for one row of features - so the record endpoint does not apply
-# to them however well trained they are.
+# These task families produce a series, a ranked list, a label for a file, a
+# graph measurement, a policy or a fitted law - never a score for one row of
+# features - so the record endpoint does not apply to them however well trained
+# they are.
 NON_RECORD_TASKS = frozenset(
-    {"forecasting", "recommendation", "image-classification", "retrieval", "detection"}
+    {
+        "forecasting",
+        "recommendation",
+        "image-classification",
+        "retrieval",
+        "detection",
+        "graph",
+        "control",
+        "geospatial",
+    }
 )
 
 
@@ -167,6 +177,16 @@ def _servability(name: str, config: ProjectConfig, *, trained: bool) -> tuple[bo
     """
     if config.task in NON_RECORD_TASKS:
         return False, f"{config.task} projects do not score individual records"
+
+    # A task the record endpoint covers, pinned to an engine that never writes
+    # a scikit-learn bundle. Without this check the hint below sends the caller
+    # to `dsj train`, which (correctly) refuses the project - a loop with no
+    # exit that this module's own docstring promises to avoid.
+    if config.model.estimator.startswith("spark_"):
+        return False, (
+            f"trained by {config.model.estimator}, which does not produce a servable "
+            f"bundle - see projects/{name}/train.py"
+        )
 
     if not trained:
         return False, f"not trained yet - run: dsj train {name}"

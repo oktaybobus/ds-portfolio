@@ -20,7 +20,6 @@ from dsjourney import evaluate, viz
 from dsjourney.artifacts import ModelBundle, save_bundle, save_table
 from dsjourney.benchmark import BenchmarkResult, build_model, compare_models
 from dsjourney.config import ProjectConfig
-from dsjourney.paths import project_artifacts_dir
 from dsjourney.preprocess import SplitResult, split_and_scale
 
 FeatureBuilder = Callable[[pd.DataFrame], pd.DataFrame]
@@ -302,11 +301,6 @@ def _write_supervised_plots(
         viz.save_figure(
             viz.model_comparison_plot(sweep.table, metric), directory / "model_comparison.png"
         )
-
-
-def artifacts_dir_for(config: ProjectConfig) -> Path:
-    """Convenience wrapper used by project scripts and the CLI."""
-    return project_artifacts_dir(config.name, create=True)
 
 
 def _is_finite(value: float) -> bool:

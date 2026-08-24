@@ -196,13 +196,6 @@ def impute_numeric(
     return frame.assign(**updates)
 
 
-def clip_outliers(
-    frame: pd.DataFrame, column: str, *, lower: float | None = None, upper: float | None = None
-) -> pd.DataFrame:
-    """Clamp a numeric column into a plausible range instead of dropping rows."""
-    return frame.assign(**{column: frame[column].clip(lower=lower, upper=upper)})
-
-
 def drop_duplicate_rows(
     frame: pd.DataFrame, *, subset: Sequence[str] | None = None
 ) -> pd.DataFrame:

@@ -127,3 +127,31 @@ def test_predict_returns_probabilities_for_classifiers(client: TestClient) -> No
 
 def test_reload_clears_the_bundle_cache(client: TestClient) -> None:
     assert client.post("/admin/reload").json() == {"status": "reloaded"}
+
+
+def test_no_unservable_reason_recommends_a_command_that_refuses() -> None:
+    """The loop this closes: serving said "run dsj train marvel_network" while
+    the CLI (correctly) exits 2 on exactly that command. Any project whose
+    reason still points at `dsj train` must be one the generic trainer accepts."""
+    from dsjourney.cli import _generic_train_supported
+    from dsjourney.config import load_project_config
+
+    for project in serving.servable_projects():
+        if not project.servable and "dsj train" in project.reason:
+            assert _generic_train_supported(load_project_config(project.name)), (
+                f"{project.name}: reason sends the caller to a command that refuses it"
+            )
+
+
+def test_every_task_family_has_a_servability_verdict() -> None:
+    """A new task type must be classified, not fall through to a wrong hint."""
+    from typing import get_args
+
+    from dsjourney.config import TaskType
+    from dsjourney.serving import NON_RECORD_TASKS
+
+    record_tasks = {"regression", "classification", "text-classification", "clustering"}
+    for task in get_args(TaskType):
+        assert task in NON_RECORD_TASKS or task in record_tasks, (
+            f"task {task!r} is classified by neither serving rule"
+        )

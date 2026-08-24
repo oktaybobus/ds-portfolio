@@ -1,4 +1,5 @@
-# Slim runtime image for the portfolio: CLI, tabular projects and Streamlit apps.
+# Slim runtime image for the portfolio: CLI, the scikit-learn/statsmodels
+# projects (tabular, forecasting, retrieval, geospatial) and Streamlit apps.
 #
 # Two extras are deliberately left out. TensorFlow (`dl`) would add ~2 GB for
 # projects whose datasets are downloaded from Kaggle at training time anyway,
@@ -32,7 +33,13 @@ COPY projects/ ./projects/
 COPY service/ ./service/
 COPY assets.yaml Makefile ./
 COPY scripts/ ./scripts/
+# Every committed dataset whose project runs on the image's dependency set -
+# scikit-learn, statsmodels, matplotlib. Spark, RL and TensorFlow data would
+# ship megabytes for projects whose runtimes are deliberately not installed.
 COPY data/raw/laptop_price/ ./data/raw/laptop_price/
+COPY data/raw/series_forecast/ ./data/raw/series_forecast/
+COPY data/raw/article_search/ ./data/raw/article_search/
+COPY data/raw/earthquake_atlas/ ./data/raw/earthquake_atlas/
 
 RUN uv sync --frozen --extra catboost --extra app --extra api
 
