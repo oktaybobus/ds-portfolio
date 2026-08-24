@@ -1,0 +1,9 @@
+{
+  "success_rate": 0.7255,
+  "ci_low": 0.7055237460284108,
+  "ci_high": 0.7446116656477447,
+  "mean_return": 0.7255,
+  "optimal_success_rate": 0.7255,
+  "gap_to_optimal": 0.0,
+  "seeds_failed": 0.0
+}

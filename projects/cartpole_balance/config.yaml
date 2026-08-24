@@ -1,0 +1,37 @@
+name: cartpole_balance
+title: CartPole Balance
+task: control
+summary: >-
+  Deep Q-learning on CartPole, measured against the baselines the source
+  notebook never ran. It trained a DQN for 50,000 timesteps, saved it, and
+  stopped. That agent scores 197 out of 500. A two-line rule with no learning
+  in it - push the cart the way the pole is falling - scores 490 and solves the
+  environment 93% of the time. The same DQN, same budget, with tuned
+  hyper-parameters scores a perfect 500, so the algorithm was never the
+  problem: not measuring was.
+source_notebook: "DATA SCIENCE COURSE/week13/day13-AOB-ReinforcementLearning.ipynb"
+
+target: null
+environment: CartPole-v1
+
+model:
+  estimator: dqn
+  params:
+    total_timesteps: 50000
+    eval_episodes: 200
+    # CartPole-v1 caps an episode at 500 steps and is defined as solved at an
+    # average of 475 over 100 consecutive episodes.
+    success_return: 475
+    seed: 0
+  scale_features: []
+
+metrics:
+  [
+    mean_return,
+    success_rate,
+    ci_low,
+    ci_high,
+    heuristic_return,
+    notebook_dqn_return,
+    random_return,
+  ]

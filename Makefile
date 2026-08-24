@@ -1,4 +1,4 @@
-.PHONY: install lint format typecheck test test-fast cov fetch train-all results check clean api docker spark
+.PHONY: install lint format typecheck test test-fast cov fetch train-all results check clean api docker spark rl
 
 install:
 	uv sync --all-extras
@@ -36,6 +36,12 @@ train-all:
 spark:
 	uv run python projects/marvel_network/train.py --benchmark
 	uv run python projects/diabetes_screening/train.py
+	$(MAKE) results
+
+# Needs `uv sync --extra deeprl`; the tabular half runs on --extra rl alone.
+rl:
+	uv run python projects/frozenlake_control/train.py
+	uv run python projects/cartpole_balance/train.py
 	$(MAKE) results
 
 results:

@@ -42,6 +42,11 @@ hub = ["huggingface-hub>=0.23"]
 # PySpark needs a JVM on PATH (Java 17 or 21). Kept out of the default install
 # so a machine with no Java can still run every other project.
 spark = ["pyspark>=3.5,<4.1"]
+# Tabular RL needs nothing but gymnasium: the toy-text environments render
+# through pygame, and nothing here renders. `deeprl` is the split that costs
+# something - stable-baselines3 pulls torch, ~200 MB for one project.
+rl = ["gymnasium>=0.29"]
+deeprl = ["dsjourney[rl]", "stable-baselines3>=2.3"]
 data = ["kagglehub>=0.3", "openpyxl>=3.1"]
 dev = [
     "pytest>=8.0",
@@ -74,6 +79,8 @@ markers = [
     "needs_data: tests that require fetched datasets",
     "needs_dl: tests that require the optional deep-learning extra",
     "needs_spark: tests that require PySpark and a Java runtime",
+    "needs_rl: tests that require the gymnasium environments",
+    "needs_deeprl: tests that require stable-baselines3 and torch",
 ]
 filterwarnings = ["ignore::DeprecationWarning"]
 

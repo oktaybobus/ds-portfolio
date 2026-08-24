@@ -1,0 +1,9 @@
+{
+  "mean_return": 500.0,
+  "success_rate": 1.0,
+  "ci_low": 0.9811546736227459,
+  "ci_high": 1.0,
+  "heuristic_return": 490.14,
+  "notebook_dqn_return": 197.13,
+  "random_return": 21.965
+}

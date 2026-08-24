@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from dsjourney.paths import PROJECTS_DIR
 
@@ -27,12 +27,16 @@ TaskType = Literal[
     "retrieval",
     "detection",
     "graph",
+    "control",
 ]
 
 # Tasks that do not fit a features-plus-target frame: clustering has no target,
 # a recommender is trained on an interaction log rather than rows of features,
-# and a graph is an edge list. All are exempt from the target requirement.
-UNSUPERVISED_TASKS = frozenset({"clustering", "recommendation", "retrieval", "detection", "graph"})
+# a graph is an edge list, and a control agent generates its own data by acting.
+# All are exempt from the target requirement.
+UNSUPERVISED_TASKS = frozenset(
+    {"clustering", "recommendation", "retrieval", "detection", "graph", "control"}
+)
 
 
 class DatasetConfig(BaseModel):
@@ -85,7 +89,13 @@ class ProjectConfig(BaseModel):
         description="Relative path of the course notebook this project was distilled from",
     )
     target: str | None = None
-    dataset: DatasetConfig
+    # A control project has no file to read: its data is whatever the
+    # environment produces while the agent acts in it. One of the two must be
+    # declared, and the validator below enforces that.
+    dataset: DatasetConfig | None = None
+    environment: str | None = Field(
+        default=None, description="Gymnasium environment id, for control tasks"
+    )
     split: SplitConfig = Field(default_factory=SplitConfig)
     model: ModelConfig
     metrics: list[str] = Field(default_factory=list)
@@ -96,6 +106,13 @@ class ProjectConfig(BaseModel):
         if not value.replace("_", "").isalnum() or value != value.lower():
             raise ValueError(f"project name must be a lowercase snake_case slug, got {value!r}")
         return value
+
+    @model_validator(mode="after")
+    def _has_a_data_source(self) -> ProjectConfig:
+        """Every project reads a dataset or drives an environment."""
+        if self.dataset is None and self.environment is None:
+            raise ValueError(f"project {self.name!r} declares neither a dataset nor an environment")
+        return self
 
     @property
     def is_supervised(self) -> bool:

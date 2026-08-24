@@ -24,6 +24,20 @@ def _spark_runnable() -> bool:
     return spark_available()
 
 
+def _rl_runnable() -> bool:
+    """True when the gymnasium environments are installed."""
+    from dsjourney.rl import gymnasium_installed
+
+    return gymnasium_installed()
+
+
+def _deeprl_runnable() -> bool:
+    """True when stable-baselines3 and torch are installed."""
+    from dsjourney.rl import sb3_installed
+
+    return _rl_runnable() and sb3_installed()
+
+
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """Skip tests whose optional runtime is not installed.
 
@@ -45,6 +59,21 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
         )
         for item in items:
             if "needs_spark" in item.keywords:
+                item.add_marker(skip)
+
+    for marker, runnable, hint in (
+        ("needs_rl", _rl_runnable, "gymnasium not installed (uv sync --extra rl)"),
+        (
+            "needs_deeprl",
+            _deeprl_runnable,
+            "stable-baselines3 not installed (uv sync --extra deeprl)",
+        ),
+    ):
+        if runnable():
+            continue
+        skip = pytest.mark.skip(reason=hint)
+        for item in items:
+            if marker in item.keywords:
                 item.add_marker(skip)
 
 

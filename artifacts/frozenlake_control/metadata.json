@@ -1,0 +1,12 @@
+{
+  "model_class": "TabularQLearning",
+  "environment": "FrozenLake-v1",
+  "is_slippery": true,
+  "schedule": "linear",
+  "episodes": 20000,
+  "seeds": 12,
+  "eval_episodes": 2000,
+  "value_iteration_sweeps": 420,
+  "best_seed_success_rate": 0.73,
+  "random_success_rate": 0.013
+}

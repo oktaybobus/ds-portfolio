@@ -7,6 +7,8 @@ test ya da bir doğrulama betiği tarafından yakalandı; bu yüzden her düzelt
 adlandırılmış bir regresyon testi var. 14 numara farklı bir tür: kod doğruydu,
 ölçülen şey yanlıştı. 18 ise bir adım daha ileride: hem kod hem ölçüm doğruydu,
 yalnızca sonucun adı yanlıştı. 23 numara bu deponun kendi içinde de vardı.
+24-27 pekiştirmeli öğrenmeden geliyor ve ortak bir teması var: kod çalıştı,
+kimse sonucun ne olduğunu sormadı.
 
 ## 1. Scaler'ı bölmeden önce eğitmek (veri sızıntısı)
 
@@ -332,3 +334,81 @@ Doğru sayının ne olduğu burada önemli değil; önemli olan iki kaynağın
 ediliyor — `test_the_raw_file_has_the_published_shape`,
 `test_pandas_degrees_match_the_published_shape`. Dosya değişirse test
 konuşuyor.
+
+## 24. Stokastik bir sonucu tek koşudan raporlamak
+
+Q-learning stokastik: keşif rastgele, ortam rastgele. Notebook ajanı bir kez
+eğitti ve eline geçen koşuyu raporladı. Aynı yapılandırmayı on iki tohumla
+çalıştırınca (deterministik göl, `epsilon *= 0.995`):
+
+```
+[0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0]
+```
+
+On iki koşunun yedisi hedefe bir kez bile ulaşamıyor. Bu bir ortalama etrafında
+dağılım değil — arada hiçbir şey olmayan iki sonuç. Notebook 1 çekti ve
+"Training completed" yazdı.
+
+**Düzeltme:** `dsjourney.rl.compare_seeds()` tohum başına bir satır döndürüyor;
+en iyisini değil hepsini. Testi:
+`test_the_notebook_schedule_fails_on_seeds_the_linear_one_survives`.
+
+## 25. Stokastik bir politikayı tek bölümle değerlendirmek
+
+```python
+while not done:
+    action = np.argmax(Q_table[state])
+    ...
+print("total reward: ", total_reward)
+```
+
+Kaygan FrozenLake'te bu ya `1.0` ya `0.0` yazdırıyor. **Var olabilecek en iyi
+politika** bile koşuların yaklaşık dörtte birinde `0.0` yazdırıyor, çünkü gerçek
+başarı oranı 0,726. Kusursuz bir ajana dört koşudan birinde "tam başarısızlık"
+diyen bir ölçüm, ölçüm değildir.
+
+Kaç bölüm gerekir? Oranı ±0,02'ye sabitlemek için 1.913.
+
+**Düzeltme:** `evaluate_policy()` çıplak sayı döndürmüyor — oran, Wilson güven
+aralığı ve bölüm sayısı birlikte geliyor. `episodes_for_precision()` de koşudan
+*önce* kaç bölüm gerektiğini söylüyor.
+
+## 26. Temel çizgi çalıştırmadan model eğitmek
+
+Notebook CartPole'da 50.000 adım DQN eğitti, kaydetti ve bitti. O ajan 500
+üzerinden 197 alıyor ve ortamı %0 çözüyor. Şu satır:
+
+```python
+action = int(pole_angle + pole_angular_velocity > 0)
+```
+
+hiç eğitim içermiyor, 490 alıyor ve %93,5 çözüyor. Aynı DQN aynı bütçeyle,
+ayarlanmış hiperparametrelerle tam 500 alıyor.
+
+Yani algoritma iyiydi, hiperparametreler kötüydü — ama bunu ancak ölçerek
+öğrenebilirsiniz ve eksik olan adım tam da oydu. `verbose=1`'in yazdırdığı
+yükselen eğitim ödülü başarı gibi görünüyor; aynı ölçüm değil.
+
+**Düzeltme:** `projects/cartpole_balance/train.py` dört ajanı birden puanlıyor
+(rastgele, sezgisel, notebook DQN, ayarlanmış DQN) ve hepsini aralıklarıyla
+aynı tabloya koyuyor. Testi:
+`test_the_notebook_hyperparameters_lose_to_two_lines_of_physics`.
+
+## 27. Keşif takviminin bütçeden bağımsız olması
+
+`epsilon *= 0.995` her bölümde uygulanınca 920. bölümde 0,01 tabanına iniyor —
+20.000 bölüm ayrılmış olması hiçbir şeyi değiştirmiyor. Kalan 19.080 bölüm,
+tablo 920. bölümde neyse onunla, yüzde bir keşifle koşuyor.
+
+Ajan o ana kadar ödülü görmediyse tablo sıfır; sıfır satırında `np.argmax` 0
+döndürüyor (SOL); başlangıç karesinde SOL hiçbir şey yapmıyor. Ajan 19.000 bölüm
+boyunca duvara bastırıyor. Hata da yok, uyarı da.
+
+**Düzeltme:** `QLearningConfig.schedule="linear"` azalmayı bütçenin
+`exploration_fraction` kadarına yayıyor. Tek değişiklik bu ve iki gölde de 12
+tohumun 12'si optimuma ulaşıyor. Testi:
+`test_geometric_schedule_hits_the_floor_regardless_of_budget`.
+
+İlgili bir tuzak: sıfır satırında `np.argmax` gerçek bir eylem döndürüyor ama
+bunu öğrenmeyle değil eşitlik bozmayla seçiyor. `undecided_states()` bunları
+sayıyor — terminal durumları hariç tutarak, çünkü orada sıfır satır doğrudur.

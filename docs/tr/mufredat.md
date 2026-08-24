@@ -153,6 +153,25 @@ Ayrıntı: [service/README.tr.md](../../service/README.tr.md)
 JVM gerekiyor: `brew install openjdk@17`. Yoksa iki proje de kurulum komutunu
 yazdırıp çıkıyor, Spark testleri kendini atlıyor.
 
+## 13. Hafta — Pekiştirmeli öğrenme
+
+| Notebook'ta | Depoda |
+|---|---|
+| Eğit, kaydet, "Training completed" yazdır | `compare_seeds()` — tohum başına bir satır |
+| Tek bölümle değerlendirme | `evaluate_policy()` — oran + Wilson aralığı + bölüm sayısı |
+| Kaç bölüm gerektiği hiç sorulmamış | `episodes_for_precision()` — koşudan önce cevap veriyor |
+| `epsilon *= 0.995`, bütçeden bağımsız | `QLearningConfig(schedule="linear")` |
+| Karşılaştırma yok | `value_iteration()` — geçiş tablosundan kesin optimum |
+| DQN eğitilmiş, hiç puanlanmamış | `heuristic_policy()` — geçilmesi gereken temel çizgi |
+| `done = terminated or truncated` tek bayrak | Yalnızca *truncated* olduğunda bootstrap |
+| `render_mode='rgb_array'` + `plt.imshow` | `make_env()` pencere açmıyor |
+
+Örnek projeler: [`frozenlake_control`](../../projects/frozenlake_control/README.tr.md),
+[`cartpole_balance`](../../projects/cartpole_balance/README.tr.md)
+
+`uv sync --extra rl` tablo tabanlı projeler için yeterli; CartPole DQN'i
+`--extra deeprl` istiyor (torch geliyor).
+
 ## 12-15. Hafta — Transformer, ajanlar, blockchain
 
 Bu haftaların içeriği (FastAPI servis, Docker, ChromaDB, LangChain, RL, quantum,

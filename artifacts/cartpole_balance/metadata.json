@@ -1,0 +1,45 @@
+{
+  "model_class": "DQN",
+  "environment": "CartPole-v1",
+  "total_timesteps": 50000,
+  "eval_episodes": 200,
+  "seed": 0,
+  "train_seconds": {
+    "dqn_notebook": 7.9,
+    "dqn_tuned": 15.1
+  },
+  "agents": {
+    "random": {
+      "mean_return": 21.965,
+      "success_rate": 0.0,
+      "ci_low": 1.734723475976807e-18,
+      "ci_high": 0.01884532637725414,
+      "mean_length": 21.965,
+      "episodes": 200.0
+    },
+    "heuristic": {
+      "mean_return": 490.14,
+      "success_rate": 0.935,
+      "ci_low": 0.8919809207009487,
+      "ci_high": 0.9616236453508403,
+      "mean_length": 490.14,
+      "episodes": 200.0
+    },
+    "dqn_notebook": {
+      "mean_return": 197.13,
+      "success_rate": 0.0,
+      "ci_low": 1.734723475976807e-18,
+      "ci_high": 0.01884532637725414,
+      "mean_length": 197.13,
+      "episodes": 200.0
+    },
+    "dqn_tuned": {
+      "mean_return": 500.0,
+      "success_rate": 1.0,
+      "ci_low": 0.9811546736227459,
+      "ci_high": 1.0,
+      "mean_length": 500.0,
+      "episodes": 200.0
+    }
+  }
+}

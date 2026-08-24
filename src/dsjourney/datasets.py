@@ -23,6 +23,8 @@ class DatasetNotFoundError(FileNotFoundError):
 
 def dataset_path(config: ProjectConfig) -> Path:
     """Return the expected on-disk location of a project's dataset."""
+    if config.dataset is None:
+        raise ValueError(f"project {config.name!r} has no dataset; it drives an environment")
     return project_data_dir(config.name) / config.dataset.file
 
 
@@ -33,6 +35,7 @@ def load_dataset(config: ProjectConfig) -> pd.DataFrame:
         DatasetNotFoundError: when the file is absent, with the fetch command to run.
     """
     path = dataset_path(config)
+    assert config.dataset is not None  # dataset_path raises otherwise
     if not path.is_file():
         raise DatasetNotFoundError(
             f"dataset '{config.dataset.id}' not found at {path}. "

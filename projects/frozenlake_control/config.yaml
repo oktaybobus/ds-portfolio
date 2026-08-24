@@ -1,0 +1,46 @@
+name: frozenlake_control
+title: FrozenLake Control
+task: control
+summary: >-
+  Tabular Q-learning on FrozenLake, judged against the exact optimum from value
+  iteration rather than against nothing. The source notebook trained 20,000
+  episodes, saved the table, and checked it by running one episode - which on a
+  stochastic environment reports 0.0 or 1.0 and means neither. Run across
+  twelve seeds, the notebook's own hyper-parameters learn nothing at all on 7
+  of them; its single run happened to land in the lucky half.
+source_notebook: "DATA SCIENCE COURSE/week13/day13-AOB-ReinforcementLearning.ipynb"
+
+target: null
+environment: FrozenLake-v1
+
+model:
+  estimator: q_learning
+  params:
+    episodes: 20000
+    alpha: 0.1
+    gamma: 0.99
+    # The notebook used a geometric decay of 0.995 per episode, which reaches
+    # the 0.01 floor after ~920 episodes no matter how many were budgeted. A
+    # linear decay over half the run spends the other 19,000.
+    schedule: linear
+    exploration_fraction: 0.5
+    epsilon_start: 1.0
+    epsilon_min: 0.01
+    # Slippery is the version where this is a reinforcement-learning problem.
+    # With is_slippery=False - the notebook's setting - it is a shortest-path
+    # puzzle that value iteration solves in 7 sweeps.
+    is_slippery: true
+    seeds: 12
+    eval_episodes: 2000
+  scale_features: []
+
+metrics:
+  [
+    success_rate,
+    ci_low,
+    ci_high,
+    mean_return,
+    optimal_success_rate,
+    gap_to_optimal,
+    seeds_failed,
+  ]

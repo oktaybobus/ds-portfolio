@@ -40,6 +40,8 @@ HEADLINE = {
     # A graph has no single score. Reach from the chosen root is the number
     # that says the most about the shape of this one.
     "graph": ("reachable_fraction", "Reach"),
+    # An RL agent is scored on how often it succeeds, never on one episode.
+    "control": ("success_rate", "Success"),
 }
 
 # Fallbacks for projects that do not transform their target.
@@ -161,6 +163,13 @@ def build_document() -> str:
         "- **`marvel_network` has no single score.** Reach is the fraction of the",
         "  graph within `eccentricity` hops of Captain America; the degree",
         "  distribution is the rest of the answer.",
+        "- **The control projects report an interval, not a number.** A policy is",
+        "  stochastic, so a success rate needs the episode count that produced it:",
+        "  `frozenlake_control` is 0.726 [0.706, 0.745] over 2,000 episodes, and one",
+        "  episode would have reported 0.0 or 1.0.",
+        "- **`cartpole_balance` is ranked on the best agent it found.** The row to",
+        "  read next to it is `notebook_dqn_return` 197 against `heuristic_return`",
+        "  490 - the baseline the source notebook never ran.",
         "",
     ]
     return "\n".join(lines)

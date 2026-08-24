@@ -10,8 +10,10 @@ Last generated: 2026-08-24
 |---|---|---|---|---|
 | `article_search` | retrieval | TfidfSVD | **MRR 0.569** | probes 300.000, recall_at_1 0.470, recall_at_5 0.737, mrr 0.569, passage_at_5 0.627, context_words 1398.173, hits_per_1k_words 0.448 |
 | `bart_ridership` | regression | HistGradientBoostingRegressor | **R² 0.818** | r2 0.818, rmse 0.457, mae 0.354, mape 0.282, r2_original 0.818, rmse_original 14.234, mae_original 4.497, mape_original 0.602 |
+| `cartpole_balance` | control | DQN | **Success 1.000** | mean_return 500.000, success_rate 1.000, ci_low 0.981, ci_high 1.000, heuristic_return 490.140, notebook_dqn_return 197.130, random_return 21.965 |
 | `customer_segments` | clustering | KMeans | **Silhouette 0.337** | silhouette 0.337, calinski_harabasz 1701.229, davies_bouldin 0.888 |
 | `diabetes_screening` | classification | SparkLogisticRegression | **Recall 0.531** | accuracy 0.745, precision 0.672, recall 0.531, f1 0.593, roc_auc 0.836, majority_baseline 0.649 |
+| `frozenlake_control` | control | TabularQLearning | **Success 0.726** | success_rate 0.726, ci_low 0.706, ci_high 0.745, mean_return 0.726, optimal_success_rate 0.726, gap_to_optimal 0.000, seeds_failed 0.000 |
 | `istanbul_housing` | regression | CatBoostRegressor | **R² 0.814** | r2 0.849, rmse 0.240, mae 0.179, mape 0.093, r2_original 0.814, rmse_original 3.219, mae_original 1.889, mape_original 0.218 |
 | `laptop_price` | regression | CatBoostRegressor | **R² 0.805** | r2 0.895, rmse 0.195, mae 0.138, mape 0.013, r2_original 0.805, rmse_original 17443.991, mae_original 8849.380, mape_original 0.140 |
 | `loan_default` | classification | RandomForestClassifier | **Recall 0.737** | accuracy 0.680, precision 0.441, recall 0.737, f1 0.552, roc_auc 0.775 |
@@ -55,3 +57,10 @@ Last generated: 2026-08-24
 - **`marvel_network` has no single score.** Reach is the fraction of the
   graph within `eccentricity` hops of Captain America; the degree
   distribution is the rest of the answer.
+- **The control projects report an interval, not a number.** A policy is
+  stochastic, so a success rate needs the episode count that produced it:
+  `frozenlake_control` is 0.726 [0.706, 0.745] over 2,000 episodes, and one
+  episode would have reported 0.0 or 1.0.
+- **`cartpole_balance` is ranked on the best agent it found.** The row to
+  read next to it is `notebook_dqn_return` 197 against `heuristic_return`
+  490 - the baseline the source notebook never ran.
