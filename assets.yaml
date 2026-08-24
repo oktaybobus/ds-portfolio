@@ -167,6 +167,29 @@ assets:
     hf_path: diabetes_screening/pima-indians-diabetes.csv
     description: 768 clinical records, 35% diabetic. Missing values are encoded as 0 in five columns
 
+  usgs_earthquakes:
+    project: earthquake_atlas
+    file: earthquakes.csv
+    size_mb: 0.82
+    committed_in_repo: true
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: earthquake_atlas/earthquakes.csv
+    source_url: https://raw.githubusercontent.com/plotly/datasets/master/earthquakes-23k.csv
+    description: >-
+      23,412 significant earthquakes 1965-2016 (M >= 5.5, USGS via
+      plotly/datasets). Three of the dates are ISO-8601 UTC in a column of
+      MM/DD/YYYY strings
+
+  us_cities:
+    project: earthquake_atlas
+    file: us-cities.csv
+    size_mb: 0.06
+    committed_in_repo: true
+    hf_repo: OKTAYBBS/ds-portfolio-data
+    hf_path: earthquake_atlas/us-cities.csv
+    source_url: https://raw.githubusercontent.com/plotly/datasets/master/us-cities-top-1k.csv
+    description: The 1,000 most populous US cities with coordinates
+
 # Image datasets are pulled straight from Kaggle at training time by kagglehub;
 # they are far too large to mirror and each one is public.
 kaggle_datasets:

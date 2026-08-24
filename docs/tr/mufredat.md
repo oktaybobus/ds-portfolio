@@ -172,6 +172,18 @@ yazdırıp çıkıyor, Spark testleri kendini atlıyor.
 `uv sync --extra rl` tablo tabanlı projeler için yeterli; CartPole DQN'i
 `--extra deeprl` istiyor (torch geliyor).
 
+## 13. Hafta — Coğrafi sistemler
+
+| Notebook'ta | Depoda |
+|---|---|
+| `plotly.oflfine` (yazım hatası, ImportError) + import edilmemiş `iplot` | Her koşuda CI'da baştan çalışan `train.py` |
+| 8 haritanın 5'i plotly'nin kendi demo verisi | Kursun verisi: 23.412 USGS depremi + 1.000 ABD şehri |
+| Hiçbir şey hesaplanmıyor | `grid_density`, `nearest_neighbour`, Gutenberg-Richter fit |
+| Yoğunluk göz kararı | En yoğun 5 hücrenin 5'i de bilinen dalma-batma kuşağı — testli |
+| Karşılaştırma yok | b = 1,004 ± 0,007; literatür ~1,0 |
+
+Örnek proje: [`earthquake_atlas`](../../projects/earthquake_atlas/README.tr.md)
+
 ## 12-15. Hafta — Transformer, ajanlar, blockchain
 
 Bu haftaların içeriği (FastAPI servis, Docker, ChromaDB, LangChain, RL, quantum,

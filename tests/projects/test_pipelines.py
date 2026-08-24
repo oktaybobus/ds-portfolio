@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import pytest
 
-from dsjourney import detection, forecasting, recommend, retrieval, rl, spark
+from dsjourney import detection, forecasting, geo, recommend, retrieval, rl, spark
 from dsjourney.benchmark import available_models
 from dsjourney.config import load_project_config
 from dsjourney.paths import available_projects, project_dir
@@ -25,6 +25,7 @@ def test_the_expected_projects_are_present() -> None:
         "cartpole_balance",
         "customer_segments",
         "diabetes_screening",
+        "earthquake_atlas",
         "frozenlake_control",
         "marvel_network",
         "object_detection",
@@ -69,6 +70,7 @@ def test_configured_estimator_exists_in_the_registry(project: str) -> None:
         "retrieval": retrieval.available_models,
         "detection": detection.available_models,
         "control": rl.available_models,
+        "geospatial": geo.available_models,
     }
     if config.task in registries:
         assert config.model.estimator in registries[config.task]()

@@ -50,6 +50,10 @@ data/raw/series_forecast/*
 !data/raw/marvel_network/Marvel-names.txt
 !data/raw/diabetes_screening/
 !data/raw/diabetes_screening/pima-indians-diabetes.csv
+# 0.9 MB of USGS earthquakes and US cities: the geospatial project's inputs.
+!data/raw/earthquake_atlas/
+!data/raw/earthquake_atlas/earthquakes.csv
+!data/raw/earthquake_atlas/us-cities.csv
 data/interim/
 # Trained models are regenerable and large (the loan forest alone is 80 MB), but
 # the evidence they produced - metrics, provenance, benchmark tables and

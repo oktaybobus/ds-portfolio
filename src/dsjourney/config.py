@@ -28,6 +28,7 @@ TaskType = Literal[
     "detection",
     "graph",
     "control",
+    "geospatial",
 ]
 
 # Tasks that do not fit a features-plus-target frame: clustering has no target,
@@ -35,7 +36,7 @@ TaskType = Literal[
 # a graph is an edge list, and a control agent generates its own data by acting.
 # All are exempt from the target requirement.
 UNSUPERVISED_TASKS = frozenset(
-    {"clustering", "recommendation", "retrieval", "detection", "graph", "control"}
+    {"clustering", "recommendation", "retrieval", "detection", "graph", "control", "geospatial"}
 )
 
 

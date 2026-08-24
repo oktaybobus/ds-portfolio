@@ -13,6 +13,7 @@ Last generated: 2026-08-24
 | `cartpole_balance` | control | DQN | **Success 1.000** | mean_return 500.000, success_rate 1.000, ci_low 0.981, ci_high 1.000, heuristic_return 490.140, notebook_dqn_return 143.175, random_return 21.965 |
 | `customer_segments` | clustering | KMeans | **Silhouette 0.337** | silhouette 0.337, calinski_harabasz 1701.229, davies_bouldin 0.888 |
 | `diabetes_screening` | classification | SparkLogisticRegression | **Recall 0.531** | accuracy 0.745, precision 0.672, recall 0.531, f1 0.593, roc_auc 0.836, majority_baseline 0.649 |
+| `earthquake_atlas` | geospatial | GutenbergRichter | **b-value 1.004** | b_value 1.004, b_stderr 0.007, b_gap_from_literature 0.004, events 23412.000, busiest_cell_count 654.000, quakes_within_100km_of_a_city 99.000 |
 | `frozenlake_control` | control | TabularQLearning | **Success 0.726** | success_rate 0.726, ci_low 0.706, ci_high 0.745, mean_return 0.726, optimal_success_rate 0.726, gap_to_optimal 0.000, seeds_failed 0.000 |
 | `image_classifiers / animal` | image-classification | MobileNetV2 | **Accuracy 0.971** | accuracy 0.971, precision 0.971, recall 0.971, f1 0.971 |
 | `image_classifiers / brain` | image-classification | CNN | **Accuracy 0.895** | accuracy 0.895, precision 0.889, recall 0.898, f1 0.893 |

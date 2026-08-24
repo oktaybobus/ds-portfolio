@@ -42,6 +42,8 @@ HEADLINE = {
     "graph": ("reachable_fraction", "Reach"),
     # An RL agent is scored on how often it succeeds, never on one episode.
     "control": ("success_rate", "Success"),
+    # The atlas is scored on reproducing the literature's b-value.
+    "geospatial": ("b_value", "b-value"),
 }
 
 # Fallbacks for projects that do not transform their target.

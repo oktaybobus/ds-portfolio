@@ -1,0 +1,8 @@
+{
+  "b_value": 1.00407769489078,
+  "b_stderr": 0.006562178835720604,
+  "b_gap_from_literature": 0.004077694890779915,
+  "events": 23412.0,
+  "busiest_cell_count": 654.0,
+  "quakes_within_100km_of_a_city": 99.0
+}

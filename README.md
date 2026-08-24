@@ -38,6 +38,7 @@ uv run dsj train laptop_price
 | [`diabetes_screening`](projects/diabetes_screening) | Classification (PySpark) | MLlib logistic | **Recall 0.531** | Big Data Hadoop Spark |
 | [`frozenlake_control`](projects/frozenlake_control) | Control (RL) | Tabular Q-learning | **0.726 = optimal** | Reinforcement Learning |
 | [`cartpole_balance`](projects/cartpole_balance) | Control (RL) | DQN | **500 median seed** | Reinforcement Learning |
+| [`earthquake_atlas`](projects/earthquake_atlas) | Geospatial | Gutenberg-Richter | **b = 1.004 (lit. ~1.0)** | Coğrafik Sistemler |
 
 Every trained project is also reachable over HTTP - see [service/](service/).
 
@@ -101,8 +102,10 @@ command that is rather than attempting it.
 
 ## What changed on the way out of the notebooks
 
-Twenty-seven defects were found and fixed while porting. None of them raised an
-error; all of them silently changed results. The full list with reproductions is in
+Twenty-nine defect classes were found and fixed while porting. None raised an
+error in a way anyone saw; nearly all silently changed results, and one - a
+notebook saved with a typo'd import - could not run at all, which nobody had
+noticed because nobody re-ran it. The full list with reproductions is in
 [docs/tr/tekrar-eden-hatalar.md](docs/tr/tekrar-eden-hatalar.md); the ones that
 mattered most:
 

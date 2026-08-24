@@ -8,7 +8,8 @@ adlandırılmış bir regresyon testi var. 14 numara farklı bir tür: kod doğr
 ölçülen şey yanlıştı. 18 ise bir adım daha ileride: hem kod hem ölçüm doğruydu,
 yalnızca sonucun adı yanlıştı. 23 numara bu deponun kendi içinde de vardı.
 24-27 pekiştirmeli öğrenmeden geliyor ve ortak bir teması var: kod çalıştı,
-kimse sonucun ne olduğunu sormadı.
+kimse sonucun ne olduğunu sormadı. 28 tersi: kod çalışmıyordu, kimse
+çalıştırmadığı için fark edilmedi.
 
 ## 1. Scaler'ı bölmeden önce eğitmek (veri sızıntısı)
 
@@ -423,3 +424,38 @@ tohumun 12'si optimuma ulaşıyor. Testi:
 İlgili bir tuzak: sıfır satırında `np.argmax` gerçek bir eylem döndürüyor ama
 bunu öğrenmeyle değil eşitlik bozmayla seçiyor. `undecided_states()` bunları
 sayıyor — terminal durumları hariç tutarak, çünkü orada sıfır satır doğrudur.
+
+## 28. Çalışamayacak hâlde kaydedilmiş notebook
+
+Coğrafi sistemler notebook'unun üçüncü hücresi:
+
+```python
+from plotly.oflfine import init_notebook_mode  # "oflfine": ImportError
+```
+
+Sonraki hücre de hiç import edilmemiş `iplot(...)`u çağırıyor. Yani dosya
+baştan sona temiz bir koşuda ikinci hücreyi geçemez; içindeki kayıtlı
+çıktılar, kodu sonradan bozulmuş başka bir oturumdan kalma. Bu, kataloğun
+diğerlerinden farklı bir sınıf: hata *veriyor* — ama kimse yeniden
+çalıştırmadığı için kimse görmemiş. Sessiz olan hata değil, doğrulamanın
+yokluğu.
+
+**Düzeltme:** buradaki her proje `train.py`'sini CI'da baştan çalıştırıyor;
+kayıtlı çıktı diye bir şey yok, her sayı her koşuda yeniden üretiliyor.
+
+## 29. Kütüphanenin demo verisini analiz sanmak
+
+Aynı notebook'un sekiz haritasının beşi plotly'nin paketten çıkan örnek veri
+setlerini çiziyor: `px.data.gapminder()`, `px.data.election()`,
+`px.data.carshare()`. Kurs verisiyle ilgisi olmayan, kütüphanenin galeri
+örnekleri. Üstelik hiçbir hücre hiçbir veriden tek bir sayı hesaplamıyor —
+sayım yok, mesafe yok, uydurma yok. Ders "harita çizmeyi" gösteriyor ama
+gösterilen şey analiz değil, render.
+
+**Düzeltme:** `earthquake_atlas` her haritayı önce tablo olarak üretiyor
+(`grid_density`), şehir yakınlığını gerçek bir uzamsal birleştirmeyle
+hesaplıyor (`nearest_neighbour`) ve büyüklük dağılımını literatür değeri belli
+bir yasaya uyduruyor: Gutenberg-Richter, b = 1,004 ± 0,007, literatür ~1,0.
+Testi: `test_the_b_value_reproduces_the_literature` ve
+`test_the_busiest_cells_are_subduction_zones` — resim değil, coğrafya ve
+fizik doğruluyor.

@@ -1,0 +1,8 @@
+{
+  "model_class": "GutenbergRichter",
+  "events": 23412,
+  "completeness": 5.5,
+  "a_value": 9.8919,
+  "cell_degrees": 5.0,
+  "span": "1965-2016"
+}

@@ -1,0 +1,41 @@
+name: earthquake_atlas
+title: Earthquake Atlas
+task: geospatial
+summary: >-
+  Fifty-two years of significant earthquakes (M >= 5.5, USGS) analysed rather
+  than only mapped. The source notebook rendered eight plotly maps - five of
+  them of plotly's own bundled demo data - computed nothing from any of them,
+  and cannot run as saved: its plotly import is misspelled and the next cell
+  calls a function that is never imported. Here the density map is a table
+  first, proximity to cities is a spatial join, and the magnitude distribution
+  is fitted to the Gutenberg-Richter law, whose global b-value near 1.0 is a
+  published constant the catalogue either reproduces or does not.
+source_notebook: "DATA SCIENCE COURSE/week13/day13-AOB-CoğrafikSistemler.ipynb"
+
+target: null
+
+dataset:
+  id: usgs_earthquakes
+  file: earthquakes.csv
+  format: csv
+
+model:
+  # Not an estimator: a maximum-likelihood fit of a physical law.
+  estimator: gutenberg_richter
+  params:
+    # The catalogue is truncated at M5.5 by construction, so that is the
+    # completeness threshold; fitting below it would fit the gap, not the Earth.
+    completeness: 5.5
+    bin_width: 0.1
+    cell_degrees: 5.0
+  scale_features: []
+
+metrics:
+  [
+    b_value,
+    b_stderr,
+    b_gap_from_literature,
+    events,
+    busiest_cell_count,
+    quakes_within_100km_of_a_city,
+  ]
