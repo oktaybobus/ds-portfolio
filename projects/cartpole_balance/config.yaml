@@ -23,6 +23,11 @@ model:
     # average of 475 over 100 consecutive episodes.
     success_return: 475
     seed: 0
+    # DQN on this budget is seed-fragile: the tuned configuration reaches 500 on
+    # most seeds and collapsed to 105 on one of six. Five seeds has a ~60%
+    # chance of catching a failure that rare, which is worth knowing when
+    # reading a sweep this size - it is the same question as how many episodes.
+    seeds: 5
   scale_features: []
 
 metrics:

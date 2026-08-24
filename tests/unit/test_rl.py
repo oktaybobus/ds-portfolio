@@ -31,6 +31,17 @@ def test_wilson_interval_stays_inside_zero_and_one() -> None:
     assert low > 0.8
 
 
+@pytest.mark.parametrize("trials", [20, 50, 200, 1000, 2000])
+def test_wilson_endpoints_are_exact_at_the_extremes(trials: int) -> None:
+    """Not approximately 0 and 1 - exactly, at every n.
+
+    Computed as centre minus margin these land a rounding error off, and the
+    error reaches artifacts/*/metrics.json as `ci_low: 1.7e-18`.
+    """
+    assert rl.wilson_interval(0, trials)[0] == 0.0
+    assert rl.wilson_interval(trials, trials)[1] == 1.0
+
+
 def test_wilson_interval_narrows_with_more_trials() -> None:
     narrow = rl.wilson_interval(740, 1000)
     wide = rl.wilson_interval(74, 100)

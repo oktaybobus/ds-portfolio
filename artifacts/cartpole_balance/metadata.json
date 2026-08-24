@@ -4,15 +4,16 @@
   "total_timesteps": 50000,
   "eval_episodes": 200,
   "seed": 0,
+  "seeds": 5,
   "train_seconds": {
-    "dqn_notebook": 7.9,
-    "dqn_tuned": 15.1
+    "dqn_notebook": 39.1,
+    "dqn_tuned": 75.7
   },
   "agents": {
     "random": {
       "mean_return": 21.965,
       "success_rate": 0.0,
-      "ci_low": 1.734723475976807e-18,
+      "ci_low": 0.0,
       "ci_high": 0.01884532637725414,
       "mean_length": 21.965,
       "episodes": 200.0
@@ -26,11 +27,11 @@
       "episodes": 200.0
     },
     "dqn_notebook": {
-      "mean_return": 197.13,
+      "mean_return": 143.175,
       "success_rate": 0.0,
-      "ci_low": 1.734723475976807e-18,
+      "ci_low": 0.0,
       "ci_high": 0.01884532637725414,
-      "mean_length": 197.13,
+      "mean_length": 143.175,
       "episodes": 200.0
     },
     "dqn_tuned": {
@@ -41,5 +42,21 @@
       "mean_length": 500.0,
       "episodes": 200.0
     }
+  },
+  "per_seed_return": {
+    "dqn_notebook": [
+      197.1,
+      143.2,
+      125.4,
+      123.6,
+      157.9
+    ],
+    "dqn_tuned": [
+      500.0,
+      500.0,
+      500.0,
+      490.0,
+      101.7
+    ]
   }
 }

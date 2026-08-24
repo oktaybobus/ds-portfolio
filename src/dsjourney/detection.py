@@ -141,6 +141,7 @@ def detect_objects(
     """
     try:
         from ultralytics import YOLO
+        from ultralytics.engine.results import Results
     except ImportError as error:  # pragma: no cover - environment dependent
         raise ImportError(
             "ultralytics is required for YOLO detection. Install it with: uv sync --extra yolo"
@@ -151,8 +152,18 @@ def detect_objects(
 
     boxes: list[BoundingBox] = []
     for result in results:
+        # predict() is typed to also cover streaming/embedding calls, whose
+        # results carry a bare Tensor instead of a Results object - neither
+        # applies to the plain detection call above, but the type checker
+        # still has to be shown that. Boxes.__getitem__ exists without
+        # __iter__, so indexing (rather than a for-in loop) is what keeps
+        # mypy convinced it is safe to read.
+        if not isinstance(result, Results) or result.boxes is None:
+            continue
         names = result.names
-        for box in result.boxes:
+        detected = result.boxes
+        for index in range(len(detected)):
+            box = detected[index]
             left, top, right, bottom = (float(v) for v in box.xyxy[0].tolist())
             boxes.append(
                 BoundingBox(

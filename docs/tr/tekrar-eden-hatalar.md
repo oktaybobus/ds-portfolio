@@ -114,11 +114,11 @@ puanlıyor. Testi: `test_nothing_beats_naive_on_adidas_revenue`.
 
 Notebook'un `corrwith` listesinin tepesinde, tesadüfen aynı filmi de beğenen üç
 kişinin puanladığı belirsiz başlıklar vardı. Daha kötüsü, SVD sıralamasında:
-destek eşiği olmadan precision@10 **0,0002** ölçüldü — rastgele sıralamanın
+destek eşiği olmadan precision@10 **0,0004** ölçüldü — rastgele sıralamanın
 ulaşacağı ~0,002'nin bile altında. Sebebi, bir kişinin 5 verdiği bir filmin
 ortalamasının 5,0 olması ve herkes için her şeyin üstüne çıkması.
 
-**Düzeltme:** `MIN_SUPPORT_FOR_RANKING = 20`. Tek bir sabit precision@10'u 76,5
+**Düzeltme:** `MIN_SUPPORT_FOR_RANKING = 20`. Tek bir sabit precision@10'u 49
 kat artırdı. Testi: `test_ranking_excludes_low_support_items`.
 
 ## 10. Sözlükte eksik etiketlerin sessizce satır silmesi
@@ -352,6 +352,17 @@ dağılım değil — arada hiçbir şey olmayan iki sonuç. Notebook 1 çekti v
 **Düzeltme:** `dsjourney.rl.compare_seeds()` tohum başına bir satır döndürüyor;
 en iyisini değil hepsini. Testi:
 `test_the_notebook_schedule_fails_on_seeds_the_linear_one_survives`.
+
+**Bu hata bu depoda da tekrarlandı.** `cartpole_balance` projesinin ilk sürümü
+ayarlanmış DQN için "200 bölümün hepsinde tam 500" diyordu — tek makinede tek
+tohum. Altı tohumla ölçünce biri 105'e düştü; Linux CI makinesinde ise aynı
+tohum 18,9 verdi, rastgelenin altında. CI job'ı yeşil kaldı, çünkü hiçbir iddia
+o satırı kapsamıyordu. Ders iki katmanlı: tek koşudan sonuç raporlamayın, ve
+raporladığınız sayıyı bir iddia korumuyorsa CI onu sessizce geçirir.
+
+Notebook'un yapılandırması ise her tohumda tutarlı biçimde kötü (126-233, hiç
+çözmüyor) — ayakta kalan iddia bu oldu. Testi:
+`test_the_notebook_hyperparameters_lose_to_two_lines_of_physics`, iki tohumla.
 
 ## 25. Stokastik bir politikayı tek bölümle değerlendirmek
 

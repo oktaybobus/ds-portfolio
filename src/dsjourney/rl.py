@@ -106,7 +106,13 @@ def wilson_interval(
     denominator = 1.0 + z**2 / trials
     centre = (phat + z**2 / (2 * trials)) / denominator
     margin = (z / denominator) * math.sqrt(phat * (1 - phat) / trials + z**2 / (4 * trials**2))
-    return max(0.0, centre - margin), min(1.0, centre + margin)
+    # At the extremes the bound is exactly 0 or 1 in algebra, but `centre` and
+    # `margin` are computed separately and their difference lands a rounding
+    # error either side of it - which reaches metrics.json as 1.7e-18 rather
+    # than 0. Clamping alone does not fix that; the endpoints are set exactly.
+    low = 0.0 if successes == 0 else max(0.0, centre - margin)
+    high = 1.0 if successes == trials else min(1.0, centre + margin)
+    return low, high
 
 
 def _inverse_erf(confidence: float) -> float:

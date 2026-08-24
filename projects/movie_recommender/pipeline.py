@@ -8,10 +8,19 @@ people, because no minimum-support floor was applied.
 This module keeps the timestamp column the notebooks discarded, which is what
 lets :func:`dsjourney.recommend.split_ratings` withhold each user's most recent
 ratings and turn the whole thing into something measurable.
+
+The shipped ``u.data`` also disagrees with its own manifest: ``u.info`` declares
+943 users and 100,000 ratings, but the file has 944 users and 100,003 ratings.
+Three rows at the top belong to ``user_id == 0``, a synthetic id absent from
+``u.user`` (real MovieLens ids start at 1). :func:`load_raw` drops those three
+rows - see the "About user 0" section of README.md for the reasoning; the
+unfiltered shape is pinned by
+``tests/projects/test_group2_projects.py::TestMovieRecommender::test_the_raw_file_has_the_published_shape``.
 """
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -26,12 +35,16 @@ CONFIG = load_project_config("movie_recommender")
 RATINGS_FILE = "u.data"
 ITEMS_FILE = "u.item"
 
+# Injected into the top of the shipped u.data; not a real MovieLens user (real
+# ids start at 1, and 0 has no row in u.user). Excluded by load_raw().
+SYNTHETIC_USER_ID = 0
+
 # Star Wars (1977) - the seed title the source notebook used for its similarity
 # demo, kept so the two can be compared directly.
 DEMO_ITEM_ID = 50
 
 
-def _path(file: str):  # type: ignore[no-untyped-def]
+def _path(file: str) -> Path:
     """Resolve a data file, with the fetch command in the error when absent."""
     path = project_data_dir(CONFIG.name) / file
     if not path.is_file():
@@ -42,9 +55,18 @@ def _path(file: str):  # type: ignore[no-untyped-def]
     return path
 
 
+def ratings_path() -> Path:
+    """Path to the raw ratings log, synthetic user included."""
+    return _path(RATINGS_FILE)
+
+
 def load_raw() -> pd.DataFrame:
-    """Read the ratings log."""
-    return recommend.load_ratings(_path(RATINGS_FILE))
+    """Read the ratings log, excluding the synthetic ``user_id == 0`` rows.
+
+    See the module docstring: those three rows are not a real MovieLens user.
+    """
+    ratings = recommend.load_ratings(ratings_path())
+    return ratings.loc[ratings["user_id"] != SYNTHETIC_USER_ID].reset_index(drop=True)
 
 
 def load_items() -> pd.DataFrame:
