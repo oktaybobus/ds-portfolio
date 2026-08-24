@@ -36,6 +36,51 @@ console = Console()
 
 ProjectArg = Annotated[str, typer.Argument(help="Project name, as listed by 'dsj list'")]
 
+# Tasks the generic trainer can actually fit: a features-plus-target frame fed
+# to a scikit-learn estimator, or a clustering run. Everything else - a graph,
+# a retrieval index, an RL agent, a Keras model, a Spark job - trains through
+# the entry point its own project directory ships. Routing on the task keeps
+# `dsj train <anything>` from dying in a ValueError three frames deep.
+SKLEARN_TASKS = frozenset({"regression", "classification", "text-classification", "clustering"})
+
+# The command to run instead, for every project the generic path cannot train.
+_ENTRY_POINT_NAMES = ("train.py", "search.py", "detect.py", "predict.py")
+
+
+def _own_entry_point(project: str) -> str | None:
+    """Return the project-local training command, if the project ships one."""
+    directory = project_dir(project)
+    for name in _ENTRY_POINT_NAMES:
+        if (directory / name).is_file():
+            return f"python projects/{project}/{name}"
+    return None
+
+
+def _generic_train_supported(config: Any) -> bool:
+    """True when ``dsj train`` can fit this project itself."""
+    if config.task not in SKLEARN_TASKS:
+        return False
+    # A config may name a task the sklearn registry covers while pinning an
+    # estimator it does not - diabetes_screening is classification trained by
+    # Spark MLlib. Routing it through the generic path would either crash or,
+    # worse, quietly refit with a different engine and overwrite its artifacts.
+    return not config.model.estimator.startswith("spark_")
+
+
+def _refuse_generic_train(project: str, config: Any) -> None:
+    """Explain where a non-generic project actually trains, and exit cleanly."""
+    command = _own_entry_point(project) or "its project directory"
+    if config.task in SKLEARN_TASKS:
+        # The task fits but the pinned estimator is not a scikit-learn one.
+        reason = f"is trained by [yellow]{config.model.estimator}[/yellow], not scikit-learn"
+    else:
+        reason = f"is a [yellow]{config.task}[/yellow] project, which `dsj train` cannot fit"
+    console.print(
+        f"{project} {reason}.",
+        f"Use its own entry point instead: [bold]{command}[/bold]",
+    )
+    raise typer.Exit(code=2)
+
 
 @app.command("list")
 def list_projects() -> None:
@@ -104,6 +149,8 @@ def train(
 ) -> None:
     """Train a project end to end and save the model bundle."""
     config = load_project_config(project)
+    if not _generic_train_supported(config):
+        _refuse_generic_train(project, config)
     module = load_pipeline(project)
 
     console.print(f"[cyan]Loading data for {project}...[/cyan]")
@@ -138,8 +185,11 @@ def benchmark(
 ) -> None:
     """Compare every registered estimator on a project without saving anything."""
     config = load_project_config(project)
-    if config.task == "clustering" or config.target is None:
-        console.print("[red]benchmark supports supervised projects only[/red]")
+    if config.task == "clustering" or config.target is None or not _generic_train_supported(config):
+        console.print(
+            f"[red]benchmark sweeps scikit-learn estimators; "
+            f"{project} is a {config.task} project it cannot sweep[/red]"
+        )
         raise typer.Exit(code=2)
 
     module = load_pipeline(project)

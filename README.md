@@ -93,6 +93,12 @@ feature engineering; everything else it needs is a function call.
 | `dsj serve <project>` | Launch the project's Streamlit demo |
 | `dsj api` | Serve every trained project over HTTP, docs at `/docs` |
 
+`dsj train` fits the scikit-learn family - regression, classification, text
+classification, clustering. A project outside it (the Spark pair, the RL pair,
+retrieval, detection, forecasting, the recommender, the image suite) trains
+through the entry point in its own directory, and `dsj train` says which
+command that is rather than attempting it.
+
 ## What changed on the way out of the notebooks
 
 Twenty-seven defects were found and fixed while porting. None of them raised an
