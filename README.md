@@ -29,7 +29,7 @@ uv run dsj train laptop_price
 | [`customer_segments`](projects/customer_segments) | Clustering | KMeans, k=4 | **Silhouette 0.337** | Customer Segmentation |
 | [`review_sentiment`](projects/review_sentiment) | Text classification | TF-IDF → logistic | **F1 0.957** | NLP Class & Sentiment Analysis |
 | [`series_forecast`](projects/series_forecast) | Forecasting | Holt-Winters / naive | **+44.7% vs naive** | Prophet & Time-Series Analysis |
-| [`movie_recommender`](projects/movie_recommender) | Recommendation | Truncated SVD | **Precision@10 0.019** | RS KNN / SK22 / MatrixFactorization |
+| [`movie_recommender`](projects/movie_recommender) | Recommendation | Truncated SVD | **Precision@10 0.018** | RS KNN / SK22 / MatrixFactorization |
 | [`bart_ridership`](projects/bart_ridership) | Regression (spatio-temporal) | HistGradientBoosting | **R² 0.818** | BART Analysis |
 | [`article_search`](projects/article_search) | Retrieval | TF-IDF + SVD | **MRR 0.569** | AI Agents |
 | [`object_detection`](projects/object_detection) | Detection | Haar cascade / YOLO | **6 of 7 faces** | Computer Vision |
